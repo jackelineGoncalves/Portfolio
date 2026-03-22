@@ -1,0 +1,54 @@
+<section class="divider">
+  <div class="line line-left"></div>
+  <slot />
+  <div class="line line-right"></div>
+</section>
+
+<style>
+  .divider {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+
+  .line {
+    flex: 1;
+    height: 2px;
+    background: var(--color-secondary-2);
+    position: relative;
+    overflow: hidden;
+    border-radius: 999px;
+  }
+
+  .line::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -25%;
+    width: 25%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--primary),
+      transparent
+    );
+    filter: blur(1px);
+    animation: cable-light 3s linear infinite;
+  }
+
+  .line-right::after {
+    animation-delay: 2s;
+  }
+  @keyframes cable-light {
+    from {
+      left: -25%;
+    }
+    to {
+      left: 125%;
+    }
+  }
+</style>

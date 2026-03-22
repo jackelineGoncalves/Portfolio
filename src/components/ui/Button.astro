@@ -1,0 +1,180 @@
+---
+interface Props {
+  label: string;
+  variant?: "primary" | "secondary" | "flat";
+  href?: string;
+  size?: "sm" | "md" | "lg";
+  type?: "button" | "submit" | "reset";
+  fullWidth?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  variant = "primary",
+  href,
+  size = "md",
+  type = "button",
+  fullWidth = false,
+  class: className = "",
+  ...rest
+} = Astro.props;
+
+const classes = `btn btn-${variant} btn--${size} ${
+  fullWidth ? "btn--full" : ""
+} ${className}`;
+---
+
+{
+  href ? (
+    <a class={classes} href={href} {...rest}>
+      <span class="btn__icon">
+        <slot name="icon-left" />
+      </span>
+
+      <span class="btn__label">{label}</span>
+
+      <span class="btn__icon">
+        <slot name="icon-right" />
+      </span>
+    </a>
+  ) : (
+    <button class={classes} type={type} {...rest}>
+      <span class="btn__icon">
+        <slot name="icon-left" />
+      </span>
+
+      <span class="btn__label">{label}</span>
+
+      <span class="btn__icon">
+        <slot name="icon-right" />
+      </span>
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    position: relative;
+    border-radius: 9999px;
+    text-decoration: none;
+    border: none;
+    gap: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    overflow: hidden;
+  }
+
+  .btn--full {
+    width: 100%;
+  }
+
+  .btn__label,
+  .btn__icon {
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+
+  .btn__icon:empty {
+    display: none;
+  }
+
+  .btn__icon :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .btn--sm {
+    padding: 0.5rem 0.75rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .btn--md {
+    padding: 0.5rem 0.75rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .btn--lg {
+    padding: 0.75rem 1rem;
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background: var(--primary-2);
+    color: var(--dark);
+    box-shadow: 0 0 25px 5px rgba(83, 235, 243, 0.25);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 25px 5px rgba(83, 235, 243, 0.335);
+    transform: scale(1.04);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 0.5px solid var(--white);
+    color: var(--white);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(83, 235, 243, 0.2);
+  }
+
+  .btn-flat {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .btn-flat span {
+    transition: transform 0.25s ease;
+  }
+
+  .btn-flat::after {
+    content: "→";
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.25s ease;
+  }
+
+  .btn-flat:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .btn-flat:hover span {
+    transform: translateX(-2px);
+  }
+
+  @media (min-width: 768px) {
+    .btn--md {
+      padding: 0.75rem 1.5rem;
+      font-size: var(--text-md);
+      font-weight: 600;
+    }
+
+    .btn--lg {
+      padding: 1rem 2rem;
+      font-size: var(--text-lg);
+      font-weight: 600;
+    }
+  }
+</style>

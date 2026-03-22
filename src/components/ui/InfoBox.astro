@@ -1,0 +1,22 @@
+---
+interface Props {
+  variant?: "primary" | "secondary";
+}
+
+const { variant = "primary" } = Astro.props;
+
+const styles = {
+  primary: {
+    bg: "bg-primary/20",
+    icon: "text-primary",
+  },
+  secondary: {
+    bg: "bg-primary-2/20",
+    icon: "text-primary-2",
+  },
+};
+---
+
+<div class={`rounded-lg p-1.5 ${styles[variant].bg}`}>
+  <slot />
+</div>

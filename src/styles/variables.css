@@ -1,0 +1,70 @@
+:root {
+
+    /* COLORS */
+
+  /* Backgrounds */
+    --bg-main: #02080F;
+    --bg-surface: #030F18;
+
+  /* Primary accents */
+    --primary: #53EBF3;
+    --primary-2: #3090E9;
+
+  /* Secondary palette */
+    --secondary-1: #2C2C37;
+    --secondary-2: #37404B;
+    --secondary-3: #1f4d4d;
+    --secondary-4: #0f3a3a;
+    --secondary-5: #62707F;
+
+  /* Text */
+    --dark : #02080F;
+    --white: #F5F5F5;
+    --text-secondary: #D9D9D9;
+
+  /* Borders / glass */
+    --border-glass: rgba(255,255,255,0.08);
+
+    /* TYPOGRAPHY */
+
+    --font-primary: "Inter", system-ui, sans-serif;
+
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-md: 1.125rem;
+    --font-size-lg: 1.5rem;
+    --font-size-xl: 2rem;
+    --font-size-2xl: 2.5rem;
+    --font-size-3xl: 3rem;
+
+}
+
+@theme {
+    --color-bg-main: var(--bg-main);
+    --color-bg-surface: var(--bg-surface);
+
+    --color-primary: var(--primary);
+    --color-primary-2: var(--primary-2);
+
+    --color-secondary-1: var(--secondary-1);
+    --color-secondary-2: var(--secondary-2);
+    --color-secondary-3: var(--secondary-3);
+    --color-secondary-4: var(--secondary-4);
+    --color-secondary-5: var(--secondary-5);
+
+    --color-dark: var(--dark);
+    --color-white: var(--white);
+    --color-text-secondary: var(--text-secondary);
+
+    --font-sans: var(--font-primary);
+
+    --text-xs: var(--font-size-xs);
+    --text-sm: var(--font-size-sm);
+    --text-base: var(--font-size-base);
+    --text-md: var(--font-size-md);
+    --text-lg: var(--font-size-lg);
+    --text-xl: var(--font-size-xl);
+    --text-2xl: var(--font-size-2xl);
+    --text-3xl: var(--font-size-3xl);
+}

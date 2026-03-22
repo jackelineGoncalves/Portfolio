@@ -1,0 +1,145 @@
+@import "./variables.css";
+@import "tailwindcss";
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    background: var(--bg-main);
+    color: var(--text-primary);
+
+    font-family: var(--font-primary);
+    font-size: var(--text-base);
+
+    min-height: 100vh;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, var(--primary), var(--primary-2));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.social-btn {
+  background: #fff;
+  padding: 0.35rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9999px;
+  border: 1px solid var(--color-white);
+
+  position: relative;
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+/* icon */
+.social-btn__icon {
+  position: relative;
+  color: #262626;
+  transition: 0.5s;
+  z-index: 3;
+  width: 1rem;
+  height: 1rem;
+}
+
+.social-btn__icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* hover icon */
+.social-btn:hover .social-btn__icon {
+  color: var(--color-white);
+  transform: rotateY(360deg);
+}
+
+/* background animation */
+.social-btn::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: red;
+
+  transition: 0.5s;
+  z-index: 2;
+}
+
+.social-btn:hover::before {
+  top: 0;
+}
+
+.social-btn--linkedin::before {
+  background: #0077b5;
+}
+
+.social-btn--github::before {
+  background: #181717;
+}
+
+.social-btn--gmail::before {
+  background: #af4133;
+}
+
+.glow-circle {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+
+  background: radial-gradient(
+    circle,
+    rgba(215, 212, 218, 1) 0%,
+    rgba(26, 41, 58, 0) 100%
+  );
+
+  filter: blur(80px);
+}
+
+.container-main {
+  @apply mx-auto max-w-6xl px-6 md:px-6 lg:px-4;
+}
+
+@media (min-width: 768px) {
+
+  .social-btn {
+    padding: 0.5rem;
+  }
+
+  .social-btn__icon {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .social-btn__icon svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+}

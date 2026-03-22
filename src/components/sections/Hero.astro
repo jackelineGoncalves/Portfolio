@@ -1,0 +1,78 @@
+---
+import Chevron from "../../assets/svg/Chevron.astro";
+import Github from "../../assets/svg/Github.astro";
+import LinkedIn from "../../assets/svg/LinkedIn.astro";
+import Email from "../../assets/svg/Email.astro";
+import Button from "../ui/Button.astro";
+---
+
+<section
+  class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-screen container-main"
+>
+  <div
+    class="glow-circle absolute w-full h-250 top-[-880px] left-[50%] -translate-x-1/2"
+  >
+  </div>
+
+  <div
+    class="relative z-10 grid gap-7 text-center md:text-left justify-items-center md:justify-items-start"
+  >
+    <header class="grid gap-2">
+      <h1 class="text-white text-2xl md:text-3xl font-bold">
+        Hey! I'm Jackeline
+      </h1>
+      <h2 class="gradient-text text-xl font-semibold">Software Developer</h2>
+    </header>
+
+    <div class="grid gap-10">
+      <p class="text-text-secondary text-sm">
+        Mobile Developer specializing in React Native, TypeScript and Flutter. I
+        build high-performance mobile applications with a focus on clean
+        architecture and great user experience.
+      </p>
+
+      <div
+        class="flex items-center justify-center md:justify-start gap-8 md:gap-10.5"
+      >
+
+        <Button label="View CV" variant="primary" href="#projects">
+          <Chevron slot="icon-right" />
+        </Button>
+
+        <nav aria-label="Social links">
+          <ul class="flex items-center gap-5">
+            <li>
+              <a class="social-btn social-btn--github" href="#">
+                <span class="social-btn__icon">
+                  <Github />
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a class="social-btn social-btn--linkedin" href="#">
+                <span class="social-btn__icon">
+                  <LinkedIn />
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                class="social-btn social-btn--gmail"
+                href="mailto:tuemail@ejemplo.com"
+              >
+                <span class="social-btn__icon">
+                  <Email />
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <aside class="relative z-10 text-white">derecha</aside>
+</section>
+

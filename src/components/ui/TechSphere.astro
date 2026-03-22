@@ -1,0 +1,522 @@
+---
+const technologies = [
+  { name: "JavaScript", color: "#f7df1e", icon: "JS" },
+  { name: "Node.js", color: "#68a063", icon: "N" },
+  { name: "React", color: "#61dafb", icon: "R" },
+  { name: "Docker", color: "#2496ed", icon: "D" },
+  { name: "GitHub", color: "#ffffff", icon: "G" },
+  { name: "Tailwind CSS", color: "#38bdf8", icon: "T" },
+  { name: "TypeScript", color: "#3178c6", icon: "TS" },
+  { name: "Next.js", color: "#ffffff", icon: "Nx" },
+  { name: "Vue.js", color: "#42b883", icon: "V" },
+  { name: "Python", color: "#3776ab", icon: "Py" },
+  { name: "Figma", color: "#f24e1e", icon: "F" },
+  { name: "Vercel", color: "#ffffff", icon: "▲" },
+  { name: "MongoDB", color: "#47a248", icon: "M" },
+  { name: "PostgreSQL", color: "#336791", icon: "PG" },
+  { name: "GraphQL", color: "#e535ab", icon: "GQ" },
+  { name: "Redis", color: "#dc382d", icon: "Rd" },
+  { name: "AWS", color: "#ff9900", icon: "A" },
+  { name: "Kubernetes", color: "#326ce5", icon: "K" },
+  { name: "Rust", color: "#dea584", icon: "Rs" },
+  { name: "Go", color: "#00add8", icon: "Go" },
+];
+---
+
+<section class="tech-sphere-section" data-tech-sphere-root>
+  <div class="tech-sphere-container" data-tech-sphere-container></div>
+
+  <div class="tech-sphere-tooltip" data-tech-sphere-tooltip>
+    <span class="tech-sphere-tooltip__color"></span>
+    <span class="tech-sphere-tooltip__name"></span>
+  </div>
+
+  <div class="tech-sphere-instructions">
+    Arrastra para girar • Pasa el cursor sobre las tecnologías
+  </div>
+</section>
+
+<script>
+  import * as THREE from "three";
+
+  type Technology = {
+    name: string;
+    color: string;
+    icon: string;
+  };
+
+  type TechSprite = THREE.Sprite & {
+    userData: {
+      tech: Technology;
+      originalScale: number;
+      originalOpacity: number;
+    };
+  };
+
+  let renderer: THREE.WebGLRenderer;
+  let camera: THREE.PerspectiveCamera;
+  let techSprites: TechSprite[] = [];
+  let hoveredSprite: TechSprite | null = null;
+
+  const root = document.querySelector<HTMLElement>("[data-tech-sphere-root]");
+  const container = root?.querySelector<HTMLElement>(
+    "[data-tech-sphere-container]",
+  );
+  const tooltip = root?.querySelector<HTMLElement>(
+    "[data-tech-sphere-tooltip]",
+  );
+
+  const tooltipName = tooltip?.querySelector<HTMLElement>(
+    ".tech-sphere-tooltip__name",
+  );
+
+const tooltipColor = tooltip?.querySelector<HTMLElement>(
+  ".tech-sphere-tooltip__color"
+);
+
+  if (root && container && tooltip) {
+    const technologies = [
+      { name: "JavaScript", color: "#f7df1e", icon: "JS" },
+      { name: "Node.js", color: "#68a063", icon: "N" },
+      { name: "React", color: "#61dafb", icon: "R" },
+      { name: "Docker", color: "#2496ed", icon: "D" },
+      { name: "GitHub", color: "#ffffff", icon: "G" },
+      { name: "Tailwind CSS", color: "#38bdf8", icon: "T" },
+      { name: "TypeScript", color: "#3178c6", icon: "TS" },
+      { name: "Next.js", color: "#ffffff", icon: "Nx" },
+      { name: "Vue.js", color: "#42b883", icon: "V" },
+      { name: "Python", color: "#3776ab", icon: "Py" },
+      { name: "Figma", color: "#f24e1e", icon: "F" },
+      { name: "Vercel", color: "#ffffff", icon: "▲" },
+      { name: "MongoDB", color: "#47a248", icon: "M" },
+      { name: "PostgreSQL", color: "#336791", icon: "PG" },
+      { name: "GraphQL", color: "#e535ab", icon: "GQ" },
+      { name: "Redis", color: "#dc382d", icon: "Rd" },
+      { name: "AWS", color: "#ff9900", icon: "A" },
+      { name: "Kubernetes", color: "#326ce5", icon: "K" },
+      { name: "Rust", color: "#dea584", icon: "Rs" },
+      { name: "Go", color: "#00add8", icon: "Go" },
+    ];
+
+    let scene: any;
+    let camera: any;
+    let renderer: any;
+    let sphereGroup: any;
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let targetRotation = { x: 0, y: 0 };
+    let currentRotation = { x: 0, y: 0 };
+    let autoRotate = true;
+    let techSprites: any = [];
+    let hoveredSprite = null;
+    let animationFrameId: any = null;
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    const tooltipName = tooltip.querySelector(".tech-sphere-tooltip__name");
+    const tooltipColor = tooltip.querySelector(".tech-sphere-tooltip__color");
+
+    function init() {
+      scene = new THREE.Scene();
+
+      const { width, height } = getContainerSize();
+
+      camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+      camera.position.z = 5;
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      if(container)
+      container.appendChild(renderer.domElement);
+
+      sphereGroup = new THREE.Group();
+      scene.add(sphereGroup);
+
+      createWireframeSphere();
+      createTechPoints();
+      createBackgroundParticles();
+      setupEventListeners();
+      animate();
+    }
+
+    function getContainerSize() {
+      return {
+        width: container.clientWidth || window.innerWidth,
+        height: container.clientHeight || 700,
+      };
+    }
+
+    function createWireframeSphere() {
+      const geometry = new THREE.SphereGeometry(2, 32, 32);
+      const material = new THREE.MeshBasicMaterial({
+        color: 0x4a4a6a,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.15,
+      });
+
+      const sphere = new THREE.Mesh(geometry, material);
+      sphereGroup.add(sphere);
+
+      const geometry2 = new THREE.SphereGeometry(1.95, 16, 16);
+      const material2 = new THREE.MeshBasicMaterial({
+        color: 0x6a6a8a,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.08,
+      });
+
+      const sphere2 = new THREE.Mesh(geometry2, material2);
+      sphereGroup.add(sphere2);
+    }
+
+    function createTechPoints() {
+      const radius = 2.1;
+      const numTechs = technologies.length;
+      const goldenRatio = (1 + Math.sqrt(5)) / 2;
+
+      technologies.forEach((tech, i) => {
+        const theta = (2 * Math.PI * i) / goldenRatio;
+        const phi = Math.acos(1 - (2 * (i + 0.5)) / numTechs);
+
+        const x = radius * Math.sin(phi) * Math.cos(theta);
+        const y = radius * Math.sin(phi) * Math.sin(theta);
+        const z = radius * Math.cos(phi);
+
+        const iconCanvas = document.createElement("canvas");
+        iconCanvas.width = 128;
+        iconCanvas.height = 128;
+
+        const ctx = iconCanvas.getContext("2d");
+        if (!ctx) return;
+
+        const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+        gradient.addColorStop(0, tech.color);
+        gradient.addColorStop(0.7, tech.color);
+        gradient.addColorStop(1, "transparent");
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(64, 64, 50, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle =
+          tech.color === "#f7df1e" || tech.color === "#ffffff"
+            ? "#1a1a2e"
+            : "#ffffff";
+        ctx.font = "bold 36px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(tech.icon, 64, 64);
+
+        const texture = new THREE.CanvasTexture(iconCanvas);
+        const spriteMaterial = new THREE.SpriteMaterial({
+          map: texture,
+          transparent: true,
+          opacity: 0.9,
+        });
+
+        const sprite = new THREE.Sprite(spriteMaterial);
+        sprite.position.set(x, y, z);
+        sprite.scale.set(0.5, 0.5, 1);
+        sprite.userData = {
+          tech,
+          originalScale: 0.5,
+          originalOpacity: 0.9,
+        };
+
+        sphereGroup.add(sprite);
+        techSprites.push(sprite);
+      });
+    }
+
+    function createBackgroundParticles() {
+      const geometry = new THREE.BufferGeometry();
+      const vertices = [];
+
+      for (let i = 0; i < 500; i++) {
+        vertices.push(
+          (Math.random() - 0.5) * 20,
+          (Math.random() - 0.5) * 20,
+          (Math.random() - 0.5) * 20,
+        );
+      }
+
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(vertices, 3),
+      );
+
+      const material = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.02,
+        transparent: true,
+        opacity: 0.5,
+      });
+
+      const particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+    }
+
+    function setupEventListeners() {
+      const canvas = renderer.domElement;
+
+      canvas.addEventListener("mousedown", onMouseDown);
+      canvas.addEventListener("mousemove", onMouseMove);
+      canvas.addEventListener("mouseup", onMouseUp);
+      canvas.addEventListener("mouseleave", onMouseUp);
+
+      canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+      canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+      canvas.addEventListener("touchend", onTouchEnd);
+
+      window.addEventListener("resize", onWindowResize);
+    }
+
+    function onMouseDown(event) {
+      isDragging = true;
+      autoRotate = false;
+      previousMousePosition = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+    }
+
+    function onMouseMove(event) {
+      const rect = renderer.domElement.getBoundingClientRect();
+
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+      if (isDragging) {
+        const deltaMove = {
+          x: event.clientX - previousMousePosition.x,
+          y: event.clientY - previousMousePosition.y,
+        };
+
+        targetRotation.y += deltaMove.x * 0.005;
+        targetRotation.x += deltaMove.y * 0.005;
+
+        previousMousePosition = {
+          x: event.clientX,
+          y: event.clientY,
+        };
+      }
+
+      checkHover(event);
+    }
+
+    function onMouseUp() {
+      isDragging = false;
+
+      setTimeout(() => {
+        if (!isDragging) autoRotate = true;
+      }, 2000);
+    }
+
+    function onTouchStart(event) {
+      event.preventDefault();
+
+      if (event.touches.length === 1) {
+        isDragging = true;
+        autoRotate = false;
+        previousMousePosition = {
+          x: event.touches[0].clientX,
+          y: event.touches[0].clientY,
+        };
+      }
+    }
+
+    function onTouchMove(event: TouchEvent) {
+      event.preventDefault();
+
+      if (isDragging && event.touches.length === 1) {
+        const deltaMove = {
+          x: event.touches[0].clientX - previousMousePosition.x,
+          y: event.touches[0].clientY - previousMousePosition.y,
+        };
+
+        targetRotation.y += deltaMove.x * 0.005;
+        targetRotation.x += deltaMove.y * 0.005;
+
+        previousMousePosition = {
+          x: event.touches[0].clientX,
+          y: event.touches[0].clientY,
+        };
+      }
+    }
+
+    function onTouchEnd() {
+      isDragging = false;
+
+      setTimeout(() => {
+        if (!isDragging) autoRotate = true;
+      }, 2000);
+    }
+
+    function checkHover(event: MouseEvent | TouchEvent) {
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(techSprites);
+
+      techSprites.forEach((sprite) => {
+        sprite.scale.setScalar(sprite.userData.originalScale);
+        (sprite.material as THREE.SpriteMaterial).opacity =
+          sprite.userData.originalOpacity;
+      });
+
+      if (intersects.length > 0) {
+        const sprite = intersects[0].object as TechSprite;
+        hoveredSprite = sprite;
+
+        sprite.scale.setScalar(sprite.userData.originalScale * 1.5);
+        (sprite.material as THREE.SpriteMaterial).opacity = 1;
+
+        const tech = sprite.userData.tech;
+
+        if (tooltipName) tooltipName.textContent = tech.name;
+        if (tooltipColor) tooltipColor.style.backgroundColor = tech.color;
+
+        const clientX =
+          event instanceof MouseEvent
+            ? event.clientX
+            : (event.touches[0]?.clientX ?? 0);
+
+        const clientY =
+          event instanceof MouseEvent
+            ? event.clientY
+            : (event.touches[0]?.clientY ?? 0);
+
+        if (tooltip) {
+          tooltip.style.left = `${clientX + 20}px`;
+          tooltip.style.top = `${clientY - 20}px`;
+          tooltip.classList.add("visible");
+        }
+
+        renderer.domElement.style.cursor = "pointer";
+      } else {
+        hoveredSprite = null;
+
+        if (tooltip) tooltip.classList.remove("visible");
+
+        renderer.domElement.style.cursor = isDragging ? "grabbing" : "grab";
+      }
+    }
+
+    function onWindowResize() {
+      if (!renderer || !camera) return;
+
+      const { width, height } = getContainerSize();
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+
+    function animate() {
+      animationFrameId = requestAnimationFrame(animate);
+
+      if (autoRotate) {
+        targetRotation.y += 0.002;
+      }
+
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.05;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.05;
+
+      sphereGroup.rotation.x = currentRotation.x;
+      sphereGroup.rotation.y = currentRotation.y;
+
+      techSprites.forEach((sprite) => {
+        sprite.lookAt(camera.position);
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    init();
+
+    const cleanup = () => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", onWindowResize);
+      renderer?.dispose();
+    };
+
+    window.addEventListener("astro:before-swap", cleanup, { once: true });
+  }
+</script>
+
+<style>
+  .tech-sphere-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f1a 100%); */
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .tech-sphere-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .tech-sphere-tooltip {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a1a2e;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+    transform: translateY(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tech-sphere-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tech-sphere-tooltip__color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .tech-sphere-instructions {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    text-align: center;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .tech-sphere-container :global(canvas) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+  }
+
+  .tech-sphere-container :global(canvas:active) {
+    cursor: grabbing;
+  }
+</style>
