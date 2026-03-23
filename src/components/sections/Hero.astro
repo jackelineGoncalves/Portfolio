@@ -6,6 +6,8 @@ import Email from "../../assets/svg/Email.astro";
 import Button from "../ui/Button.astro";
 ---
 
+<canvas id="stars-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
 <section
   class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-screen container-main"
 >
@@ -75,4 +77,162 @@ import Button from "../ui/Button.astro";
 
   <aside class="relative z-10 text-white">derecha</aside>
 </section>
+
+<script>
+  const canvas = document.getElementById('stars-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // --- Static stars ---
+  const NUM_STARS = 180;
+  const stars = Array.from({ length: NUM_STARS }, () => ({
+    x: Math.random(),
+    y: Math.random(),
+    radius: Math.random() * 1.4 + 0.2,
+    opacity: Math.random() * 0.6 + 0.2,
+    twinkleSpeed: Math.random() * 0.008 + 0.002,
+    twinkleOffset: Math.random() * Math.PI * 2,
+  }));
+
+  // --- Shooting stars ---
+  interface ShootingStar {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    tailLength: number;
+    life: number;
+    maxLife: number;
+  }
+
+  const shootingStars: ShootingStar[] = [];
+
+  function spawnShootingStar() {
+    const speed = Math.random() * 5 + 4;
+
+    // Diagonal only: angle between 30°–60° within each quadrant (never near 0°/90°)
+    const minDeg = 30;
+    const maxDeg = 60;
+    const baseDeg = minDeg + Math.random() * (maxDeg - minDeg);
+    const quadrant = Math.floor(Math.random() * 4);
+    let angleDeg: number;
+    if (quadrant === 0) angleDeg = baseDeg;            // SE
+    else if (quadrant === 1) angleDeg = 180 - baseDeg;  // SW
+    else if (quadrant === 2) angleDeg = 180 + baseDeg;  // NW
+    else angleDeg = 360 - baseDeg;                     // NE
+
+    const angle = angleDeg * (Math.PI / 180);
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+
+    // Spawn exactly on the canvas edge opposite to travel direction
+    let x: number, y: number;
+    if (vx > 0 && vy > 0) {        // SE → enter from top or left edge
+      if (Math.random() < 0.5) { x = Math.random() * canvas.width; y = 0; }
+      else                       { x = 0; y = Math.random() * canvas.height; }
+    } else if (vx < 0 && vy > 0) { // SW → enter from top or right edge
+      if (Math.random() < 0.5) { x = Math.random() * canvas.width; y = 0; }
+      else                       { x = canvas.width; y = Math.random() * canvas.height; }
+    } else if (vx < 0 && vy < 0) { // NW → enter from bottom or right edge
+      if (Math.random() < 0.5) { x = Math.random() * canvas.width; y = canvas.height; }
+      else                       { x = canvas.width; y = Math.random() * canvas.height; }
+    } else {                        // NE → enter from bottom or left edge
+      if (Math.random() < 0.5) { x = Math.random() * canvas.width; y = canvas.height; }
+      else                       { x = 0; y = Math.random() * canvas.height; }
+    }
+
+    // maxLife = exact steps until the tip exits the opposite edge
+    const stepsToExitX = vx > 0 ? (canvas.width - x) / vx : vx < 0 ? -x / vx : Infinity;
+    const stepsToExitY = vy > 0 ? (canvas.height - y) / vy : vy < 0 ? -y / vy : Infinity;
+    const maxLife = Math.min(stepsToExitX, stepsToExitY);
+
+    shootingStars.push({
+      x,
+      y,
+      vx,
+      vy,
+      tailLength: Math.random() * 80 + 80,
+      life: 0,
+      maxLife,
+    });
+  }
+
+  // Spawn a shooting star every 2.5–5 seconds
+  function scheduleShootingStar() {
+    const delay = Math.random() * 2500 + 2500;
+    setTimeout(() => {
+      spawnShootingStar();
+      scheduleShootingStar();
+    }, delay);
+  }
+  scheduleShootingStar();
+
+  let frame = 0;
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    frame++;
+
+    // Draw static stars
+    for (const s of stars) {
+      const twinkle = Math.sin(frame * s.twinkleSpeed + s.twinkleOffset) * 0.3;
+      const alpha = Math.max(0.05, s.opacity + twinkle);
+      ctx.beginPath();
+      ctx.arc(s.x * canvas.width, s.y * canvas.height, s.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+      ctx.fill();
+    }
+
+    // Draw shooting stars
+    for (let i = shootingStars.length - 1; i >= 0; i--) {
+      const s = shootingStars[i];
+      s.life++;
+      s.x += s.vx;
+      s.y += s.vy;
+
+      if (s.life >= s.maxLife) {
+        shootingStars.splice(i, 1);
+        continue;
+      }
+
+      // Fade in first 15% of life, fade out last 15%
+      const progress = s.life / s.maxLife;
+      const fadeIn = Math.min(1, progress / 0.15);
+      const fadeOut = Math.min(1, (1 - progress) / 0.15);
+      const opacity = Math.min(fadeIn, fadeOut);
+
+      const speed = Math.hypot(s.vx, s.vy);
+      const tailX = s.x - s.vx * (s.tailLength / speed);
+      const tailY = s.y - s.vy * (s.tailLength / speed);
+
+      const grad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
+      grad.addColorStop(0, `rgba(255, 255, 255, 0)`);
+      grad.addColorStop(0.6, `rgba(255, 255, 255, ${opacity * 0.4})`);
+      grad.addColorStop(1, `rgba(255, 255, 255, ${opacity})`);
+
+      ctx.beginPath();
+      ctx.moveTo(tailX, tailY);
+      ctx.lineTo(s.x, s.y);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Bright tip
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+</script>
 

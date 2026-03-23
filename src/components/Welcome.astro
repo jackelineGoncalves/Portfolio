@@ -8,6 +8,7 @@ import Experience from "./sections/Experience.astro";
 import Projects from "./sections/Projects.astro";
 import ProjectFilterTabs from "./ui/ProjectFilterTabs.astro";
 import Skills from "./sections/Skills.astro";
+import Contact from "./sections/Contact.astro";
 ---
 
 <div id="container">
@@ -60,6 +61,18 @@ import Skills from "./sections/Skills.astro";
       >
     </div>
 
-	<Skills />
+    <Skills />
+
+    <div class="pt-[140px] text-center pb-[120px]">
+      <Divider>
+        <p class="text-white text-xl font-bold gradient-text">Get in Touch</p>
+      </Divider>
+      <p class="text-secondary-5 text-sm max-w-150 text-center mx-auto pt-6">
+        Interested in working together? I'm open to full-time opportunities,
+        collaborations and freelance projects.
+      </p>
+    </div>
+
+    <Contact />
   </main>
 </div>

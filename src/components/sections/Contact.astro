@@ -1,0 +1,54 @@
+---
+import Email from "../../assets/svg/Email.astro";
+import Github from "../../assets/svg/Github.astro";
+import LinkedIn from "../../assets/svg/LinkedIn.astro";
+import Phone from "../../assets/svg/Phone.astro";
+import Send from "../../assets/svg/Send.astro";
+import Button from "../ui/Button.astro";
+import ContactItem from "../ui/ContactItem.astro";
+---
+
+<div
+  class="grid grid-cols-1 md:grid-cols-2 gap-14 container-main"
+>
+  <div
+    class="bg-bg-surface/40 border border-secondary-1 rounded-[28px] px-13 py-10.5 flex flex-col gap-8"
+  >
+    <div class="flex flex-col gap-3.5">
+      <label class="text-white text-sm font-light">Name / Company</label>
+
+      <input
+        type="text"
+        class="w-full rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
+      />
+    </div>
+
+    <div class="flex flex-col gap-3.5">
+      <label class="text-white text-sm font-light">Email</label>
+
+      <input
+        type="text"
+        class="w-full rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
+      />
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <label class="text-white text-sm">Message</label>
+
+      <textarea
+        rows="5"
+        placeholder="Tell me about your project or opportunity..."
+        class="w-full resize-none rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
+      ></textarea>
+    </div>
+
+    <Button class="mt-5" label="Send Message"> <Send slot="icon-left" class="text-bg-main" /></Button>
+  </div>
+
+  <div class="gap-6 flex flex-col">
+    <ContactItem contactMethod="Github" href="/" icon={Github}/>
+    <ContactItem contactMethod="Github" href="/" icon={Email} />
+    <ContactItem contactMethod="Github" href="/" icon={LinkedIn} />
+    <ContactItem contactMethod="Github" href="/" icon={Phone}/>
+  </div>
+</div>
