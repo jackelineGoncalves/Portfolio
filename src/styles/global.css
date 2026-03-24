@@ -19,6 +19,8 @@ body {
     font-size: var(--text-base);
 
     min-height: 100vh;
+
+    scroll-behavior: smooth;
 }
 
 img {
@@ -116,6 +118,21 @@ button {
   background: radial-gradient(
     circle,
     rgba(215, 212, 218, 1) 0%,
+    rgba(26, 41, 58, 0) 100%
+  );
+
+  filter: blur(80px);
+}
+
+.glow-circle-2 {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+
+  background: radial-gradient(
+    circle,
+    var(--color-primary),
     rgba(26, 41, 58, 0) 100%
   );
 

@@ -616,7 +616,7 @@
       const fov = getFov();
       camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 1000);
       // Distance scales with screen: closer on mobile, farther on desktop
-      const camZ = isMobile() ? 4.8 : 6;
+      const camZ = isMobile() ? 4.8 : 5.5;
       camera.position.z = camZ;
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });

@@ -4,51 +4,149 @@ import Github from "../../assets/svg/Github.astro";
 import LinkedIn from "../../assets/svg/LinkedIn.astro";
 import Phone from "../../assets/svg/Phone.astro";
 import Send from "../../assets/svg/Send.astro";
-import Button from "../ui/Button.astro";
 import ContactItem from "../ui/ContactItem.astro";
 ---
 
-<div
-  class="grid grid-cols-1 md:grid-cols-2 gap-14 container-main"
->
+<section class="relative overflow-hidden pt-2.5 pb-45">
   <div
-    class="bg-bg-surface/40 border border-secondary-1 rounded-[28px] px-13 py-10.5 flex flex-col gap-8"
+    class="glow-circle-2 absolute left-1/2 -bottom-168 h-168 w-[140vw] -translate-x-1/2"
   >
-    <div class="flex flex-col gap-3.5">
-      <label class="text-white text-sm font-light">Name / Company</label>
-
-      <input
-        type="text"
-        class="w-full rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
-      />
-    </div>
-
-    <div class="flex flex-col gap-3.5">
-      <label class="text-white text-sm font-light">Email</label>
-
-      <input
-        type="text"
-        class="w-full rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
-      />
-    </div>
-
-    <div class="flex flex-col gap-3">
-      <label class="text-white text-sm">Message</label>
-
-      <textarea
-        rows="5"
-        placeholder="Tell me about your project or opportunity..."
-        class="w-full resize-none rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
-      ></textarea>
-    </div>
-
-    <Button class="mt-5" label="Send Message"> <Send slot="icon-left" class="text-bg-main" /></Button>
   </div>
 
-  <div class="gap-6 flex flex-col">
-    <ContactItem contactMethod="Github" href="/" icon={Github}/>
-    <ContactItem contactMethod="Github" href="/" icon={Email} />
-    <ContactItem contactMethod="Github" href="/" icon={LinkedIn} />
-    <ContactItem contactMethod="Github" href="/" icon={Phone}/>
+  <div class="container-main grid grid-cols-1 gap-14 md:grid-cols-[1.4fr_1fr]">
+    <form
+      class="relative z-10 flex flex-col gap-8 rounded-[28px] border border-secondary-1 bg-bg-surface/40 p-6 md:px-13 md:py-10.5"
+      data-contact-form
+    >
+      <div class="flex flex-col gap-3.5">
+        <label for="name" class="text-sm font-light text-white">
+          Name / Company
+        </label>
+
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
+          class="w-full rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
+        />
+      </div>
+
+      <div class="flex flex-col gap-3.5">
+        <label for="email" class="text-sm font-light text-white"> Email </label>
+
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          class="w-full rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
+        />
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <label for="message" class="text-sm text-white">Message</label>
+
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          placeholder="Tell me about your project or opportunity..."
+          class="w-full resize-none rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
+        ></textarea>
+      </div>
+
+      <div class="w-full">
+        <button
+          type="submit"
+          class="mt-5 inline-flex h-14 w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-primary-2 px-6 text-sm font-medium text-bg-main shadow-[0_0_25px_5px_rgba(83,235,243,0.25)] transition-all duration-200 hover:scale-[1.04] hover:shadow-[0_0_25px_5px_rgba(83,235,243,0.335)] disabled:cursor-not-allowed disabled:opacity-70 md:px-8 md:text-base md:font-semibold"
+          data-contact-submit
+
+        >
+          <span class="relative z-10 inline-flex items-center justify-center">
+            <Send class="text-bg-main" />
+          </span>
+
+          <span class="relative z-10" data-submit-label>Send Message</span>
+        </button>
+
+        <p class="text-sm text-center pt-2" data-contact-status></p>
+      </div>
+    </form>
+
+    <div class="relative z-10 flex flex-col gap-6">
+      <ContactItem contactMethod="Github" href="/" icon={Github} />
+      <ContactItem contactMethod="Email" href="/" icon={Email} />
+      <ContactItem contactMethod="LinkedIn" href="/" icon={LinkedIn} />
+      <ContactItem contactMethod="Phone Number" href="/" icon={Phone} />
+    </div>
   </div>
-</div>
+</section>
+
+<script>
+  const form = document.querySelector("[data-contact-form]");
+  const status = document.querySelector("[data-contact-status]");
+  const submitButton = document.querySelector("[data-contact-submit]");
+  const submitLabel = document.querySelector("[data-submit-label]");
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formEl = event.currentTarget as HTMLFormElement;
+    const formData = new FormData(formEl);
+
+    const payload = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
+
+    if (submitButton instanceof HTMLButtonElement) {
+      submitButton.disabled = true;
+    }
+
+    if (submitLabel) {
+      submitLabel.textContent = "Sending...";
+    }
+
+    if (status) {
+      status.textContent = "";
+      status.classList.remove("text-red-400", "text-green-400");
+    }
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      formEl.reset();
+
+      if (status) {
+        status.textContent = "Message sent successfully.";
+        status.classList.add("text-green-400");
+      }
+    } catch {
+      if (status) {
+        status.textContent = "An error occurred. Please try again.";
+        status.classList.add("text-red-400");
+      }
+    } finally {
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = false;
+      }
+
+      if (submitLabel) {
+        submitLabel.textContent = "Send Message";
+      }
+    }
+  });
+</script>

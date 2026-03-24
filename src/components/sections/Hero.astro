@@ -6,90 +6,104 @@ import Email from "../../assets/svg/Email.astro";
 import Button from "../ui/Button.astro";
 ---
 
-<canvas id="stars-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
-
-<section
-  class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-screen container-main"
->
-  <div
-    class="glow-circle absolute w-full h-250 top-[-880px] left-[50%] -translate-x-1/2"
-  >
-  </div>
+<section class="relative min-h-screen overflow-hidden">
+  <canvas
+    id="stars-canvas"
+    class="absolute inset-0 w-full h-full pointer-events-none z-0"
+  ></canvas>
 
   <div
-    class="relative z-10 grid gap-7 text-center md:text-left justify-items-center md:justify-items-start"
+    class="glow-circle absolute w-full h-250 top-[-880px] left-1/2 -translate-x-1/2 z-0"
+  ></div>
+
+  <div
+    class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8 items-center min-h-screen container-main pt-24 pb-24 md:pb-0 md:pt-0"
   >
-    <header class="grid gap-2">
-      <h1 class="text-white text-2xl md:text-3xl font-bold">
-        Hey! I'm Jackeline
-      </h1>
-      <h2 class="gradient-text text-xl font-semibold">Software Developer</h2>
-    </header>
+    <div
+      class="relative z-10 grid gap-7 text-center md:text-left justify-items-center md:justify-items-start"
+    >
+      <header class="grid gap-2">
+        <h1 class="text-white text-2xl md:text-3xl font-bold">
+          Hey! I'm Jackeline
+        </h1>
+        <h2 class="gradient-text text-xl font-semibold">Software Developer</h2>
+      </header>
 
-    <div class="grid gap-10">
-      <p class="text-text-secondary text-sm">
-        Mobile Developer specializing in React Native, TypeScript and Flutter. I
-        build high-performance mobile applications with a focus on clean
-        architecture and great user experience.
-      </p>
+      <div class="grid gap-10">
+        <p class="text-text-secondary text-sm">
+          Mobile Developer specializing in React Native, TypeScript and Flutter.
+          I build high-performance mobile applications with a focus on clean
+          architecture and great user experience.
+        </p>
 
-      <div
-        class="flex items-center justify-center md:justify-start gap-8 md:gap-10.5"
-      >
+        <div
+          class="flex items-center justify-center md:justify-start gap-8 md:gap-10.5"
+        >
+          <Button label="View CV" variant="primary" href="#projects">
+            <Chevron slot="icon-right" />
+          </Button>
 
-        <Button label="View CV" variant="primary" href="#projects">
-          <Chevron slot="icon-right" />
-        </Button>
+          <nav aria-label="Social links">
+            <ul class="flex items-center gap-5">
+              <li>
+                <a class="social-btn social-btn--github" href="#">
+                  <span class="social-btn__icon">
+                    <Github />
+                  </span>
+                </a>
+              </li>
 
-        <nav aria-label="Social links">
-          <ul class="flex items-center gap-5">
-            <li>
-              <a class="social-btn social-btn--github" href="#">
-                <span class="social-btn__icon">
-                  <Github />
-                </span>
-              </a>
-            </li>
+              <li>
+                <a class="social-btn social-btn--linkedin" href="#">
+                  <span class="social-btn__icon">
+                    <LinkedIn />
+                  </span>
+                </a>
+              </li>
 
-            <li>
-              <a class="social-btn social-btn--linkedin" href="#">
-                <span class="social-btn__icon">
-                  <LinkedIn />
-                </span>
-              </a>
-            </li>
-
-            <li>
-              <a
-                class="social-btn social-btn--gmail"
-                href="mailto:tuemail@ejemplo.com"
-              >
-                <span class="social-btn__icon">
-                  <Email />
-                </span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+              <li>
+                <a
+                  class="social-btn social-btn--gmail"
+                  href="mailto:tuemail@ejemplo.com"
+                >
+                  <span class="social-btn__icon">
+                    <Email />
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
-  </div>
 
-  <aside class="relative z-10 text-white">derecha</aside>
+    <aside
+      class="relative z-10 flex items-center justify-center md:justify-end md:translate-x-6"
+    >
+      <img
+        src="/src/assets/images/profile.png"
+        alt="Profile card"
+        class="block h-auto w-[clamp(160px,60vw,420px)] object-contain rotate-[8deg] -translate-x-[6px] drop-shadow-[0_24px_45px_rgba(0,0,0,0.35)] md:max-h-[82vh] md:w-[clamp(280px,34vw,500px)] md:rotate-[10deg] md:-translate-x-[18px] lg:w-[clamp(340px,32vw,560px)] lg:rotate-[11deg] lg:-translate-x-[26px]"
+      />
+    </aside>
+  </div>
 </section>
 
 <script>
-  const canvas = document.getElementById('stars-canvas') as HTMLCanvasElement;
-  const ctx = canvas.getContext('2d')!;
+  const section = document.querySelector("section");
+  const canvas = document.getElementById("stars-canvas") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d")!;
 
   function resize() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+    if (!section) return;
 
-  // --- Static stars ---
+    canvas.width = window.innerWidth;
+    canvas.height = section.scrollHeight;
+  }
+
+  resize();
+  window.addEventListener("resize", resize);
+
   const NUM_STARS = 180;
   const stars = Array.from({ length: NUM_STARS }, () => ({
     x: Math.random(),
@@ -100,7 +114,6 @@ import Button from "../ui/Button.astro";
     twinkleOffset: Math.random() * Math.PI * 2,
   }));
 
-  // --- Shooting stars ---
   interface ShootingStar {
     x: number;
     y: number;
@@ -116,40 +129,61 @@ import Button from "../ui/Button.astro";
   function spawnShootingStar() {
     const speed = Math.random() * 5 + 4;
 
-    // Diagonal only: angle between 30°–60° within each quadrant (never near 0°/90°)
     const minDeg = 30;
     const maxDeg = 60;
     const baseDeg = minDeg + Math.random() * (maxDeg - minDeg);
     const quadrant = Math.floor(Math.random() * 4);
+
     let angleDeg: number;
-    if (quadrant === 0) angleDeg = baseDeg;            // SE
-    else if (quadrant === 1) angleDeg = 180 - baseDeg;  // SW
-    else if (quadrant === 2) angleDeg = 180 + baseDeg;  // NW
-    else angleDeg = 360 - baseDeg;                     // NE
+    if (quadrant === 0) angleDeg = baseDeg;
+    else if (quadrant === 1) angleDeg = 180 - baseDeg;
+    else if (quadrant === 2) angleDeg = 180 + baseDeg;
+    else angleDeg = 360 - baseDeg;
 
     const angle = angleDeg * (Math.PI / 180);
     const vx = Math.cos(angle) * speed;
     const vy = Math.sin(angle) * speed;
 
-    // Spawn exactly on the canvas edge opposite to travel direction
     let x: number, y: number;
-    if (vx > 0 && vy > 0) {        // SE → enter from top or left edge
-      if (Math.random() < 0.5) { x = Math.random() * canvas.width; y = 0; }
-      else                       { x = 0; y = Math.random() * canvas.height; }
-    } else if (vx < 0 && vy > 0) { // SW → enter from top or right edge
-      if (Math.random() < 0.5) { x = Math.random() * canvas.width; y = 0; }
-      else                       { x = canvas.width; y = Math.random() * canvas.height; }
-    } else if (vx < 0 && vy < 0) { // NW → enter from bottom or right edge
-      if (Math.random() < 0.5) { x = Math.random() * canvas.width; y = canvas.height; }
-      else                       { x = canvas.width; y = Math.random() * canvas.height; }
-    } else {                        // NE → enter from bottom or left edge
-      if (Math.random() < 0.5) { x = Math.random() * canvas.width; y = canvas.height; }
-      else                       { x = 0; y = Math.random() * canvas.height; }
+
+    if (vx > 0 && vy > 0) {
+      if (Math.random() < 0.5) {
+        x = Math.random() * canvas.width;
+        y = 0;
+      } else {
+        x = 0;
+        y = Math.random() * canvas.height;
+      }
+    } else if (vx < 0 && vy > 0) {
+      if (Math.random() < 0.5) {
+        x = Math.random() * canvas.width;
+        y = 0;
+      } else {
+        x = canvas.width;
+        y = Math.random() * canvas.height;
+      }
+    } else if (vx < 0 && vy < 0) {
+      if (Math.random() < 0.5) {
+        x = Math.random() * canvas.width;
+        y = canvas.height;
+      } else {
+        x = canvas.width;
+        y = Math.random() * canvas.height;
+      }
+    } else {
+      if (Math.random() < 0.5) {
+        x = Math.random() * canvas.width;
+        y = canvas.height;
+      } else {
+        x = 0;
+        y = Math.random() * canvas.height;
+      }
     }
 
-    // maxLife = exact steps until the tip exits the opposite edge
-    const stepsToExitX = vx > 0 ? (canvas.width - x) / vx : vx < 0 ? -x / vx : Infinity;
-    const stepsToExitY = vy > 0 ? (canvas.height - y) / vy : vy < 0 ? -y / vy : Infinity;
+    const stepsToExitX =
+      vx > 0 ? (canvas.width - x) / vx : vx < 0 ? -x / vx : Infinity;
+    const stepsToExitY =
+      vy > 0 ? (canvas.height - y) / vy : vy < 0 ? -y / vy : Infinity;
     const maxLife = Math.min(stepsToExitX, stepsToExitY);
 
     shootingStars.push({
@@ -163,7 +197,6 @@ import Button from "../ui/Button.astro";
     });
   }
 
-  // Spawn a shooting star every 2.5–5 seconds
   function scheduleShootingStar() {
     const delay = Math.random() * 2500 + 2500;
     setTimeout(() => {
@@ -171,6 +204,7 @@ import Button from "../ui/Button.astro";
       scheduleShootingStar();
     }, delay);
   }
+
   scheduleShootingStar();
 
   let frame = 0;
@@ -179,17 +213,22 @@ import Button from "../ui/Button.astro";
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     frame++;
 
-    // Draw static stars
     for (const s of stars) {
       const twinkle = Math.sin(frame * s.twinkleSpeed + s.twinkleOffset) * 0.3;
       const alpha = Math.max(0.05, s.opacity + twinkle);
+
       ctx.beginPath();
-      ctx.arc(s.x * canvas.width, s.y * canvas.height, s.radius, 0, Math.PI * 2);
+      ctx.arc(
+        s.x * canvas.width,
+        s.y * canvas.height,
+        s.radius,
+        0,
+        Math.PI * 2,
+      );
       ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
       ctx.fill();
     }
 
-    // Draw shooting stars
     for (let i = shootingStars.length - 1; i >= 0; i--) {
       const s = shootingStars[i];
       s.life++;
@@ -201,7 +240,6 @@ import Button from "../ui/Button.astro";
         continue;
       }
 
-      // Fade in first 15% of life, fade out last 15%
       const progress = s.life / s.maxLife;
       const fadeIn = Math.min(1, progress / 0.15);
       const fadeOut = Math.min(1, (1 - progress) / 0.15);
@@ -223,7 +261,6 @@ import Button from "../ui/Button.astro";
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Bright tip
       ctx.beginPath();
       ctx.arc(s.x, s.y, 1.8, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
@@ -235,4 +272,3 @@ import Button from "../ui/Button.astro";
 
   draw();
 </script>
-

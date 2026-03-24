@@ -35,7 +35,10 @@ const {
 } = Astro.props;
 ---
 
-<article class="group relative w-full min-h-fit overflow-hidden rounded-[28px] border-[0.5px] border-secondary-1 bg-bg-surface p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(103,232,249,0.35)]">
+<article
+  class="group relative w-full min-h-fit overflow-hidden rounded-[28px] border-[0.5px] border-secondary-1 bg-bg-surface p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(103,232,249,0.35)]"
+  data-project-card
+>
   <header class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
     <h3 class="text-lg md:text-xl font-bold gradient-text">
       {name}
@@ -45,7 +48,7 @@ const {
       {onProgressTag && (
         <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
           <div class="flex h-4 w-4 items-center justify-center rounded-full bg-secondary-3">
-            <div class="h-2.5 w-2.5 rounded-full bg-primary" />
+            <div class="h-2.5 w-2.5 rounded-full bg-primary"></div>
           </div>
           <p class="text-xs text-text-secondary">In progress</p>
         </div>
@@ -65,7 +68,10 @@ const {
 
   <slot name="preview" />
 
-  <div class="absolute inset-0 z-20 bg-[#020817]/55 opacity-0 backdrop-blur-[14px] transition-all duration-500 group-hover:opacity-100">
+  <div
+    class="pointer-events-none absolute inset-0 z-20 bg-[#020817]/55 opacity-0 backdrop-blur-[14px] transition-all duration-500 group-hover:pointer-events-auto group-hover:opacity-100 group-[.touch-active]:pointer-events-auto group-[.touch-active]:opacity-100"
+    data-project-overlay
+  >
     <div class="relative flex h-full flex-col justify-between gap-4 p-4 md:p-5">
       <div>
         <p class="text-xs uppercase text-primary/80">
@@ -132,3 +138,55 @@ const {
     </div>
   </div>
 </article>
+
+<style>
+  [data-project-card].touch-active [data-project-overlay] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>
+
+<script>
+  const isTouchDevice = () =>
+    window.matchMedia("(hover: none)").matches ||
+    window.matchMedia("(pointer: coarse)").matches;
+
+  const cards = document.querySelectorAll("[data-project-card]");
+
+  cards.forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (!isTouchDevice()) return;
+
+      const target = e.target;
+      const interactiveElement = target.closest("a, button");
+
+      // Si ya está abierto y clicas un botón → dejar pasar
+      if (interactiveElement && card.classList.contains("touch-active")) {
+        return;
+      }
+
+      const isActive = card.classList.contains("touch-active");
+
+      if (isActive) {
+        card.classList.remove("touch-active");
+      } else {
+        cards.forEach((c) => {
+          if (c !== card) c.classList.remove("touch-active");
+        });
+
+        card.classList.add("touch-active");
+        e.preventDefault();
+      }
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!isTouchDevice()) return;
+
+    cards.forEach((card) => {
+      if (!card.contains(e.target)) {
+        card.classList.remove("touch-active");
+      }
+    });
+  });
+</script>

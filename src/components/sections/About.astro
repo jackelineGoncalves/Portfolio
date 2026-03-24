@@ -11,7 +11,7 @@ import IconBox from "..//ui/InfoBox.astro";
 <section class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5 container-main">
   <!-- WHAT I BUILD -->
   <article
-    class="interactive-card order-1 col-span-2 flex flex-col gap-4 rounded-[28px] border-[0.5px] border-secondary-1 bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url('src/assets/program.jpeg')] bg-cover bg-center p-6 md:col-span-2 md:row-span-2 md:gap-6 md:p-8 xl:col-span-2 xl:row-span-2 xl:gap-10.5"
+    class="interactive-card order-1 col-span-2 flex flex-col gap-4 rounded-[28px] border-[0.5px] border-secondary-1 bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url('src/assets/images/program.jpeg')] bg-cover bg-center p-6 md:col-span-2 md:row-span-2 md:gap-6 md:p-8 xl:col-span-2 xl:row-span-2 xl:gap-10.5"
   >
     <div class="card-glow"></div>
 
@@ -197,8 +197,9 @@ import IconBox from "..//ui/InfoBox.astro";
 
   .interactive-card:hover {
     transform: translateY(-6px);
-    border-color: var(--color-secondary-3);
+    border-color: var(--color-primary);
     box-shadow: 0 0 25px 2px rgba(83, 235, 243, 0.2);
+    border-width: 0.0625rem;
   }
 
   .card-glow {
