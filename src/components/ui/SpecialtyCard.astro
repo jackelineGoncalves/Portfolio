@@ -1,0 +1,52 @@
+---
+import Phone from "../../assets/svg/Phone.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<div
+  class="card border-[0.5px] h-full border-secondary-1 bg-bg-surface backdrop-blur-xl rounded-[28px] p-5 flex flex-col justify-center items-center"
+>
+  <div class="bg-primary/5 rounded-[10px] h-fit w-fit p-4">
+    <Phone class="text-primary h-5 w-5" />
+  </div>
+
+  <h3 class="text-md font-semibold text-white pt-4">{title}</h3>
+  <p class="text-text-secondary text-sm pt-2 text-center">{description}</p>
+</div>
+
+<style>
+  .card {
+    position: relative;
+    overflow: hidden;
+    border: 0.5px solid var(--color-secondary-1);
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    width: 76%;
+    height: 1px;
+
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.776),
+      transparent
+    );
+
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+
+
+  
+</style>
