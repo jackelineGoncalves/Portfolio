@@ -15,7 +15,7 @@ import ContactItem from "../ui/ContactItem.astro";
 
   <div class="container-main grid grid-cols-1 gap-14 md:grid-cols-[1.4fr_1fr]">
     <form
-      class="relative z-10 flex flex-col gap-8 rounded-[28px] border border-secondary-1 bg-bg-surface/40 p-6 md:px-13 md:py-10.5"
+      class="relative z-10 flex flex-col gap-8 rounded-[28px] border border-secondary-1 bg-bg-surface/40 p-6 md:px-13 md:py-10.5 backdrop-blur-2xl"
       data-contact-form
     >
       <div class="flex flex-col gap-3.5">
@@ -62,7 +62,6 @@ import ContactItem from "../ui/ContactItem.astro";
           type="submit"
           class="mt-5 inline-flex h-14 w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-primary-2 px-6 text-sm font-medium text-bg-main shadow-[0_0_25px_5px_rgba(83,235,243,0.25)] transition-all duration-200 hover:scale-[1.04] hover:shadow-[0_0_25px_5px_rgba(83,235,243,0.335)] disabled:cursor-not-allowed disabled:opacity-70 md:px-8 md:text-base md:font-semibold"
           data-contact-submit
-
         >
           <span class="relative z-10 inline-flex items-center justify-center">
             <Send class="text-bg-main" />
@@ -71,24 +70,228 @@ import ContactItem from "../ui/ContactItem.astro";
           <span class="relative z-10" data-submit-label>Send Message</span>
         </button>
 
-        <p class="text-sm text-center pt-2" data-contact-status></p>
+        <p class="min-h-[20px] pt-2 text-center text-sm" data-contact-status></p>
       </div>
     </form>
 
     <div class="relative z-10 flex flex-col gap-6">
-      <ContactItem contactMethod="Github" href="/" icon={Github} />
-      <ContactItem contactMethod="Email" href="/" icon={Email} />
-      <ContactItem contactMethod="LinkedIn" href="/" icon={LinkedIn} />
-      <ContactItem contactMethod="Phone Number" href="/" icon={Phone} />
+      <ContactItem
+        contactMethod="Github"
+        href="https://github.com/jackelineGoncalves"
+        icon={Github}
+      />
+      <ContactItem
+        contactMethod="Email"
+        href="mailto:jackeline.camara04@gmail.com"
+        icon={Email}
+      />
+      <ContactItem
+        contactMethod="LinkedIn"
+        href="https://www.linkedin.com/in/jackeline-goncalves-dev/"
+        icon={LinkedIn}
+      />
+
+      <button
+        type="button"
+        data-phone-modal-open
+        class="bg-bg-surface/40 border border-secondary-1 flex items-center gap-4 rounded-[20px] px-6 py-4 text-left backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.35)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-primary/60"
+        aria-label="Open phone contact options"
+      >
+        <div class="rounded-[14px] bg-primary/5 p-2">
+          <Phone class="h-6 w-6 text-primary" />
+        </div>
+        <p class="text-md font-medium text-white">Phone Number</p>
+      </button>
+    </div>
+  </div>
+
+  <div class="phone-modal-overlay" data-phone-modal aria-hidden="true">
+    <div class="phone-modal-content">
+      <button
+        type="button"
+        data-phone-modal-close
+        class="phone-modal-close"
+        aria-label="Close modal"
+      >
+        ✕
+      </button>
+
+      <div class="mb-6 pr-12">
+        <p class="text-sm text-text-secondary">Phone contact options</p>
+        <h3 class="mt-1 text-xl font-semibold text-white">+351 924 689 121</h3>
+      </div>
+
+      <div class="grid gap-3">
+        <a
+          href="https://wa.me/351924689121"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="phone-action-btn"
+        >
+          Open WhatsApp
+        </a>
+
+        <a href="tel:+351924689121" class="phone-action-btn">
+          Call
+        </a>
+
+        <button
+          type="button"
+          data-copy-phone
+          data-phone-number="+351 924 689 121"
+          class="phone-action-btn"
+        >
+          Copy number
+        </button>
+      </div>
+
+      <p
+        class="mt-4 min-h-[20px] text-center text-sm text-green-400"
+        data-copy-status
+      ></p>
     </div>
   </div>
 </section>
+
+<style>
+  .phone-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 1rem;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .phone-modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .phone-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--color-bg-main);
+    backdrop-filter: blur(20px);
+    padding: 1.5rem;
+    box-shadow:
+      0 25px 80px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transform: translateY(20px) scale(0.96);
+    opacity: 0;
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.4s ease;
+    transition-delay: 0.05s;
+  }
+
+  .phone-modal-overlay.show .phone-modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  .phone-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: inline-flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.8);
+    background: transparent;
+    transition: all 0.25s ease;
+  }
+
+  .phone-modal-close:hover {
+    color: white;
+    transform: rotate(90deg);
+  }
+
+  .phone-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--color-bg-surface);
+    padding: 0.85rem 1rem;
+    color: white;
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+
+  .phone-action-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(83, 235, 243, 0.45);
+    box-shadow: 0 0 22px rgba(83, 235, 243, 0.08);
+  }
+</style>
 
 <script>
   const form = document.querySelector("[data-contact-form]");
   const status = document.querySelector("[data-contact-status]");
   const submitButton = document.querySelector("[data-contact-submit]");
   const submitLabel = document.querySelector("[data-submit-label]");
+
+  const phoneModalOpen = document.querySelector("[data-phone-modal-open]");
+  const phoneModal = document.querySelector("[data-phone-modal]");
+  const phoneModalClose = document.querySelector("[data-phone-modal-close]");
+  const copyPhoneButton = document.querySelector("[data-copy-phone]");
+  const copyStatus = document.querySelector("[data-copy-status]");
+
+  const openPhoneModal = () => {
+    phoneModal?.classList.add("show");
+    phoneModal?.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
+
+  const closePhoneModal = () => {
+    phoneModal?.classList.remove("show");
+    phoneModal?.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+
+    if (copyStatus) {
+      copyStatus.textContent = "";
+    }
+  };
+
+  phoneModalOpen?.addEventListener("click", openPhoneModal);
+  phoneModalClose?.addEventListener("click", closePhoneModal);
+
+  phoneModal?.addEventListener("click", (event) => {
+    if (event.target === phoneModal) {
+      closePhoneModal();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closePhoneModal();
+    }
+  });
+
+  copyPhoneButton?.addEventListener("click", async () => {
+    const number = copyPhoneButton.getAttribute("data-phone-number");
+    if (!number || !copyStatus) return;
+
+    try {
+      await navigator.clipboard.writeText(number);
+      copyStatus.textContent = "Number copied to clipboard.";
+    } catch {
+      copyStatus.textContent = "Could not copy the number.";
+    }
+  });
 
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();

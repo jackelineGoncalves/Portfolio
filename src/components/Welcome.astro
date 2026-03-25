@@ -8,6 +8,7 @@ import Experience from "./sections/Experience.astro";
 import Projects from "./sections/Projects.astro";
 import Skills from "./sections/Skills.astro";
 import Contact from "./sections/Contact.astro";
+import SignBoard from "./ui/SignBoard.astro";
 ---
 
 <div id="container">
@@ -70,7 +71,7 @@ import Contact from "./sections/Contact.astro";
     </section>
 
     <section id="contact">
-      <div class="pt-[80px] text-center pb-[80px]">
+      <div class="pt-20 text-center pb-20">
         <Divider>
           <p class="text-white text-xl font-bold gradient-text">Get in Touch</p>
         </Divider>
@@ -82,7 +83,9 @@ import Contact from "./sections/Contact.astro";
         </p>
       </div>
 
+      <!-- <SignBoard /> -->
       <Contact />
     </section>
+
   </main>
 </div>

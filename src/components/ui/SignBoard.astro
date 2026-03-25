@@ -1,0 +1,302 @@
+---
+import Arrow from "../../assets/svg/Arrow.astro";
+---
+
+<section class="signboard-section">
+  <div class="signboard-wrap">
+    <!-- Palos -->
+    <span class="pole pole-left"></span>
+    <span class="pole pole-right"></span>
+
+    <!-- Cartel -->
+    <div class="signboard">
+      <div class="signboard-content">
+        <div>
+          <p class="signboard-title text-2xl font-extrabold">
+            Ready to collaborate and create amazing things together?
+          </p>
+          <p class="signboard-subtitle">Get in touch</p>
+        </div>
+
+        <div class="signboard-arrow">
+          <Arrow class="arrow-icon text-white" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Puente / barra con luces -->
+    <div class="bridge-wrap" aria-hidden="true">
+      <div class="bridge">
+        <div class="bridge-line"></div>
+
+        <span class="bridge-light bridge-light-1"></span>
+        <span class="bridge-light bridge-light-2"></span>
+        <span class="bridge-light bridge-light-3"></span>
+        <span class="bridge-light bridge-light-4"></span>
+        <span class="bridge-light bridge-light-5"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .signboard-section {
+    position: relative;
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 18rem;
+  }
+
+  .signboard-wrap {
+    position: relative;
+    width: min(85%, 1100px);
+    margin: 0 auto;
+  }
+
+  .signboard {
+    position: relative;
+    z-index: 30;
+    border: 5px solid var(--color-secondary-1);
+    border-radius: 16px;
+    background:
+      radial-gradient(
+        ellipse at 50% 50%,
+        rgba(56, 124, 196, 0.2) 0%,
+        rgba(20, 48, 82, 0.12) 28%,
+        rgba(4, 10, 18, 0.96) 72%
+      ),
+      var(--color-bg-surface);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(83, 235, 243, 0.08);
+    overflow: hidden;
+  }
+
+  .signboard-content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    padding: 3rem 3rem 4rem;
+  }
+
+  .signboard-title {
+    margin: 0;
+    color: white;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .signboard-subtitle {
+    margin: 1rem 0 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #7ee7f3;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .signboard-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: auto;
+  }
+
+  .arrow-icon {
+    color: white;
+  }
+
+  .pole {
+    position: absolute;
+    top: 100%;
+    width: 20px;
+    height: 280px;
+    background: #020408;
+    z-index: 10;
+  }
+
+  .pole-left {
+    left: 18%;
+  }
+
+  .pole-right {
+    right: 18%;
+  }
+
+  .bridge-wrap {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 2rem);
+    width: 115%;
+    transform: translateX(-50%);
+    z-index: 20;
+  }
+
+  .bridge {
+    position: relative;
+    width: 100%;
+    height: 95px;
+  }
+
+  .bridge-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 12px;
+    background: #020408;
+    z-index: 1;
+  }
+
+  .bridge-light {
+    position: absolute;
+    bottom: 12px;
+    width: 64px;
+    height: 34px;
+    transform: translateX(-50%);
+    border-radius: 999px 999px 0 0;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 3;
+  }
+
+  /* haz de luz hacia arriba */
+  .bridge-light::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 260px;
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(170, 220, 255, 0.12) 28%,
+      rgba(110, 180, 255, 0.06) 55%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    clip-path: polygon(42% 100%, 58% 100%, 100% 0, 0 0);
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* base negra que tapa la parte baja de la luz */
+  .bridge-light::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    transform: translateX(-50%);
+    width: 86px;
+    height: 22px;
+    background: #020408;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .bridge-light-1 {
+    left: 8%;
+  }
+
+  .bridge-light-2 {
+    left: 28%;
+  }
+
+  .bridge-light-3 {
+    left: 50%;
+  }
+
+  .bridge-light-4 {
+    left: 72%;
+  }
+
+  .bridge-light-5 {
+    left: 92%;
+  }
+
+  @media (max-width: 768px) {
+    .signboard-section {
+      padding-top: 1.5rem;
+      padding-bottom: 12rem;
+    }
+
+    .signboard-wrap {
+      width: 92%;
+    }
+
+    .signboard-content {
+      grid-template-columns: 1fr;
+      padding: 2rem 1.5rem 2.75rem;
+    }
+
+    .signboard-title {
+      max-width: 11ch;
+    }
+
+    .arrow-icon {
+      width: 64px;
+    }
+
+    .pole {
+      width: 8px;
+      height: 170px;
+    }
+
+    .pole-left {
+      left: 12%;
+    }
+
+    .pole-right {
+      right: 12%;
+    }
+
+    .bridge-wrap {
+      top: calc(100% + 1.25rem);
+      width: 120%;
+    }
+
+    .bridge {
+      height: 62px;
+    }
+
+    .bridge-line {
+      height: 8px;
+    }
+
+    .bridge-light {
+      width: 38px;
+      height: 20px;
+      bottom: 8px;
+    }
+
+ .bridge-light::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 260px;
+  pointer-events: none;
+  z-index: -1;
+
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(160, 210, 255, 0.1) 18%,
+    rgba(120, 170, 220, 0.06) 36%,
+    rgba(70, 110, 150, 0.035) 52%,
+    rgba(20, 35, 55, 0.015) 68%,
+    transparent 82%
+  );
+
+  filter: blur(24px);
+}
+
+    .bridge-light::after {
+      width: 52px;
+      height: 14px;
+    }
+  }
+</style>

@@ -39,26 +39,32 @@ const {
   class="group relative w-full min-h-fit overflow-hidden rounded-[28px] border-[0.5px] border-secondary-1 bg-bg-surface p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(103,232,249,0.35)]"
   data-project-card
 >
-  <header class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+  <header
+    class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between"
+  >
     <h3 class="text-lg md:text-xl font-bold gradient-text">
       {name}
     </h3>
 
     <div class="flex flex-wrap gap-2 lg:justify-end">
-      {onProgressTag && (
-        <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
-          <div class="flex h-4 w-4 items-center justify-center rounded-full bg-secondary-3">
-            <div class="h-2.5 w-2.5 rounded-full bg-primary"></div>
+      {
+        onProgressTag && (
+          <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
+            <div class="flex h-4 w-4 items-center justify-center rounded-full bg-secondary-3">
+              <div class="h-2.5 w-2.5 rounded-full bg-primary" />
+            </div>
+            <p class="text-xs text-text-secondary">In progress</p>
           </div>
-          <p class="text-xs text-text-secondary">In progress</p>
-        </div>
-      )}
+        )
+      }
 
-      {workProjectTag && (
-        <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
-          <p class="text-xs text-text-secondary">Work project</p>
-        </div>
-      )}
+      {
+        workProjectTag && (
+          <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
+            <p class="text-xs text-text-secondary">Work project</p>
+          </div>
+        )
+      }
     </div>
   </header>
 
@@ -78,7 +84,9 @@ const {
           {projectType}
         </p>
 
-        <h3 class="mt-2 text-base md:text-lg font-extrabold leading-tight text-white">
+        <h3
+          class="mt-2 text-base md:text-lg font-extrabold leading-tight text-white"
+        >
           {hoveredTitle}
         </h3>
 
@@ -88,21 +96,23 @@ const {
       </div>
 
       <div class="flex w-full flex-wrap justify-center gap-4 pt-2 md:gap-6">
-        {technologiesIcons.map((tech) => {
-          const Icon = tech.icon;
+        {
+          technologiesIcons.map((tech) => {
+            const Icon = tech.icon;
 
-          return (
-            <div class="group/icon relative">
-              <div class="flex items-center justify-center">
-                <Icon class="h-8 w-8 md:h-9 md:w-9" />
-              </div>
+            return (
+              <div class="group/icon relative">
+                <div class="flex items-center justify-center">
+                  <Icon class="h-8 w-8 md:h-9 md:w-9" />
+                </div>
 
-              <div class="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2 py-1 text-xs text-white opacity-0 transition-all duration-200 group-hover/icon:-translate-y-1 group-hover/icon:opacity-100">
-                {tech.label}
+                <div class="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2 py-1 text-xs text-white opacity-0 transition-all duration-200 group-hover/icon:-translate-y-1 group-hover/icon:opacity-100">
+                  {tech.label}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        }
       </div>
 
       <div
@@ -110,30 +120,34 @@ const {
           hasCodeBtn && hasDetailsBtn ? "justify-between" : "justify-end"
         }`}
       >
-        {hasDetailsBtn && (
-          <Button
-            label="View Project Details"
-            variant="primary"
-            href="#projects"
-            size="sm"
-            fullWidth={hasCodeBtn}
-          >
-            <Chevron slot="icon-right" />
-          </Button>
-        )}
+        {
+          hasDetailsBtn && (
+            <Button
+              label="View Project Details"
+              variant="primary"
+              href="#projects"
+              size="sm"
+              fullWidth={hasCodeBtn}
+            >
+              <Chevron slot="icon-right" />
+            </Button>
+          )
+        }
 
-        {hasCodeBtn && (
-          <Button
-            label="Code"
-            variant="secondary"
-            href="#projects"
-            size="sm"
-            fullWidth={hasDetailsBtn}
-            class={hasDetailsBtn ? "max-w-[150px]" : ""}
-          >
-            <GitBranch slot="icon-left" />
-          </Button>
-        )}
+        {
+          hasCodeBtn && (
+            <Button
+              label="Code"
+              variant="secondary"
+              href="#projects"
+              size="sm"
+              fullWidth={hasDetailsBtn}
+              class={hasDetailsBtn ? "max-w-37.5" : ""}
+            >
+              <GitBranch slot="icon-left" />
+            </Button>
+          )
+        }
       </div>
     </div>
   </div>
@@ -157,7 +171,7 @@ const {
     card.addEventListener("click", (e) => {
       if (!isTouchDevice()) return;
 
-      const target = e.target;
+      const target = e.target as HTMLElement;
       const interactiveElement = target.closest("a, button");
 
       // Si ya está abierto y clicas un botón → dejar pasar
@@ -183,8 +197,10 @@ const {
   document.addEventListener("click", (e) => {
     if (!isTouchDevice()) return;
 
+    const target = e.target as Node;
+
     cards.forEach((card) => {
-      if (!card.contains(e.target)) {
+      if (!card.contains(target)) {
         card.classList.remove("touch-active");
       }
     });

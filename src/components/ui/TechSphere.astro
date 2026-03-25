@@ -16,28 +16,50 @@
   };
 
   const root = document.querySelector<HTMLElement>("[data-tech-sphere-root]");
-  const container = root?.querySelector<HTMLElement>("[data-tech-sphere-container]");
+  const container = root?.querySelector<HTMLElement>(
+    "[data-tech-sphere-container]",
+  );
 
   if (root && container) {
     const technologies: Technology[] = [
-      { name: "React",        svgUrl: "/icons/react.svg",        glowColor: "#61DAFB" },
-      { name: "Flutter",      svgUrl: "/icons/flutter.svg",      glowColor: "#54C5F8" },
-      { name: "TypeScript",   svgUrl: "/icons/typescript.svg",   glowColor: "#3178C6" },
-      { name: "GitHub",       svgUrl: "/icons/github.svg",       glowColor: "#aaaaff" },
-      { name: "PostgreSQL",   svgUrl: "/icons/postgresql.svg",   glowColor: "#336791" },
-      { name: "Supabase",     svgUrl: "/icons/supabase.svg",     glowColor: "#3ECF8E" },
-      { name: "Expo",         svgUrl: "/icons/expo.svg",         glowColor: "#ccccff" },
-      { name: "Figma",        svgUrl: "/icons/figma.svg",        glowColor: "#F24E1E" },
-      { name: "Git",          svgUrl: "/icons/git.svg",          glowColor: "#f05032" },
-      { name: "Tailwind",     svgUrl: "/icons/tailwind.svg",     glowColor: "#39bdf8" },
-      { name: "GraphQl",      svgUrl: "/icons/graphql.svg",      glowColor: "#e434aa" },
-      { name: "Express.JS",   svgUrl: "/icons/expressjs.svg",    glowColor: "#aaaaff" },
-      { name: "JavaScript",   svgUrl: "/icons/javascript.svg",   glowColor: "#f7df1f" },
-      { name: "CSS",          svgUrl: "/icons/css.svg",          glowColor: "#1673b6" },
-      { name: "React Native", svgUrl: "/icons/react.svg",        glowColor: "#61DAFB" },
-      { name: "MySQL",        svgUrl: "/icons/mysql.svg",        glowColor: "#00618a" },
-      { name: "NEXT.JS",      svgUrl: "/icons/next.svg",         glowColor: "#aaaaff" },
-      { name: "NODE.JS",      svgUrl: "/icons/node.svg",         glowColor: "#339933" },
+      { name: "React", svgUrl: "/icons/react.svg", glowColor: "#61DAFB" },
+      { name: "Flutter", svgUrl: "/icons/flutter.svg", glowColor: "#54C5F8" },
+      {
+        name: "TypeScript",
+        svgUrl: "/icons/typescript.svg",
+        glowColor: "#3178C6",
+      },
+      { name: "GitHub", svgUrl: "/icons/github.svg", glowColor: "#aaaaff" },
+      {
+        name: "PostgreSQL",
+        svgUrl: "/icons/postgresql.svg",
+        glowColor: "#336791",
+      },
+      { name: "Supabase", svgUrl: "/icons/supabase.svg", glowColor: "#3ECF8E" },
+      { name: "Expo", svgUrl: "/icons/expo.svg", glowColor: "#ccccff" },
+      { name: "Figma", svgUrl: "/icons/figma.svg", glowColor: "#F24E1E" },
+      { name: "Git", svgUrl: "/icons/git.svg", glowColor: "#f05032" },
+      { name: "Tailwind", svgUrl: "/icons/tailwind.svg", glowColor: "#39bdf8" },
+      { name: "GraphQl", svgUrl: "/icons/graphql.svg", glowColor: "#e434aa" },
+      {
+        name: "Express.JS",
+        svgUrl: "/icons/expressjs.svg",
+        glowColor: "#aaaaff",
+      },
+      {
+        name: "JavaScript",
+        svgUrl: "/icons/javascript.svg",
+        glowColor: "#f7df1f",
+      },
+      { name: "CSS", svgUrl: "/icons/css.svg", glowColor: "#1673b6" },
+      {
+        name: "React Native",
+        svgUrl: "/icons/react.svg",
+        glowColor: "#61DAFB",
+      },
+      { name: "MySQL", svgUrl: "/icons/mysql.svg", glowColor: "#00618a" },
+      { name: "NEXT.JS", svgUrl: "/icons/next.svg", glowColor: "#aaaaff" },
+      { name: "NODE.JS", svgUrl: "/icons/node.svg", glowColor: "#339933" },
     ];
 
     let scene: THREE.Scene;
@@ -57,7 +79,10 @@
     const mouse = new THREE.Vector2();
 
     // Preload SVG as both a color texture and a grayscale texture
-    type DualTexture = { color: THREE.CanvasTexture; gray: THREE.CanvasTexture };
+    type DualTexture = {
+      color: THREE.CanvasTexture;
+      gray: THREE.CanvasTexture;
+    };
 
     function makeGrayscaleCanvas(img: HTMLImageElement): HTMLCanvasElement {
       const canvas = document.createElement("canvas");
@@ -112,9 +137,16 @@
     }
 
     function getContainerSize() {
+      if (!container) {
+        return {
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      }
+
       return {
-        width:  container.clientWidth  || window.innerWidth,
-        height: container.clientHeight || window.innerHeight,
+        width: container.clientWidth,
+        height: container.clientHeight,
       };
     }
 
@@ -125,8 +157,10 @@
     // FOV scales continuously: narrow screen = wider FOV so sphere fits
     function getFov() {
       const w = window.innerWidth;
-      const MIN_W = 320, MAX_W = 1024;
-      const MIN_F = 85,  MAX_F = 60;
+      const MIN_W = 320,
+        MAX_W = 1024;
+      const MIN_F = 85,
+        MAX_F = 60;
       const t = Math.max(0, Math.min(1, (w - MIN_W) / (MAX_W - MIN_W)));
       return MIN_F + t * (MAX_F - MIN_F);
     }
@@ -135,8 +169,10 @@
     // 320px wide → 0.52,  1440px wide → 0.30  (big on mobile, normal on desktop)
     function getBaseScale() {
       const w = window.innerWidth;
-      const MIN_W = 320,  MAX_W = 1440;
-      const MIN_S = 0.48, MAX_S = 0.30;
+      const MIN_W = 320,
+        MAX_W = 1440;
+      const MIN_S = 0.48,
+        MAX_S = 0.3;
       const t = Math.max(0, Math.min(1, (w - MIN_W) / (MAX_W - MIN_W)));
       return MIN_S + t * (MAX_S - MIN_S);
     }
@@ -161,27 +197,14 @@
       sphereGroup.add(new THREE.Mesh(geometry2, material2));
     }
 
-    function createBackgroundParticles() {
-      const geometry = new THREE.BufferGeometry();
-      const vertices: number[] = [];
-      for (let i = 0; i < 500; i++) {
-        vertices.push(
-          (Math.random() - 0.5) * 20,
-          (Math.random() - 0.5) * 20,
-          (Math.random() - 0.5) * 20,
-        );
-      }
-      geometry.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
-      const material = new THREE.PointsMaterial({ color: 0xffffff, size: 0.02, transparent: true, opacity: 0.5 });
-      scene.add(new THREE.Points(geometry, material));
-    }
-
     async function createTechPoints() {
       const radius = 2.1;
       const numTechs = technologies.length;
       const goldenRatio = (1 + Math.sqrt(5)) / 2;
 
-      const dualTextures = await Promise.all(technologies.map((t) => loadSVGTextureDual(t.svgUrl)));
+      const dualTextures = await Promise.all(
+        technologies.map((t) => loadSVGTextureDual(t.svgUrl)),
+      );
 
       technologies.forEach((tech, i) => {
         const theta = (2 * Math.PI * i) / goldenRatio;
@@ -193,18 +216,22 @@
 
         // Cache ImageData for fast per-pixel lerp each frame
         const S = 128;
-        const cOff = document.createElement("canvas"); cOff.width = cOff.height = S;
+        const cOff = document.createElement("canvas");
+        cOff.width = cOff.height = S;
         cOff.getContext("2d")!.drawImage(dualTextures[i].color.image, 0, 0);
         const colorData = cOff.getContext("2d")!.getImageData(0, 0, S, S);
 
-        const gOff = document.createElement("canvas"); gOff.width = gOff.height = S;
+        const gOff = document.createElement("canvas");
+        gOff.width = gOff.height = S;
         gOff.getContext("2d")!.drawImage(dualTextures[i].gray.image, 0, 0);
         const grayData = gOff.getContext("2d")!.getImageData(0, 0, S, S);
 
         // Blend canvas: this is what Three.js reads each frame
         const blendCanvas = document.createElement("canvas");
         blendCanvas.width = blendCanvas.height = S;
-        blendCanvas.getContext("2d")!.drawImage(dualTextures[i].gray.image, 0, 0);
+        blendCanvas
+          .getContext("2d")!
+          .drawImage(dualTextures[i].gray.image, 0, 0);
 
         const blendTex = new THREE.CanvasTexture(blendCanvas);
 
@@ -226,7 +253,7 @@
           targetScale: base,
           isFront: false,
           colorImg: dualTextures[i].color.image,
-          grayImg:  dualTextures[i].gray.image,
+          grayImg: dualTextures[i].gray.image,
           colorData,
           grayData,
           blendCanvas,
@@ -271,7 +298,9 @@
 
     function onMouseUp() {
       isDragging = false;
-      setTimeout(() => { if (!isDragging) autoRotate = true; }, 2000);
+      setTimeout(() => {
+        if (!isDragging) autoRotate = true;
+      }, 2000);
     }
 
     function onTouchStart(event: TouchEvent) {
@@ -279,22 +308,32 @@
       if (event.touches.length === 1) {
         isDragging = true;
         autoRotate = false;
-        previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+        previousMousePosition = {
+          x: event.touches[0].clientX,
+          y: event.touches[0].clientY,
+        };
       }
     }
 
     function onTouchMove(event: TouchEvent) {
       event.preventDefault();
       if (isDragging && event.touches.length === 1) {
-        targetRotation.y += (event.touches[0].clientX - previousMousePosition.x) * 0.005;
-        targetRotation.x += (event.touches[0].clientY - previousMousePosition.y) * 0.005;
-        previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+        targetRotation.y +=
+          (event.touches[0].clientX - previousMousePosition.x) * 0.005;
+        targetRotation.x +=
+          (event.touches[0].clientY - previousMousePosition.y) * 0.005;
+        previousMousePosition = {
+          x: event.touches[0].clientX,
+          y: event.touches[0].clientY,
+        };
       }
     }
 
     function onTouchEnd(event: TouchEvent) {
       isDragging = false;
-      setTimeout(() => { if (!isDragging) autoRotate = true; }, 2000);
+      setTimeout(() => {
+        if (!isDragging) autoRotate = true;
+      }, 2000);
 
       // Tap detection: if the touch barely moved, treat as a tap for hover label
       const touch = event.changedTouches[0];
@@ -309,7 +348,9 @@
         mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
         raycaster.setFromCamera(mouse, camera);
 
-        const frontSprites = techSprites.filter((s) => s.userData.isFront === true);
+        const frontSprites = techSprites.filter(
+          (s) => s.userData.isFront === true,
+        );
         const intersects = raycaster.intersectObjects(frontSprites);
 
         if (intersects.length > 0) {
@@ -317,7 +358,8 @@
           if (sprite !== hoveredSprite) {
             if (hoveredSprite) {
               hoveredSprite.userData.isHovered = false;
-              hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
+              hoveredSprite.userData.targetScale =
+                hoveredSprite.userData.originalScale;
             }
             hoveredSprite = sprite;
             sprite.userData.isHovered = true;
@@ -330,7 +372,8 @@
           setTimeout(() => {
             if (hoveredSprite === sprite) {
               hoveredSprite.userData.isHovered = false;
-              hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
+              hoveredSprite.userData.targetScale =
+                hoveredSprite.userData.originalScale;
               hoveredSprite = null;
               hideHoverLabel();
             }
@@ -338,7 +381,8 @@
         } else {
           if (hoveredSprite) {
             hoveredSprite.userData.isHovered = false;
-            hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
+            hoveredSprite.userData.targetScale =
+              hoveredSprite.userData.originalScale;
             hoveredSprite = null;
           }
           hideHoverLabel();
@@ -368,7 +412,9 @@
     function checkHover(event: MouseEvent) {
       raycaster.setFromCamera(mouse, camera);
 
-      const frontSprites = techSprites.filter((s) => s.userData.isFront === true);
+      const frontSprites = techSprites.filter(
+        (s) => s.userData.isFront === true,
+      );
       const intersects = raycaster.intersectObjects(frontSprites);
 
       if (intersects.length > 0) {
@@ -378,7 +424,8 @@
         if (sprite !== hoveredSprite) {
           if (hoveredSprite) {
             hoveredSprite.userData.isHovered = false;
-            hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
+            hoveredSprite.userData.targetScale =
+              hoveredSprite.userData.originalScale;
           }
           hoveredSprite = sprite;
           sprite.userData.isHovered = true;
@@ -395,7 +442,8 @@
         // Restore previous sprite when mouse leaves
         if (hoveredSprite) {
           hoveredSprite.userData.isHovered = false;
-          hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
+          hoveredSprite.userData.targetScale =
+            hoveredSprite.userData.originalScale;
           hoveredSprite = null;
         }
         hideHoverLabel();
@@ -415,23 +463,23 @@
       const base = getBaseScale();
       techSprites.forEach((s) => {
         if (!s.userData.isHovered) {
-          s.userData.originalScale  = base;
-          s.userData.targetScale    = base;
-          s.userData.currentScale   = base;
+          s.userData.originalScale = base;
+          s.userData.targetScale = base;
+          s.userData.currentScale = base;
         }
       });
     }
 
     // Draw icon in white with a subtle colored glow around it.
     function applyHoverTexture(sprite: THREE.Sprite) {
-      const colorImg    = sprite.userData.colorImg as HTMLCanvasElement;
+      const colorImg = sprite.userData.colorImg as HTMLCanvasElement;
       const blendCanvas = sprite.userData.blendCanvas as HTMLCanvasElement;
-      const glowColor   = sprite.userData.tech.glowColor as string;
+      const glowColor = sprite.userData.tech.glowColor as string;
 
       // Use 2× the output size so the icon stays crisp and glow has room
-      const OUT  = 128;
-      const BIG  = OUT * 2;  // 256px working canvas
-      const PAD  = 28;       // just enough for the glow to bleed without clipping
+      const OUT = 128;
+      const BIG = OUT * 2; // 256px working canvas
+      const PAD = 28; // just enough for the glow to bleed without clipping
       const ICON = BIG - PAD * 2; // 200px icon centred in 256px canvas
 
       // Step 1 — white icon at 2× resolution
@@ -450,17 +498,17 @@
 
       // Pass 1 — wide soft outer glow
       gCtx.save();
-      gCtx.shadowColor  = glowColor;
-      gCtx.shadowBlur   = 35;
-      gCtx.globalAlpha  = 2;
+      gCtx.shadowColor = glowColor;
+      gCtx.shadowBlur = 35;
+      gCtx.globalAlpha = 2;
       gCtx.drawImage(whiteCanvas, 0, 0);
       gCtx.restore();
 
       // Pass 2 — tighter inner glow, more intense
       gCtx.save();
-      gCtx.shadowColor  = glowColor;
-      gCtx.shadowBlur   = 14;
-      gCtx.globalAlpha  = 0.9;
+      gCtx.shadowColor = glowColor;
+      gCtx.shadowBlur = 14;
+      gCtx.globalAlpha = 0.9;
       gCtx.drawImage(whiteCanvas, 0, 0);
       gCtx.restore();
 
@@ -504,8 +552,8 @@
 
     function showHoverLabel(name: string, screenX: number, screenY: number) {
       hoverLabel.textContent = name;
-      hoverLabel.style.left  = `${screenX}px`;
-      hoverLabel.style.top   = `${screenY + 36}px`;
+      hoverLabel.style.left = `${screenX}px`;
+      hoverLabel.style.top = `${screenY + 36}px`;
       hoverLabel.style.opacity = "1";
     }
 
@@ -521,7 +569,7 @@
       const rect = renderer.domElement.getBoundingClientRect();
       return {
         x: rect.left + (vec.x * 0.5 + 0.5) * rect.width,
-        y: rect.top  + (-vec.y * 0.5 + 0.5) * rect.height,
+        y: rect.top + (-vec.y * 0.5 + 0.5) * rect.height,
       };
     }
 
@@ -533,7 +581,7 @@
       const ctx = blendCanvas.getContext("2d")!;
       const SIZE = 128;
       const colorData = sprite.userData.colorData as ImageData;
-      const grayData  = sprite.userData.grayData  as ImageData;
+      const grayData = sprite.userData.grayData as ImageData;
 
       // alpha: 0.15 fully behind, 1.0 fully in front
       const alpha = 0.15 + t * 0.85;
@@ -543,10 +591,10 @@
       const g = grayData.data;
       const o = out.data;
       for (let i = 0; i < c.length; i += 4) {
-        o[i]     = g[i]     + (c[i]     - g[i])     * t;  // R
-        o[i + 1] = g[i + 1] + (c[i + 1] - g[i + 1]) * t;  // G
-        o[i + 2] = g[i + 2] + (c[i + 2] - g[i + 2]) * t;  // B
-        o[i + 3] = c[i + 3] * alpha;                        // A (dimming in alpha)
+        o[i] = g[i] + (c[i] - g[i]) * t; // R
+        o[i + 1] = g[i + 1] + (c[i + 1] - g[i + 1]) * t; // G
+        o[i + 2] = g[i + 2] + (c[i + 2] - g[i + 2]) * t; // B
+        o[i + 3] = c[i + 3] * alpha; // A (dimming in alpha)
       }
       ctx.putImageData(out, 0, 0);
       (sprite.material as THREE.SpriteMaterial).map!.needsUpdate = true;
@@ -592,7 +640,7 @@
         // Animate scale smoothly toward targetScale
         const cs = sprite.userData.currentScale as number;
         const ts = sprite.userData.targetScale as number;
-        const next = cs + (ts - cs) * 0.10; // 0.12 = spring speed (lower = slower)
+        const next = cs + (ts - cs) * 0.1; // 0.12 = spring speed (lower = slower)
         sprite.userData.currentScale = next;
         sprite.scale.setScalar(next);
       });
@@ -603,7 +651,7 @@
       if (hoveredSprite) {
         const screen = spriteToScreen(hoveredSprite);
         hoverLabel.style.left = `${screen.x}px`;
-        hoverLabel.style.top  = `${screen.y + 36}px`;
+        hoverLabel.style.top = `${screen.y + 36}px`;
       }
 
       renderer.render(scene, camera);
@@ -628,7 +676,6 @@
       scene.add(sphereGroup);
 
       createWireframeSphere();
-      createBackgroundParticles();
       await createTechPoints();
       setupEventListeners();
       animate();
@@ -636,12 +683,16 @@
 
     init();
 
-    window.addEventListener("astro:before-swap", () => {
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", onWindowResize);
-      renderer?.dispose();
-      hoverLabel.remove();
-    }, { once: true });
+    window.addEventListener(
+      "astro:before-swap",
+      () => {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        window.removeEventListener("resize", onWindowResize);
+        renderer?.dispose();
+        hoverLabel.remove();
+      },
+      { once: true },
+    );
   }
 </script>
 
@@ -670,8 +721,6 @@
       height: 100vh;
     }
   }
-
-
 
   .tech-sphere-instructions {
     position: absolute;
