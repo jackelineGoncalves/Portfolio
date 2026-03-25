@@ -5,13 +5,15 @@ import Chevron from "../../assets/svg/Chevron.astro";
 import Code from "../../assets/svg/Code.astro";
 import Globeicon from "../../assets/svg/Globe.astro";
 import Skills from "../../assets/svg/Skills.astro";
-import IconBox from "..//ui/InfoBox.astro";
+import IconBox from "../ui/InfoBox.astro";
+import programImage from "../../assets/images/program.jpeg";
 ---
 
 <section class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5 container-main">
   <!-- WHAT I BUILD -->
   <article
-    class="interactive-card reveal-card order-1 col-span-2 flex flex-col gap-4 rounded-[28px] border-[0.5px] border-secondary-1 bg-[linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url('src/assets/images/program.jpeg')] bg-cover bg-center p-6 md:col-span-2 md:row-span-2 md:gap-6 md:p-8 xl:col-span-2 xl:row-span-2 xl:gap-10.5"
+    class="interactive-card reveal-card order-1 col-span-2 flex flex-col gap-4 rounded-[28px] border-[0.5px] border-secondary-1 bg-cover bg-center p-6 md:col-span-2 md:row-span-2 md:gap-6 md:p-8 xl:col-span-2 xl:row-span-2 xl:gap-10.5"
+    style={`background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(${programImage.src});`}
   >
     <div class="card-glow"></div>
 
@@ -207,44 +209,44 @@ import IconBox from "..//ui/InfoBox.astro";
 </script>
 
 <style>
- .interactive-card {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    0 1px 2px rgba(0, 0, 0, 0.3);
-  transition:
-    transform 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease;
-  will-change: transform;
-}
+  .interactive-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.25),
+      0 1px 2px rgba(0, 0, 0, 0.3);
+    transition:
+      transform 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+    will-change: transform;
+  }
 
-.interactive-card:hover {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 25px 2px rgba(83, 235, 243, 0.2);
-  border-width: 0.0625rem;
-}
+  .interactive-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 25px 2px rgba(83, 235, 243, 0.2);
+    border-width: 0.0625rem;
+  }
 
-.reveal-card {
-  opacity: 0;
-  transform: translateY(30px) translateX(-20px);
-  transition:
-    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 220ms ease,
-    box-shadow 220ms ease;
-}
+  .reveal-card {
+    opacity: 0;
+    transform: translateY(30px) translateX(-20px);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+  }
 
-.reveal-card.revealed {
-  opacity: 1;
-  transform: translateY(0) translateX(0);
-}
+  .reveal-card.revealed {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
 
-.reveal-card.revealed:hover {
-  transform: translateY(-6px) translateX(0);
-}
+  .reveal-card.revealed:hover {
+    transform: translateY(-6px) translateX(0);
+  }
 
   .card-glow {
     pointer-events: none;
@@ -264,7 +266,6 @@ import IconBox from "..//ui/InfoBox.astro";
     opacity: 1;
   }
 
- 
   @media (prefers-reduced-motion: reduce) {
     .interactive-card {
       transition: none;

@@ -1,0 +1,11 @@
+{
+  "badge": "Disponible para trabajar",
+  "greeting": "¡Hola! Soy Jackeline",
+  "role": "Desarrolladora de Software",
+  "description": "Desarrolladora Mobile especializada en React Native, TypeScript y Flutter. Creo aplicaciones móviles de alto rendimiento con foco en arquitectura limpia y una excelente experiencia de usuario.",
+  "cta": "Ver CV",
+  "profileImageAlt": "Foto de perfil",
+  "socials": {
+    "ariaLabel": "Redes sociales"
+  }
+}
