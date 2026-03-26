@@ -1,1 +1,35 @@
-{}
+{
+  "sectionLabel": "PROFILE",
+  "title": "Get to Know Me",
+  "whatIBuild": {
+    "title": "What I Build",
+    "description": "Scalable solutions and responsive applications across mobile and desktop focused on performance and user experience"
+  },
+  "education": {
+    "title": "Education",
+    "degree": "Técnico Superior em Tecnologias e Programação de Sistemas da Informação",
+    "university": "Universidade da Madeira"
+  },
+  "experience": {
+    "label": "Years of Experience"
+  },
+  "relocation": {
+    "text": "Open to remote work & relocation worldwide"
+  },
+  "howIWork": {
+    "title": "How I work",
+    "description": "Performance-Driven · Product-Minded · Detail-Oriented"
+  },
+  "basedIn": {
+    "title": "Based in",
+    "location": "Ilha da Madeira - Portugal"
+  },
+  "currentRole": {
+    "title": "Current Role",
+    "value": "Lead Mobile Developer"
+  },
+  "languages": {
+    "title": "Languages",
+    "list": "Spanish (Native) · English (Fluent) · Portuguese (Bilingual)"
+  }
+}

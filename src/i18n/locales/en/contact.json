@@ -1,1 +1,23 @@
-{}
+{
+  "sectionTitle": "Get in Touch",
+  "sectionDescription": "Interested in working together? I'm open to full-time opportunities, collaborations and freelance projects.",
+  "form": {
+    "nameLabel": "Name / Company",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell me about your project or opportunity...",
+    "submitBtn": "Send Message",
+    "submitting": "Sending...",
+    "successMsg": "Message sent successfully.",
+    "errorMsg": "An error occurred. Please try again."
+  },
+  "phone": {
+    "label": "Phone Number",
+    "modalTitle": "Phone contact options",
+    "openWhatsApp": "Open WhatsApp",
+    "call": "Call",
+    "copyNumber": "Copy number",
+    "copied": "Number copied to clipboard.",
+    "copyError": "Could not copy the number."
+  }
+}

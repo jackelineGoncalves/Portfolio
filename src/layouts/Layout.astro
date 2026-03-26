@@ -1,10 +1,18 @@
 ---
 import NavBar from "../components/ui/NavBar.astro";
 import "../styles/global.css";
+
+import type { Locale } from "../i18n/config";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -48,7 +56,7 @@ import "../styles/global.css";
     ></canvas>
 
     <main id="page-main" class="relative z-10">
-      <NavBar />
+       <NavBar lang={lang} />
       <slot />
     </main>
 
@@ -455,3 +463,10 @@ import "../styles/global.css";
     </script>
   </body>
 </html>
+
+
+
+
+
+
+
