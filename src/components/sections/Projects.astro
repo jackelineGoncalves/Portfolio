@@ -73,7 +73,7 @@ const projects = [
 
 <section
   class="container-main grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-5 lg:gap-8"
-  data-projects-reveal 
+  data-projects-reveal
 >
   {
     projects.map((project, index) => {
@@ -82,10 +82,10 @@ const projects = [
       const shouldCenter = isLast && isOdd;
 
       const directionClass = shouldCenter
-        ? "reveal-card reveal-card-center"
+        ? "project-reveal-card project-reveal-card--center"
         : index % 2 === 0
-          ? "reveal-card reveal-card-left"
-          : "reveal-card reveal-card-right";
+          ? "project-reveal-card project-reveal-card--left"
+          : "project-reveal-card project-reveal-card--right";
 
       return (
         <div
@@ -99,19 +99,16 @@ const projects = [
             <ProjectCard {...project}>
               <div slot="preview" class="relative mt-4 flex items-end justify-center">
                 <div class="absolute bottom-8 left-1/2 h-28 w-28 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
-
                 <img
                   src={mova.src}
                   alt="App menu screen"
                   class="relative z-0 w-[24%] translate-x-5 translate-y-5 -rotate-12 object-cover shadow-[0_20px_40px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:scale-[0.98] md:w-[22%]"
                 />
-
                 <img
                   src={mova.src}
                   alt="Main app screen"
                   class="relative z-10 w-[32%] translate-y-10 object-cover shadow-[0_24px_50px_rgba(0,0,0,0.65)] transition-transform duration-500 group-hover:scale-[0.98] md:w-[30%]"
                 />
-
                 <img
                   src={mova.src}
                   alt="App stats screen"
@@ -127,10 +124,12 @@ const projects = [
 </section>
 
 <script>
-  const section = document.querySelector("[data-projects-reveal]");
-  const cards = document.querySelectorAll(".reveal-card");
+  const section = document.querySelector<HTMLElement>("[data-projects-reveal]");
 
-  if (section && cards.length) {
+  if (section) {
+    // Query ONLY within this section — avoids colliding with .reveal-card from Specialtys
+    const cards = section.querySelectorAll<HTMLElement>(".project-reveal-card");
+
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     if (mediaQuery.matches) {
@@ -140,14 +139,13 @@ const projects = [
         (entries, obs) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-
             cards.forEach((card) => card.classList.add("is-visible"));
             obs.unobserve(entry.target);
           });
         },
         {
-          threshold: 0.18,
-          rootMargin: "0px 0px -8% 0px",
+          threshold: 0.1,
+          rootMargin: "0px 0px -5% 0px",
         }
       );
 
@@ -157,7 +155,7 @@ const projects = [
 </script>
 
 <style>
-  .reveal-card {
+  .project-reveal-card {
     opacity: 0;
     will-change: transform, opacity;
     transition:
@@ -166,31 +164,16 @@ const projects = [
     transition-delay: var(--reveal-delay, 0ms);
   }
 
-  .reveal-card-left {
-    transform: translate3d(-18px, 28px, 0);
-  }
+  .project-reveal-card--left  { transform: translate3d(-18px, 28px, 0); }
+  .project-reveal-card--right { transform: translate3d(18px, 28px, 0); }
+  .project-reveal-card--center { transform: translate3d(0, 28px, 0); }
 
-  .reveal-card-right {
-    transform: translate3d(18px, 28px, 0);
-  }
-
-  .reveal-card-center {
-    transform: translate3d(0, 28px, 0);
-  }
-
-  .reveal-card.is-visible {
+  .project-reveal-card.is-visible {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal-card,
-    .reveal-card-left,
-    .reveal-card-right,
-    .reveal-card-center {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
+    .project-reveal-card { opacity: 1; transform: none; transition: none; }
   }
 </style>

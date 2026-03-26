@@ -5,13 +5,27 @@ import LinkedIn from "../../assets/svg/LinkedIn.astro";
 import Phone from "../../assets/svg/Phone.astro";
 import Send from "../../assets/svg/Send.astro";
 import ContactItem from "../ui/ContactItem.astro";
+import { useTranslations } from "../../i18n";
+import type { Locale } from "../../i18n/config";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang, "contact");
 ---
 
-<section class="relative overflow-hidden pt-2.5 pb-45">
-  <div
-    class="glow-circle-2 absolute left-1/2 -bottom-168 h-168 w-[140vw] -translate-x-1/2"
-  >
-  </div>
+<section
+  class="relative overflow-hidden pt-2.5 pb-45"
+  data-i18n-submitting={t("form.submitting")}
+  data-i18n-submit={t("form.submitBtn")}
+  data-i18n-success={t("form.successMsg")}
+  data-i18n-error={t("form.errorMsg")}
+  data-i18n-copied={t("phone.copied")}
+  data-i18n-copy-error={t("phone.copyError")}
+>
+  <div class="glow-circle-2 absolute left-1/2 -bottom-168 h-168 w-[140vw] -translate-x-1/2"></div>
 
   <div class="container-main grid grid-cols-1 gap-14 md:grid-cols-[1.4fr_1fr]">
     <form
@@ -19,40 +33,26 @@ import ContactItem from "../ui/ContactItem.astro";
       data-contact-form
     >
       <div class="flex flex-col gap-3.5">
-        <label for="name" class="text-sm font-light text-white">
-          Name / Company
-        </label>
-
+        <label for="name" class="text-sm font-light text-white">{t("form.nameLabel")}</label>
         <input
-          id="name"
-          name="name"
-          type="text"
-          required
+          id="name" name="name" type="text" required
           class="w-full rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
       </div>
 
       <div class="flex flex-col gap-3.5">
-        <label for="email" class="text-sm font-light text-white"> Email </label>
-
+        <label for="email" class="text-sm font-light text-white">{t("form.emailLabel")}</label>
         <input
-          id="email"
-          name="email"
-          type="email"
-          required
+          id="email" name="email" type="email" required
           class="w-full rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
       </div>
 
       <div class="flex flex-col gap-3">
-        <label for="message" class="text-sm text-white">Message</label>
-
+        <label for="message" class="text-sm text-white">{t("form.messageLabel")}</label>
         <textarea
-          id="message"
-          name="message"
-          rows="5"
-          required
-          placeholder="Tell me about your project or opportunity..."
+          id="message" name="message" rows="5" required
+          placeholder={t("form.messagePlaceholder")}
           class="w-full resize-none rounded-[14px] border-[0.5px] border-secondary-1 bg-secondary-2/20 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
         ></textarea>
       </div>
@@ -66,290 +66,148 @@ import ContactItem from "../ui/ContactItem.astro";
           <span class="relative z-10 inline-flex items-center justify-center">
             <Send class="text-bg-main" />
           </span>
-
-          <span class="relative z-10" data-submit-label>Send Message</span>
+          <span class="relative z-10" data-submit-label>{t("form.submitBtn")}</span>
         </button>
-
-        <p class="min-h-[20px] pt-2 text-center text-sm" data-contact-status></p>
+        <p class="min-h-5 pt-2 text-center text-sm" data-contact-status></p>
       </div>
     </form>
 
     <div class="relative z-10 flex flex-col gap-6">
-      <ContactItem
-        contactMethod="Github"
-        href="https://github.com/jackelineGoncalves"
-        icon={Github}
-      />
-      <ContactItem
-        contactMethod="Email"
-        href="mailto:jackeline.camara04@gmail.com"
-        icon={Email}
-      />
-      <ContactItem
-        contactMethod="LinkedIn"
-        href="https://www.linkedin.com/in/jackeline-goncalves-dev/"
-        icon={LinkedIn}
-      />
+      <ContactItem contactMethod="Github" href="https://github.com/jackelineGoncalves" icon={Github} />
+      <ContactItem contactMethod="Email" href="mailto:jackeline.camara04@gmail.com" icon={Email} />
+      <ContactItem contactMethod="LinkedIn" href="https://www.linkedin.com/in/jackeline-goncalves-dev/" icon={LinkedIn} />
 
       <button
         type="button"
         data-phone-modal-open
         class="bg-bg-surface/40 border border-secondary-1 flex items-center gap-4 rounded-[20px] px-6 py-4 text-left backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.35)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-primary/60"
-        aria-label="Open phone contact options"
+        aria-label={t("phone.label")}
       >
         <div class="rounded-[14px] bg-primary/5 p-2">
           <Phone class="h-6 w-6 text-primary" />
         </div>
-        <p class="text-md font-medium text-white">Phone Number</p>
+        <p class="text-md font-medium text-white">{t("phone.label")}</p>
       </button>
     </div>
   </div>
 
   <div class="phone-modal-overlay" data-phone-modal aria-hidden="true">
     <div class="phone-modal-content">
-      <button
-        type="button"
-        data-phone-modal-close
-        class="phone-modal-close"
-        aria-label="Close modal"
-      >
-        ✕
-      </button>
-
+      <button type="button" data-phone-modal-close class="phone-modal-close" aria-label="Close modal">✕</button>
       <div class="mb-6 pr-12">
-        <p class="text-sm text-text-secondary">Phone contact options</p>
+        <p class="text-sm text-text-secondary">{t("phone.modalTitle")}</p>
         <h3 class="mt-1 text-xl font-semibold text-white">+351 924 689 121</h3>
       </div>
-
       <div class="grid gap-3">
-        <a
-          href="https://wa.me/351924689121"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="phone-action-btn"
-        >
-          Open WhatsApp
+        <a href="https://wa.me/351924689121" target="_blank" rel="noopener noreferrer" class="phone-action-btn">
+          {t("phone.openWhatsApp")}
         </a>
-
-        <a href="tel:+351924689121" class="phone-action-btn">
-          Call
-        </a>
-
-        <button
-          type="button"
-          data-copy-phone
-          data-phone-number="+351 924 689 121"
-          class="phone-action-btn"
-        >
-          Copy number
+        <a href="tel:+351924689121" class="phone-action-btn">{t("phone.call")}</a>
+        <button type="button" data-copy-phone data-phone-number="+351 924 689 121" class="phone-action-btn">
+          {t("phone.copyNumber")}
         </button>
       </div>
-
-      <p
-        class="mt-4 min-h-[20px] text-center text-sm text-green-400"
-        data-copy-status
-      ></p>
+      <p class="mt-4 min-h-5 text-center text-sm text-text-secondary" data-copy-status></p>
     </div>
   </div>
 </section>
 
 <style>
   .phone-modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-inline: 1rem;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(6px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.35s ease;
+    position: fixed; inset: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: center; padding-inline: 1rem;
+    background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
+    opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
   }
-
-  .phone-modal-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
+  .phone-modal-overlay.show { opacity: 1; pointer-events: auto; }
   .phone-modal-content {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-    border-radius: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: var(--color-bg-main);
-    backdrop-filter: blur(20px);
-    padding: 1.5rem;
-    box-shadow:
-      0 25px 80px rgba(0, 0, 0, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    transform: translateY(20px) scale(0.96);
-    opacity: 0;
-    transition:
-      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.4s ease;
+    position: relative; width: 100%; max-width: 420px;
+    border-radius: 28px; border: 1px solid rgba(255,255,255,0.08);
+    background: var(--color-bg-main); backdrop-filter: blur(20px); padding: 1.5rem;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+    transform: translateY(20px) scale(0.96); opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease;
     transition-delay: 0.05s;
   }
-
-  .phone-modal-overlay.show .phone-modal-content {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-
+  .phone-modal-overlay.show .phone-modal-content { transform: translateY(0) scale(1); opacity: 1; }
   .phone-modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: inline-flex;
-    height: 2.5rem;
-    width: 2.5rem;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.8);
-    background: transparent;
-    transition: all 0.25s ease;
+    position: absolute; top: 1rem; right: 1rem;
+    display: inline-flex; height: 2.5rem; width: 2.5rem;
+    align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.8); background: transparent; transition: all 0.25s ease;
   }
-
-  .phone-modal-close:hover {
-    color: white;
-    transform: rotate(90deg);
-  }
-
+  .phone-modal-close:hover { color: white; transform: rotate(90deg); }
   .phone-action-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: var(--color-bg-surface);
-    padding: 0.85rem 1rem;
-    color: white;
-    text-decoration: none;
-    transition: all 0.25s ease;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 24px; border: 1px solid rgba(255,255,255,0.08);
+    background: var(--color-bg-surface); padding: 0.85rem 1rem;
+    color: white; text-decoration: none; transition: all 0.25s ease;
   }
-
-  .phone-action-btn:hover {
-    transform: translateY(-2px);
-    border-color: rgba(83, 235, 243, 0.45);
-    box-shadow: 0 0 22px rgba(83, 235, 243, 0.08);
-  }
+  .phone-action-btn:hover { transform: translateY(-2px); border-color: rgba(83,235,243,0.45); box-shadow: 0 0 22px rgba(83,235,243,0.08); }
 </style>
 
 <script>
-  const form = document.querySelector("[data-contact-form]");
-  const status = document.querySelector("[data-contact-status]");
-  const submitButton = document.querySelector("[data-contact-submit]");
-  const submitLabel = document.querySelector("[data-submit-label]");
+  // Read i18n strings from data attributes (set at build time by Astro)
+  const section       = document.querySelector<HTMLElement>("[data-i18n-submitting]")!;
+  const i18n = {
+    submitting: section?.dataset.i18nSubmitting ?? "Sending...",
+    submit:     section?.dataset.i18nSubmit     ?? "Send Message",
+    success:    section?.dataset.i18nSuccess    ?? "Message sent successfully.",
+    error:      section?.dataset.i18nError      ?? "An error occurred.",
+    copied:     section?.dataset.i18nCopied     ?? "Copied.",
+    copyError:  section?.dataset.i18nCopyError  ?? "Could not copy.",
+  };
 
-  const phoneModalOpen = document.querySelector("[data-phone-modal-open]");
-  const phoneModal = document.querySelector("[data-phone-modal]");
+  const form         = document.querySelector("[data-contact-form]");
+  const status       = document.querySelector("[data-contact-status]");
+  const submitButton = document.querySelector("[data-contact-submit]");
+  const submitLabel  = document.querySelector("[data-submit-label]");
+
+  const phoneModalOpen  = document.querySelector("[data-phone-modal-open]");
+  const phoneModal      = document.querySelector("[data-phone-modal]");
   const phoneModalClose = document.querySelector("[data-phone-modal-close]");
   const copyPhoneButton = document.querySelector("[data-copy-phone]");
-  const copyStatus = document.querySelector("[data-copy-status]");
+  const copyStatus      = document.querySelector("[data-copy-status]");
 
-  const openPhoneModal = () => {
-    phoneModal?.classList.add("show");
-    phoneModal?.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-  };
-
-  const closePhoneModal = () => {
-    phoneModal?.classList.remove("show");
-    phoneModal?.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-
-    if (copyStatus) {
-      copyStatus.textContent = "";
-    }
-  };
+  const openPhoneModal  = () => { phoneModal?.classList.add("show"); phoneModal?.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden"; };
+  const closePhoneModal = () => { phoneModal?.classList.remove("show"); phoneModal?.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; if (copyStatus) copyStatus.textContent = ""; };
 
   phoneModalOpen?.addEventListener("click", openPhoneModal);
   phoneModalClose?.addEventListener("click", closePhoneModal);
-
-  phoneModal?.addEventListener("click", (event) => {
-    if (event.target === phoneModal) {
-      closePhoneModal();
-    }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closePhoneModal();
-    }
-  });
+  phoneModal?.addEventListener("click", (e) => { if (e.target === phoneModal) closePhoneModal(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePhoneModal(); });
 
   copyPhoneButton?.addEventListener("click", async () => {
-    const number = copyPhoneButton.getAttribute("data-phone-number");
+    const number = (copyPhoneButton as HTMLElement).dataset.phoneNumber;
     if (!number || !copyStatus) return;
-
     try {
       await navigator.clipboard.writeText(number);
-      copyStatus.textContent = "Number copied to clipboard.";
+      copyStatus.textContent = i18n.copied;
     } catch {
-      copyStatus.textContent = "Could not copy the number.";
+      copyStatus.textContent = i18n.copyError;
     }
   });
 
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
-
-    const formEl = event.currentTarget as HTMLFormElement;
+    const formEl   = event.currentTarget as HTMLFormElement;
     const formData = new FormData(formEl);
+    const payload  = { name: formData.get("name"), email: formData.get("email"), message: formData.get("message") };
 
-    const payload = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
-    };
-
-    if (submitButton instanceof HTMLButtonElement) {
-      submitButton.disabled = true;
-    }
-
-    if (submitLabel) {
-      submitLabel.textContent = "Sending...";
-    }
-
-    if (status) {
-      status.textContent = "";
-      status.classList.remove("text-red-400", "text-green-400");
-    }
+    if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
+    if (submitLabel) submitLabel.textContent = i18n.submitting;
+    if (status) { status.textContent = ""; status.classList.remove("text-red-400","text-green-400"); }
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Request failed");
-      }
-
+      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      if (!response.ok) throw new Error("Request failed");
       formEl.reset();
-
-      if (status) {
-        status.textContent = "Message sent successfully.";
-        status.classList.add("text-green-400");
-      }
+      if (status) { status.textContent = i18n.success; status.classList.add("text-green-400"); }
     } catch {
-      if (status) {
-        status.textContent = "An error occurred. Please try again.";
-        status.classList.add("text-red-400");
-      }
+      if (status) { status.textContent = i18n.error; status.classList.add("text-red-400"); }
     } finally {
-      if (submitButton instanceof HTMLButtonElement) {
-        submitButton.disabled = false;
-      }
-
-      if (submitLabel) {
-        submitLabel.textContent = "Send Message";
-      }
+      if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+      if (submitLabel) submitLabel.textContent = i18n.submit;
     }
   });
 </script>

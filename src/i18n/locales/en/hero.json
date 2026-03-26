@@ -1,0 +1,11 @@
+{
+  "badge": "Available for work",
+  "greeting": "Hey! I'm Jackeline",
+  "role": "Software Developer",
+  "description": "Mobile Developer specializing in React Native, TypeScript and Flutter. I build high-performance mobile applications with a focus on clean architecture and great user experience.",
+  "cta": "View CV",
+  "profileImageAlt": "Profile card",
+  "socials": {
+    "ariaLabel": "Social links"
+  }
+}

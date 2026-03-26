@@ -658,12 +658,14 @@
     }
 
     async function init() {
+      if (!container) return;
+
       scene = new THREE.Scene();
       const { width, height } = getContainerSize();
 
       const fov = getFov();
       camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 1000);
-      // Distance scales with screen: closer on mobile, farther on desktop
+
       const camZ = isMobile() ? 4.8 : 5.5;
       camera.position.z = camZ;
 
@@ -680,7 +682,6 @@
       setupEventListeners();
       animate();
     }
-
     init();
 
     window.addEventListener(

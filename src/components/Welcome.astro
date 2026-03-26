@@ -8,84 +8,91 @@ import Experience from "./sections/Experience.astro";
 import Projects from "./sections/Projects.astro";
 import Skills from "./sections/Skills.astro";
 import Contact from "./sections/Contact.astro";
-import SignBoard from "./ui/SignBoard.astro";
+import Specialtys from "./sections/Specialtys.astro";
+import { useTranslations } from "../i18n";
+import type { Locale } from "../i18n/config";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const ta = useTranslations(lang, "about");
+const te = useTranslations(lang, "experience");
+const tp = useTranslations(lang, "projects");
+const ts = useTranslations(lang, "skills");
+const tc = useTranslations(lang, "contact");
+const tsp = useTranslations(lang, "specialtys");
 ---
 
 <div id="container">
   <main>
     <section id="home">
-      <Hero />
+      <Hero lang={lang} />
     </section>
 
     <section id="about">
       <div class="pb-23 md:pb-30 text-center">
-        <p class="gradient-text text-md font-semibold">PROFILE</p>
+        <p class="gradient-text text-md font-semibold">{ta("sectionLabel")}</p>
         <Divider>
-          <p class="text-white text-2xl font-bold">Get to Khow Me</p></Divider
-        >
+          <p class="text-white text-2xl font-bold">{ta("title")}</p>
+        </Divider>
       </div>
+      <About lang={lang} />
+    </section>
 
-      <About />
+    <section class="container-main pt-24">
+      <div class="flex items-center gap-3 pb-10">
+        <div class="w-0.75 h-12 bg-primary-2"></div>
+        <h2 class="text-xl md:text-2xl font-bold text-white">{tsp("sectionTitle")}</h2>
+      </div>
+      <Specialtys />
     </section>
 
     <section id="experience">
       <div class="pt-23 md:pt-40 text-center pb-25">
-        <p class="text-white text-2xl font-bold">My journey report</p>
-        <p
-          class="text-secondary-5 text-sm max-w-150 text-center mx-auto pt-6 px-5"
-        >
-          I've worked across different environments — from leading the
-          development of a mobile application in a startup to building my own
-          SaaS product and contributing to enterprise digital platforms. Here's
-          a timeline of my journey.
+        <p class="text-white text-2xl font-bold">{te("sectionTitle")}</p>
+        <p class="text-secondary-5 text-sm max-w-150 text-center mx-auto pt-6 px-5">
+          {te("sectionDescription")}
         </p>
       </div>
-
       <Experience />
     </section>
 
     <section id="projects">
       <div class="pt-23 md:pt-40 pb-20 text-center">
-        <p class="text-text-secondary font-semibold">PORTFOLIO</p>
+        <p class="text-text-secondary font-semibold">{tp("sectionLabel")}</p>
         <p class="text-white text-3xl font-bold text-center px-4">
-          Featured <span class="gradient-text"> Projects</span>
+          {tp("title")} <span class="gradient-text">{tp("titleHighlight")}</span>
         </p>
         <p class="text-secondary-5 text-sm pt-5 px-5">
-          A curated selection of projects that made me confident in building
-          software.
+          {tp("description")}
         </p>
       </div>
-
       <Projects />
     </section>
 
     <section id="stack">
       <div class="pt-23 md:pt-40 text-center">
-        <p class="text-text-secondary font-semibold">TECH STACK</p>
+        <p class="text-text-secondary font-semibold">{ts("sectionLabel")}</p>
         <p class="text-white text-3xl font-bold">
-          My <span class="gradient-text">Skills</span>
+          {ts("title")} <span class="gradient-text">{ts("titleHighlight")}</span>
         </p>
       </div>
-
       <Skills />
     </section>
 
     <section id="contact">
       <div class="pt-20 text-center pb-20">
         <Divider>
-          <p class="text-white text-xl font-bold gradient-text">Get in Touch</p>
+          <p class="text-white text-xl font-bold gradient-text">{tc("sectionTitle")}</p>
         </Divider>
-        <p
-          class="text-secondary-5 text-sm max-w-150 text-center mx-auto pt-6 px-5"
-        >
-          Interested in working together? I'm open to full-time opportunities,
-          collaborations and freelance projects.
+        <p class="text-secondary-5 text-sm max-w-150 text-center mx-auto pt-6 px-5">
+          {tc("sectionDescription")}
         </p>
       </div>
-
-      <!-- <SignBoard /> -->
-      <Contact />
+      <Contact lang={lang} />
     </section>
-
   </main>
 </div>

@@ -1,0 +1,23 @@
+{
+  "sectionTitle": "Contáctame",
+  "sectionDescription": "¿Interesada en trabajar juntos? Estoy abierta a oportunidades a tiempo completo, colaboraciones y proyectos freelance.",
+  "form": {
+    "nameLabel": "Nombre / Empresa",
+    "emailLabel": "Correo electrónico",
+    "messageLabel": "Mensaje",
+    "messagePlaceholder": "Cuéntame sobre tu proyecto u oportunidad...",
+    "submitBtn": "Enviar mensaje",
+    "submitting": "Enviando...",
+    "successMsg": "Mensaje enviado con éxito.",
+    "errorMsg": "Ocurrió un error. Por favor inténtalo de nuevo."
+  },
+  "phone": {
+    "label": "Número de teléfono",
+    "modalTitle": "Opciones de contacto telefónico",
+    "openWhatsApp": "Abrir WhatsApp",
+    "call": "Llamar",
+    "copyNumber": "Copiar número",
+    "copied": "Número copiado al portapapeles.",
+    "copyError": "No se pudo copiar el número."
+  }
+}

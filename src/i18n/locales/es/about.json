@@ -1,0 +1,35 @@
+{
+  "sectionLabel": "PERFIL",
+  "title": "Conóceme",
+  "whatIBuild": {
+    "title": "Qué construyo",
+    "description": "Soluciones escalables y aplicaciones responsivas para móvil y escritorio, con foco en rendimiento y experiencia de usuario"
+  },
+  "education": {
+    "title": "Educación",
+    "degree": "Técnico Superior em Tecnologias e Programação de Sistemas da Informação",
+    "university": "Universidade da Madeira"
+  },
+  "experience": {
+    "label": "Años de experiencia"
+  },
+  "relocation": {
+    "text": "Abierta a trabajo remoto y reubicación mundial"
+  },
+  "howIWork": {
+    "title": "Cómo trabajo",
+    "description": "Orientada al rendimiento · Visión de producto · Atención al detalle"
+  },
+  "basedIn": {
+    "title": "Ubicación",
+    "location": "Isla de Madeira - Portugal"
+  },
+  "currentRole": {
+    "title": "Rol actual",
+    "value": "Lead Mobile Developer"
+  },
+  "languages": {
+    "title": "Idiomas",
+    "list": "Español (nativo) · Inglés (fluido) · Portugués (bilingüe)"
+  }
+}
