@@ -1,52 +1,117 @@
 ---
-import Phone from "../../assets/svg/Phone.astro";
-
 interface Props {
   title: string;
   description: string;
+  tags: string[];
+  icon: "design" | "frontend" | "mobile" | "backend";
+  accent: "cyan" | "blue" | "purple";
 }
 
-const { title, description } = Astro.props;
+const { title, description, tags, icon, accent } = Astro.props;
+
+const accentMap = {
+  cyan:   { bg: "rgba(83,235,243,0.07)",  border: "rgba(83,235,243,0.2)",  icon: "#53EBF3", tag: "rgba(83,235,243,0.1)",  tagText: "#53EBF3",  glow: "rgba(83,235,243,0.12)"  },
+  blue:   { bg: "rgba(48,144,233,0.07)",  border: "rgba(48,144,233,0.2)",  icon: "#3090E9", tag: "rgba(48,144,233,0.1)",  tagText: "#3090E9",  glow: "rgba(48,144,233,0.12)"  },
+  purple: { bg: "rgba(139,92,246,0.07)",  border: "rgba(139,92,246,0.2)",  icon: "#a78bfa", tag: "rgba(139,92,246,0.1)",  tagText: "#a78bfa",  glow: "rgba(139,92,246,0.12)"  },
+};
+
+const a = accentMap[accent];
 ---
 
 <div
-  class="card border-[0.5px] h-full border-secondary-1 bg-bg-surface backdrop-blur-xl rounded-[28px] p-5 flex flex-col justify-center items-center"
+  class="specialty-card h-full rounded-[28px] border-[0.5px] bg-bg-surface p-6 flex flex-col gap-4 relative overflow-hidden"
+  style={`border-color: var(--color-secondary-1);`}
 >
-  <div class="bg-primary/5 rounded-[10px] h-fit w-fit p-4">
-    <Phone class="text-primary h-5 w-5" />
+  <!-- Top shimmer line -->
+  <div class="shimmer-line" style={`background: linear-gradient(to right, transparent, ${a.icon}66, transparent);`}></div>
+
+  <!-- Glow blob -->
+  <div class="glow-blob" style={`background: radial-gradient(circle at 50% 0%, ${a.glow}, transparent 70%);`}></div>
+
+  <!-- Icon -->
+  <div class="icon-wrap" style={`background: ${a.bg}; border: 1px solid ${a.border};`}>
+    {icon === "design" && (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={`color: ${a.icon}`}>
+        <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+    )}
+    {icon === "frontend" && (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={`color: ${a.icon}`}>
+        <polyline points="16 18 22 12 16 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="8 6 2 12 8 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="14" y1="4" x2="10" y2="20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    )}
+    {icon === "mobile" && (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={`color: ${a.icon}`}>
+        <rect x="5" y="2" width="14" height="20" rx="3" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="12" cy="17.5" r="1" fill="currentColor"/>
+        <line x1="9" y1="6" x2="15" y2="6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    )}
+    {icon === "backend" && (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={`color: ${a.icon}`}>
+        <ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M3 5v4c0 1.66 4.03 3 9 3s9-1.34 9-3V5" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M3 9v5c0 1.66 4.03 3 9 3s9-1.34 9-3V9" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M3 14v5c0 1.66 4.03 3 9 3s9-1.34 9-3v-5" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+    )}
   </div>
 
-  <h3 class="text-md font-semibold text-white pt-4">{title}</h3>
-  <p class="text-text-secondary text-sm pt-2 text-center">{description}</p>
+  <!-- Text -->
+  <div class="flex flex-col gap-2 flex-1">
+    <h3 class="text-white font-bold text-[1rem] leading-snug">{title}</h3>
+    <p class="text-text-secondary text-sm leading-relaxed">{description}</p>
+  </div>
+
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-2 mt-auto pt-2">
+    {tags.map((tag) => (
+      <span
+        class="tag-chip text-xs font-medium px-2.5 py-1 rounded-full"
+        style={`background: ${a.tag}; color: ${a.tagText}; border: 1px solid ${a.border};`}
+      >
+        {tag}
+      </span>
+    ))}
+  </div>
 </div>
 
 <style>
-  .card {
-    position: relative;
-    overflow: hidden;
-    border: 0.5px solid var(--color-secondary-1);
+  .specialty-card {
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .specialty-card:hover {
+    border-color: rgba(83,235,243,0.3) !important;
+    box-shadow: 0 0 28px rgba(83,235,243,0.07);
+    transform: translateY(-4px);
   }
 
-  .card::before {
-    content: "";
+  .shimmer-line {
     position: absolute;
-    top: 0;
-    left: 12%;
-    width: 76%;
-    height: 1px;
-
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(255, 255, 255, 0.776),
-      transparent
-    );
-
-    opacity: 0.6;
+    top: 0; left: 12%; width: 76%; height: 1px;
+    opacity: 0.7;
     pointer-events: none;
   }
 
+  .glow-blob {
+    position: absolute;
+    top: -40px; left: 50%;
+    transform: translateX(-50%);
+    width: 200px; height: 120px;
+    pointer-events: none;
+    filter: blur(24px);
+  }
 
-
-  
+  .icon-wrap {
+    position: relative;
+    z-index: 1;
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
 </style>

@@ -16,13 +16,7 @@ export type ProjectFeature = {
   description: string;
 };
 
-export type ProjectCategory =
-  | "Mobile"
-  | "Frontend"
-  | "Backend"
-  | "Full Stack"
-  | "UI/UX"
-  | "SaaS";
+export type ProjectCategory = "Mobile" | "Frontend" | "Backend" | "Full Stack" | "UI/UX" | "SaaS";
 
 export type Project = {
   slug: string;
@@ -33,6 +27,7 @@ export type Project = {
   workProjectTag?: boolean;
   hoveredTitle: string;
   projectType: string;
+  categories: ProjectCategory[];
   hasCodeBtn?: boolean;
   hasDetailsBtn?: boolean;
   codeUrl?: string;
@@ -40,126 +35,121 @@ export type Project = {
   image: ImageMetadata;
   previewImages?: ImageMetadata[];
   technologiesIcons: TechItem[];
-  // Detail page fields
   year: string;
   role: string;
   status: "In Progress" | "Completed" | "Archived";
   features: ProjectFeature[];
   challenge: string;
   solution: string;
-  category: ProjectCategory[];
 };
 
 export const projects: Project[] = [
   {
     slug: "mova",
     name: "MOVA",
-    smallDescription: "App for personal trainer and client management.",
+    smallDescription:
+      "SaaS platform that replaces spreadsheet-based workflows for personal trainers with a unified, automated client management system.",
     fullDescription:
-      "MOVA is a mobile app designed for personal trainers to manage clients, training plans, nutrition plans, and physical assessments in one place.",
+      "MOVA is a multi-tenant SaaS built end-to-end as a solo founder project. It replaces the scattered spreadsheets, WhatsApp messages and manual PDFs that personal trainers use daily — consolidating client management, training plans, nutrition tracking and progress assessments into one fast, clean mobile experience.",
     onProgressTag: true,
     workProjectTag: false,
-    hoveredTitle: "App for personal trainer and client management",
-    projectType: "Personal Project",
-    hasCodeBtn: true,
-    hasDetailsBtn: true,
-    // codeUrl: undefined,
-    liveUrl: 'ndhenfhnehfn',
-    image: mova,
-    codeUrl: 'cjnefjnefjnefefjnejfjnfjne',
-    previewImages: [mova, mova, mova],
-    category: ['Full Stack', 'Mobile', 'UI/UX'],
-    technologiesIcons: [
-      { icon: React, label: "React Native" },
-      { icon: Expo, label: "Expo" },
-      { icon: Supabase, label: "Supabase" },
-      { icon: Postgre, label: "PostgreSQL" },
-      { icon: TypeScript, label: "TypeScript" },
-    ],
-    // Detail
-    year: "2024",
-    role: "Lead Mobile Developer",
-    status: "In Progress",
-    challenge:
-      "Personal trainers struggle to manage multiple clients, plans, and assessments using scattered tools like spreadsheets and messaging apps. There was no single mobile-first solution designed specifically for their workflow.",
-    solution:
-      "MOVA centralizes client management, training plan creation, nutrition tracking, and physical assessments into a single, intuitive mobile app — built with React Native for cross-platform performance and Supabase for real-time data sync.",
-    features: [
-      {
-        title: "Client Management",
-        description:
-          "Create and manage client profiles with full history, goals, and progress tracking in one place.",
-      },
-      {
-        title: "Training Plans",
-        description:
-          "Build custom training plans with exercises, sets, reps, and rest periods. Assign them to clients with a single tap.",
-      },
-      {
-        title: "Nutrition Tracking",
-        description:
-          "Design nutrition plans and track macros per client. Supports multiple meal schedules.",
-      },
-      {
-        title: "Physical Assessments",
-        description:
-          "Log body measurements and assessments over time with visual progress charts.",
-      },
-    ],
-  },
-  {
-    slug: "saas-platform",
-    name: "SaaS Platform",
-    smallDescription:
-      "An immersive 3D e-commerce platform featuring virtual storefronts.",
-    fullDescription:
-      "A SaaS platform focused on immersive commerce experiences and interactive product exploration.",
-    onProgressTag: true,
-    workProjectTag: true,
-    hoveredTitle: "3D commerce experience",
-    projectType: "Work Project",
+    hoveredTitle: "SaaS platform for personal trainers",
+    projectType: "Personal Project · Founder",
+    categories: ["Mobile", "Full Stack", "UI/UX", "SaaS"],
     hasCodeBtn: false,
     hasDetailsBtn: true,
     codeUrl: undefined,
     liveUrl: undefined,
     image: mova,
-    category: ['Frontend'],
     previewImages: [mova, mova, mova],
     technologiesIcons: [
       { icon: React, label: "React Native" },
       { icon: Expo, label: "Expo" },
+      { icon: TypeScript, label: "TypeScript" },
       { icon: Supabase, label: "Supabase" },
       { icon: Postgre, label: "PostgreSQL" },
-      { icon: TypeScript, label: "TypeScript" },
     ],
-    // Detail
     year: "2025",
-    role: "FullStack Engineer",
+    role: "Founder & Full Stack Developer",
     status: "In Progress",
     challenge:
-      "Traditional e-commerce experiences feel flat and disconnected. Customers can't properly visualize products before purchasing, leading to high return rates and low conversion.",
+      "Personal trainers lose 3–4 hours daily managing clients through spreadsheets, messaging apps and disconnected PDFs. There was no mobile-first, all-in-one tool built specifically around their real workflow — most solutions are either too generic or too expensive.",
     solution:
-      "An immersive SaaS platform where merchants can set up 3D virtual storefronts. Customers browse and interact with products in a spatial environment before adding to cart.",
+      "Built MOVA as a multi-tenant SaaS from scratch — a React Native app backed by a Supabase architecture with per-workspace data isolation (RLS), real-time sync, and role-based access. Designed 40+ screens in Figma before writing a single line of code, ensuring the UX actually fits how trainers think.",
     features: [
       {
-        title: "Virtual Storefronts",
+        title: "Client Management",
         description:
-          "Merchants configure fully interactive 3D environments that reflect their brand identity.",
+          "Full client profiles with history, goals, physical data and progress over time. Trainers manage 10+ clients without switching tools.",
       },
       {
-        title: "Product Visualization",
+        title: "Training Plan Builder",
         description:
-          "Customers rotate, zoom, and inspect products in detail before purchasing.",
+          "Create structured training plans with exercises, sets, reps and rest. Assign to any client in seconds. Estimated 70% reduction in plan creation time.",
+      },
+      {
+        title: "Nutrition Tracking",
+        description:
+          "Design meal plans with macro targets per client. Supports multiple daily schedules and dietary restrictions.",
       },
       {
         title: "Multi-tenant Architecture",
         description:
-          "Each merchant gets an isolated store with custom domain, branding, and inventory.",
+          "Each trainer gets an isolated workspace. Row-Level Security on PostgreSQL ensures zero data leakage between accounts.",
+      },
+    ],
+  },
+  {
+    slug: "elephai",
+    name: "ElephAi App",
+    smallDescription:
+      "Rescued and rebuilt a failing Flutter app — from unstable pre-launch codebase to production-ready in under 8 weeks.",
+    fullDescription:
+      "ElephAi is a B2C/B2B mobile app by Unwind Minds. I joined as Lead Developer when the app was stuck in a critical pre-launch state — unstable, tightly coupled, and blocked from going live. I took full ownership of the technical recovery: refactored the entire codebase, established a clean architecture, and delivered the first successful public release to both App Store and Google Play.",
+    onProgressTag: true,
+    workProjectTag: true,
+    hoveredTitle: "Production Flutter app — from broken to live",
+    projectType: "Work Project · Lead Developer",
+    categories: ["Mobile", "Frontend"],
+    hasCodeBtn: false,
+    hasDetailsBtn: true,
+    codeUrl: undefined,
+    liveUrl: undefined,
+    image: mova,
+    previewImages: [mova, mova, mova],
+    technologiesIcons: [
+      { icon: React, label: "Flutter" },
+      { icon: TypeScript, label: "Dart" },
+      { icon: Supabase, label: "Firebase" },
+      { icon: Postgre, label: "REST API" },
+    ],
+    year: "2025",
+    role: "Lead Developer",
+    status: "In Progress",
+    challenge:
+      "The app had been in development for months but was nowhere near production-ready. The codebase had no architectural boundaries, deeply coupled modules, and no clear ownership. The team needed someone to take the wheel, assess the damage, and ship.",
+    solution:
+      "Took full technical ownership from day one. Audited the entire codebase, identified critical failure points, and rebuilt core modules with clear separation of concerns. Established architectural standards, documented decisions, and coordinated the App Store / Google Play release pipeline — delivering a stable, public-ready app in under 8 weeks.",
+    features: [
+      {
+        title: "Full Codebase Refactor",
+        description:
+          "100% of core modules rebuilt. Eliminated all tightly coupled dependencies and introduced clean architectural boundaries that scale with the team.",
       },
       {
-        title: "Analytics Dashboard",
+        title: "Architecture Leadership",
         description:
-          "Real-time metrics on engagement, session duration, and conversion per product.",
+          "Defined and documented all technical decisions, folder structure, state management patterns and API integration standards for the project.",
+      },
+      {
+        title: "App Store & Play Store Release",
+        description:
+          "Configured signing, build pipelines and metadata for both stores. Delivered the app's first successful public launch from zero infrastructure.",
+      },
+      {
+        title: "Ongoing Feature Development",
+        description:
+          "Continuing to build new product features and integrations (including AI API) while maintaining architectural quality and velocity.",
       },
     ],
   },

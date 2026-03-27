@@ -3,6 +3,8 @@ import Chevron from "../../assets/svg/Chevron.astro";
 import GitBranch from "../../assets/svg/GitBranch.astro";
 import Button from "../ui/Button.astro";
 
+type ProjectCategory = "Mobile" | "Frontend" | "Backend" | "Full Stack" | "UI/UX" | "SaaS";
+
 interface TechItem {
   icon: any;
   label: string;
@@ -17,6 +19,7 @@ interface Props {
   fullDescription: string;
   technologiesIcons: TechItem[];
   projectType: string;
+  categories?: ProjectCategory[];
   hasCodeBtn?: boolean;
   hasDetailsBtn?: boolean;
   codeUrl?: string;
@@ -34,21 +37,30 @@ const {
   fullDescription,
   technologiesIcons,
   projectType,
-  hasCodeBtn = false,
+  categories = [],
+  hasCodeBtn    = false,
   hasDetailsBtn = false,
   codeUrl,
   detailHref,
   slug,
 } = Astro.props;
+
+// Color map per category
+const categoryColors: Record<ProjectCategory, { bg: string; text: string; border: string }> = {
+  "Mobile":     { bg: "rgba(48,144,233,0.12)",  text: "#3090E9", border: "rgba(48,144,233,0.3)"  },
+  "Frontend":   { bg: "rgba(83,235,243,0.10)",  text: "#53EBF3", border: "rgba(83,235,243,0.3)"  },
+  "Backend":    { bg: "rgba(139,92,246,0.12)",  text: "#a78bfa", border: "rgba(139,92,246,0.3)"  },
+  "Full Stack": { bg: "rgba(52,211,153,0.10)",  text: "#34d399", border: "rgba(52,211,153,0.3)"  },
+  "UI/UX":      { bg: "rgba(251,113,133,0.10)", text: "#fb7185", border: "rgba(251,113,133,0.3)" },
+  "SaaS":       { bg: "rgba(251,191,36,0.10)",  text: "#fbbf24", border: "rgba(251,191,36,0.3)"  },
+};
 ---
 
 <article
   class="group relative w-full min-h-fit overflow-hidden rounded-[28px] border-[0.5px] border-secondary-1 bg-bg-surface p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(103,232,249,0.35)]"
   data-project-card
 >
-  <header
-    class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between"
-  >
+  <header class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
     <h3
       transition:name={`project-title-${slug}`}
       class="text-lg md:text-xl font-bold gradient-text"
@@ -57,23 +69,19 @@ const {
     </h3>
 
     <div class="flex flex-wrap gap-2 lg:justify-end">
-      {
-        onProgressTag && (
-          <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
-            <div class="flex h-4 w-4 items-center justify-center rounded-full bg-secondary-3">
-              <div class="h-2.5 w-2.5 rounded-full bg-primary" />
-            </div>
-            <p class="text-xs text-text-secondary">In progress</p>
+      {onProgressTag && (
+        <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
+          <div class="flex h-4 w-4 items-center justify-center rounded-full bg-secondary-3">
+            <div class="h-2.5 w-2.5 rounded-full bg-primary" />
           </div>
-        )
-      }
-      {
-        workProjectTag && (
-          <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
-            <p class="text-xs text-text-secondary">Work project</p>
-          </div>
-        )
-      }
+          <p class="text-xs text-text-secondary">In progress</p>
+        </div>
+      )}
+      {workProjectTag && (
+        <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
+          <p class="text-xs text-text-secondary">Work project</p>
+        </div>
+      )}
     </div>
   </header>
 
@@ -86,68 +94,80 @@ const {
     class="pointer-events-none absolute inset-0 z-20 bg-[#020817]/55 opacity-0 backdrop-blur-[14px] transition-all duration-500 group-hover:pointer-events-auto group-hover:opacity-100 group-[.touch-active]:pointer-events-auto group-[.touch-active]:opacity-100"
     data-project-overlay
   >
-    <div class="relative flex h-full flex-col justify-between gap-4 p-4 md:p-5">
+    <div class="relative flex h-full flex-col justify-between gap-3 p-4 md:p-5">
+
+      <!-- Top: type + title + description -->
       <div>
-        <p class="text-xs uppercase text-primary/80">{projectType}</p>
-        <h3
-          class="mt-2 text-base md:text-lg font-extrabold leading-tight text-white"
-        >
+        <p class="text-xs uppercase tracking-wider text-primary/80 font-medium">{projectType}</p>
+        <h3 class="mt-1.5 text-base md:text-lg font-extrabold leading-tight text-white">
           {hoveredTitle}
         </h3>
-        <p class="mt-3 text-xs md:text-sm leading-5 text-white/78">
+        <p class="mt-2 text-xs md:text-sm leading-[1.6] text-white/75">
           {fullDescription}
         </p>
+
+        <!-- Category chips -->
+        {categories.length > 0 && (
+          <div class="mt-3 flex flex-wrap gap-1.5">
+            {categories.map((cat) => {
+              const c = categoryColors[cat];
+              return (
+                <span
+                  class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide"
+                  style={`background: ${c.bg}; color: ${c.text}; border: 1px solid ${c.border};`}
+                >
+                  {cat}
+                </span>
+              );
+            })}
+          </div>
+        )}
       </div>
 
-      <div class="flex w-full flex-wrap justify-center gap-4 pt-2 md:gap-6">
-        {
-          technologiesIcons.map((tech) => {
-            const Icon = tech.icon;
-            return (
-              <div class="group/icon relative">
-                <div class="flex items-center justify-center">
-                  <Icon class="h-8 w-8 md:h-9 md:w-9" />
-                </div>
-                <div class="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2 py-1 text-xs text-white opacity-0 transition-all duration-200 group-hover/icon:-translate-y-1 group-hover/icon:opacity-100">
-                  {tech.label}
-                </div>
+      <!-- Middle: tech icons -->
+      <div class="flex w-full flex-wrap justify-center gap-4 md:gap-5">
+        {technologiesIcons.map((tech) => {
+          const Icon = tech.icon;
+          return (
+            <div class="group/icon relative">
+              <div class="flex items-center justify-center">
+                <Icon class="h-8 w-8 md:h-9 md:w-9" />
               </div>
-            );
-          })
-        }
+              <div class="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2 py-1 text-xs text-white opacity-0 transition-all duration-200 group-hover/icon:-translate-y-1 group-hover/icon:opacity-100">
+                {tech.label}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      <div
-        class={`flex w-full gap-4 ${hasCodeBtn && hasDetailsBtn ? "justify-between" : "justify-end"}`}
-      >
-        {
-          hasDetailsBtn && (
-            <Button
-              label="View Details"
-              variant="primary"
-              href={detailHref ?? "#"}
-              size="sm"
-              fullWidth={hasCodeBtn}
-            >
-              <Chevron slot="icon-right" />
-            </Button>
-          )
-        }
-        {
-          hasCodeBtn && (
-            <Button
-              label="Code"
-              variant="secondary"
-              href={codeUrl ?? "#"}
-              size="sm"
-              fullWidth={hasDetailsBtn}
-              class={hasDetailsBtn ? "max-w-37.5" : ""}
-            >
-              <GitBranch slot="icon-left" />
-            </Button>
-          )
-        }
+      <!-- Bottom: CTA buttons -->
+      <div class={`flex w-full gap-4 ${hasCodeBtn && hasDetailsBtn ? "justify-between" : "justify-end"}`}>
+        {hasDetailsBtn && (
+          <Button
+            label="View Details"
+            variant="primary"
+            href={detailHref ?? "#"}
+            size="sm"
+            fullWidth={hasCodeBtn}
+          >
+            <Chevron slot="icon-right" />
+          </Button>
+        )}
+        {hasCodeBtn && (
+          <Button
+            label="Code"
+            variant="secondary"
+            href={codeUrl ?? "#"}
+            size="sm"
+            fullWidth={hasDetailsBtn}
+            class={hasDetailsBtn ? "max-w-37.5" : ""}
+          >
+            <GitBranch slot="icon-left" />
+          </Button>
+        )}
       </div>
+
     </div>
   </div>
 </article>
@@ -174,21 +194,15 @@ const {
 
       card.addEventListener("click", (e) => {
         if (!isTouchDevice()) return;
-
         const target = e.target;
         if (!(target instanceof HTMLElement)) return;
-
         const interactiveEl = target.closest("a, button");
         if (interactiveEl && card.classList.contains("touch-active")) return;
-
         const isActive = card.classList.contains("touch-active");
-
         if (isActive) {
           card.classList.remove("touch-active");
         } else {
-          cards.forEach((c) => {
-            if (c !== card) c.classList.remove("touch-active");
-          });
+          cards.forEach((c) => { if (c !== card) c.classList.remove("touch-active"); });
           card.classList.add("touch-active");
           e.preventDefault();
         }
@@ -205,22 +219,16 @@ const {
       const isTouchDevice = () =>
         window.matchMedia("(hover: none)").matches ||
         window.matchMedia("(pointer: coarse)").matches;
-
       if (!isTouchDevice()) return;
-
       const target = e.target;
       if (!(target instanceof Node)) return;
-
       const cards = document.querySelectorAll("[data-project-card]");
-      cards.forEach((card) => {
-        if (!card.contains(target)) card.classList.remove("touch-active");
-      });
+      cards.forEach((card) => { if (!card.contains(target)) card.classList.remove("touch-active"); });
     });
   }
 
   setupProjectCards();
   setupOutsideClick();
-
   document.addEventListener("astro:page-load", () => {
     setupProjectCards();
     setupOutsideClick();
