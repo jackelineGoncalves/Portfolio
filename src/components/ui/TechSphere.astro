@@ -15,12 +15,16 @@
     glowColor: string;
   };
 
-  const root = document.querySelector<HTMLElement>("[data-tech-sphere-root]");
-  const container = root?.querySelector<HTMLElement>(
-    "[data-tech-sphere-container]",
-  );
+  function setupTechSphere() {
+    const root = document.querySelector<HTMLElement>("[data-tech-sphere-root]");
+    const container = root?.querySelector<HTMLElement>(
+      "[data-tech-sphere-container]",
+    );
 
-  if (root && container) {
+    if (!root || !container) return;
+    if (root.dataset.techSphereMounted === "true") return;
+    root.dataset.techSphereMounted = "true";
+
     const technologies: Technology[] = [
       { name: "React", svgUrl: "/icons/react.svg", glowColor: "#61DAFB" },
       { name: "Flutter", svgUrl: "/icons/flutter.svg", glowColor: "#54C5F8" },
@@ -74,11 +78,11 @@
     let techSprites: THREE.Sprite[] = [];
     let animationFrameId: number | null = null;
     let hoveredSprite: THREE.Sprite | null = null;
+    let isDestroyed = false;
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
-    // Preload SVG as both a color texture and a grayscale texture
     type DualTexture = {
       color: THREE.CanvasTexture;
       gray: THREE.CanvasTexture;
@@ -92,13 +96,14 @@
       ctx.drawImage(img, 0, 0, 128, 128);
       const imageData = ctx.getImageData(0, 0, 128, 128);
       const data = imageData.data;
+
       for (let i = 0; i < data.length; i += 4) {
         const avg = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
         data[i] = avg;
         data[i + 1] = avg;
         data[i + 2] = avg;
-        // keep alpha as-is
       }
+
       ctx.putImageData(imageData, 0, 0);
       return canvas;
     }
@@ -107,19 +112,21 @@
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
+
         img.onload = () => {
-          // Color canvas
           const colorCanvas = document.createElement("canvas");
           colorCanvas.width = 128;
           colorCanvas.height = 128;
           colorCanvas.getContext("2d")!.drawImage(img, 0, 0, 128, 128);
-          // Grayscale canvas
+
           const grayCanvas = makeGrayscaleCanvas(img);
+
           resolve({
             color: new THREE.CanvasTexture(colorCanvas),
             gray: new THREE.CanvasTexture(grayCanvas),
           });
         };
+
         img.onerror = () => {
           const fallback = document.createElement("canvas");
           fallback.width = 128;
@@ -132,21 +139,15 @@
           const tex = new THREE.CanvasTexture(fallback);
           resolve({ color: tex, gray: tex });
         };
+
         img.src = url;
       });
     }
 
     function getContainerSize() {
-      if (!container) {
-        return {
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      }
-
       return {
-        width: container.clientWidth,
-        height: container.clientHeight,
+        width: container.clientWidth || window.innerWidth,
+        height: container.clientHeight || window.innerHeight,
       };
     }
 
@@ -154,25 +155,22 @@
       return window.innerWidth < 768;
     }
 
-    // FOV scales continuously: narrow screen = wider FOV so sphere fits
     function getFov() {
       const w = window.innerWidth;
-      const MIN_W = 320,
-        MAX_W = 1024;
-      const MIN_F = 85,
-        MAX_F = 60;
+      const MIN_W = 320;
+      const MAX_W = 1024;
+      const MIN_F = 85;
+      const MAX_F = 60;
       const t = Math.max(0, Math.min(1, (w - MIN_W) / (MAX_W - MIN_W)));
       return MIN_F + t * (MAX_F - MIN_F);
     }
 
-    // Returns sprite scale adjusted for screen size — continuous, not stepped.
-    // 320px wide → 0.52,  1440px wide → 0.30  (big on mobile, normal on desktop)
     function getBaseScale() {
       const w = window.innerWidth;
-      const MIN_W = 320,
-        MAX_W = 1440;
-      const MIN_S = 0.48,
-        MAX_S = 0.3;
+      const MIN_W = 320;
+      const MAX_W = 1440;
+      const MIN_S = 0.48;
+      const MAX_S = 0.3;
       const t = Math.max(0, Math.min(1, (w - MIN_W) / (MAX_W - MIN_W)));
       return MIN_S + t * (MAX_S - MIN_S);
     }
@@ -206,6 +204,8 @@
         technologies.map((t) => loadSVGTextureDual(t.svgUrl)),
       );
 
+      if (isDestroyed) return;
+
       technologies.forEach((tech, i) => {
         const theta = (2 * Math.PI * i) / goldenRatio;
         const phi = Math.acos(1 - (2 * (i + 0.5)) / numTechs);
@@ -214,8 +214,8 @@
         const y = radius * Math.sin(phi) * Math.sin(theta);
         const z = radius * Math.cos(phi);
 
-        // Cache ImageData for fast per-pixel lerp each frame
         const S = 128;
+
         const cOff = document.createElement("canvas");
         cOff.width = cOff.height = S;
         cOff.getContext("2d")!.drawImage(dualTextures[i].color.image, 0, 0);
@@ -226,7 +226,6 @@
         gOff.getContext("2d")!.drawImage(dualTextures[i].gray.image, 0, 0);
         const grayData = gOff.getContext("2d")!.getImageData(0, 0, S, S);
 
-        // Blend canvas: this is what Three.js reads each frame
         const blendCanvas = document.createElement("canvas");
         blendCanvas.width = blendCanvas.height = S;
         blendCanvas
@@ -244,14 +243,17 @@
 
         const sprite = new THREE.Sprite(spriteMaterial);
         sprite.position.set(x, y, z);
+
         const base = getBaseScale();
         sprite.scale.set(base, base, 1);
+
         sprite.userData = {
           tech,
           originalScale: base,
           currentScale: base,
           targetScale: base,
           isFront: false,
+          isHovered: false,
           colorImg: dualTextures[i].color.image,
           grayImg: dualTextures[i].gray.image,
           colorData,
@@ -264,16 +266,182 @@
       });
     }
 
-    function setupEventListeners() {
-      const canvas = renderer.domElement;
-      canvas.addEventListener("mousedown", onMouseDown);
-      canvas.addEventListener("mousemove", onMouseMove);
-      canvas.addEventListener("mouseup", onMouseUp);
-      canvas.addEventListener("mouseleave", onMouseUp);
-      canvas.addEventListener("touchstart", onTouchStart, { passive: false });
-      canvas.addEventListener("touchmove", onTouchMove, { passive: false });
-      canvas.addEventListener("touchend", onTouchEnd);
-      window.addEventListener("resize", onWindowResize);
+    const hoverLabel = document.createElement("div");
+    hoverLabel.style.cssText = `
+      position: fixed;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 16px;
+      background: rgba(20, 20, 35, 0.82);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 1000;
+      backdrop-filter: blur(6px);
+      transform: translateX(-50%);
+    `;
+    document.body.appendChild(hoverLabel);
+
+    function showHoverLabel(name: string, screenX: number, screenY: number) {
+      hoverLabel.textContent = name;
+      hoverLabel.style.left = `${screenX}px`;
+      hoverLabel.style.top = `${screenY + 36}px`;
+      hoverLabel.style.opacity = "1";
+    }
+
+    function hideHoverLabel() {
+      hoverLabel.style.opacity = "0";
+    }
+
+    function spriteToScreen(sprite: THREE.Sprite): { x: number; y: number } {
+      const vec = new THREE.Vector3();
+      sprite.getWorldPosition(vec);
+      vec.project(camera);
+      const rect = renderer.domElement.getBoundingClientRect();
+
+      return {
+        x: rect.left + (vec.x * 0.5 + 0.5) * rect.width,
+        y: rect.top + (-vec.y * 0.5 + 0.5) * rect.height,
+      };
+    }
+
+    function getSpriteFrontness(sprite: THREE.Sprite): number {
+      const worldPos = new THREE.Vector3();
+      sprite.getWorldPosition(worldPos);
+      const camSpace = worldPos.clone().applyMatrix4(camera.matrixWorldInverse);
+      const sphereRadius = 2.1;
+      const sphereCenterZ = -camera.position.z;
+      return (camSpace.z - sphereCenterZ) / sphereRadius;
+    }
+
+    function blendTexture(sprite: THREE.Sprite, t: number) {
+      const blendCanvas = sprite.userData.blendCanvas as HTMLCanvasElement;
+      const ctx = blendCanvas.getContext("2d")!;
+      const SIZE = 128;
+      const colorData = sprite.userData.colorData as ImageData;
+      const grayData = sprite.userData.grayData as ImageData;
+
+      const alpha = 0.15 + t * 0.85;
+      const out = ctx.createImageData(SIZE, SIZE);
+      const c = colorData.data;
+      const g = grayData.data;
+      const o = out.data;
+
+      for (let i = 0; i < c.length; i += 4) {
+        o[i] = g[i] + (c[i] - g[i]) * t;
+        o[i + 1] = g[i + 1] + (c[i + 1] - g[i + 1]) * t;
+        o[i + 2] = g[i + 2] + (c[i + 2] - g[i + 2]) * t;
+        o[i + 3] = c[i + 3] * alpha;
+      }
+
+      ctx.putImageData(out, 0, 0);
+      (sprite.material as THREE.SpriteMaterial).map!.needsUpdate = true;
+    }
+
+    function applyHoverTexture(sprite: THREE.Sprite) {
+      const colorImg = sprite.userData.colorImg as HTMLCanvasElement;
+      const blendCanvas = sprite.userData.blendCanvas as HTMLCanvasElement;
+      const glowColor = sprite.userData.tech.glowColor as string;
+
+      const OUT = 128;
+      const BIG = OUT * 2;
+      const PAD = 28;
+      const ICON = BIG - PAD * 2;
+
+      const whiteCanvas = document.createElement("canvas");
+      whiteCanvas.width = whiteCanvas.height = BIG;
+      const wCtx = whiteCanvas.getContext("2d")!;
+      wCtx.drawImage(colorImg, PAD, PAD, ICON, ICON);
+      wCtx.globalCompositeOperation = "source-atop";
+      wCtx.fillStyle = "white";
+      wCtx.fillRect(0, 0, BIG, BIG);
+
+      const glowCanvas = document.createElement("canvas");
+      glowCanvas.width = glowCanvas.height = BIG;
+      const gCtx = glowCanvas.getContext("2d")!;
+
+      gCtx.save();
+      gCtx.shadowColor = glowColor;
+      gCtx.shadowBlur = 35;
+      gCtx.globalAlpha = 2;
+      gCtx.drawImage(whiteCanvas, 0, 0);
+      gCtx.restore();
+
+      gCtx.save();
+      gCtx.shadowColor = glowColor;
+      gCtx.shadowBlur = 14;
+      gCtx.globalAlpha = 0.9;
+      gCtx.drawImage(whiteCanvas, 0, 0);
+      gCtx.restore();
+
+      gCtx.drawImage(whiteCanvas, 0, 0);
+
+      const ctx = blendCanvas.getContext("2d")!;
+      ctx.clearRect(0, 0, OUT, OUT);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(glowCanvas, 0, 0, BIG, BIG, 0, 0, OUT, OUT);
+
+      (sprite.material as THREE.SpriteMaterial).map!.needsUpdate = true;
+    }
+
+    function updateSpriteDepth() {
+      techSprites.forEach((sprite) => {
+        const f = getSpriteFrontness(sprite);
+        const mat = sprite.material as THREE.SpriteMaterial;
+        const t = Math.max(0, Math.min(1, (f + 0.3) / 0.8));
+
+        mat.opacity = 1;
+        sprite.userData.isFront = f > 0;
+
+        if (!sprite.userData.isHovered) {
+          blendTexture(sprite, t);
+        }
+      });
+    }
+
+    function checkHover(event: MouseEvent) {
+      raycaster.setFromCamera(mouse, camera);
+
+      const frontSprites = techSprites.filter((s) => s.userData.isFront === true);
+      const intersects = raycaster.intersectObjects(frontSprites);
+
+      if (intersects.length > 0) {
+        const sprite = intersects[0].object as THREE.Sprite;
+
+        if (sprite !== hoveredSprite) {
+          if (hoveredSprite) {
+            hoveredSprite.userData.isHovered = false;
+            hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
+          }
+
+          hoveredSprite = sprite;
+          sprite.userData.isHovered = true;
+          sprite.userData.targetScale = sprite.userData.originalScale * 2;
+          applyHoverTexture(sprite);
+        }
+
+        const screen = spriteToScreen(sprite);
+        showHoverLabel(sprite.userData.tech.name, screen.x, screen.y);
+        renderer.domElement.style.cursor = "pointer";
+      } else {
+        if (hoveredSprite) {
+          hoveredSprite.userData.isHovered = false;
+          hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
+          hoveredSprite = null;
+        }
+
+        hideHoverLabel();
+        renderer.domElement.style.cursor = isDragging ? "grabbing" : "grab";
+      }
     }
 
     function onMouseDown(event: MouseEvent) {
@@ -335,45 +503,41 @@
         if (!isDragging) autoRotate = true;
       }, 2000);
 
-      // Tap detection: if the touch barely moved, treat as a tap for hover label
       const touch = event.changedTouches[0];
       const dx = touch.clientX - previousMousePosition.x;
       const dy = touch.clientY - previousMousePosition.y;
       const moved = Math.sqrt(dx * dx + dy * dy);
 
       if (moved < 10) {
-        // Simulate a hover check at the tap position
         const rect = renderer.domElement.getBoundingClientRect();
         mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
         raycaster.setFromCamera(mouse, camera);
 
-        const frontSprites = techSprites.filter(
-          (s) => s.userData.isFront === true,
-        );
+        const frontSprites = techSprites.filter((s) => s.userData.isFront === true);
         const intersects = raycaster.intersectObjects(frontSprites);
 
         if (intersects.length > 0) {
           const sprite = intersects[0].object as THREE.Sprite;
+
           if (sprite !== hoveredSprite) {
             if (hoveredSprite) {
               hoveredSprite.userData.isHovered = false;
-              hoveredSprite.userData.targetScale =
-                hoveredSprite.userData.originalScale;
+              hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
             }
             hoveredSprite = sprite;
             sprite.userData.isHovered = true;
-            sprite.userData.targetScale = sprite.userData.originalScale * 2.0;
+            sprite.userData.targetScale = sprite.userData.originalScale * 2;
             applyHoverTexture(sprite);
           }
+
           const screen = spriteToScreen(sprite);
           showHoverLabel(sprite.userData.tech.name, screen.x, screen.y);
-          // Auto-hide label after 2s on mobile
+
           setTimeout(() => {
             if (hoveredSprite === sprite) {
               hoveredSprite.userData.isHovered = false;
-              hoveredSprite.userData.targetScale =
-                hoveredSprite.userData.originalScale;
+              hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
               hoveredSprite = null;
               hideHoverLabel();
             }
@@ -381,8 +545,7 @@
         } else {
           if (hoveredSprite) {
             hoveredSprite.userData.isHovered = false;
-            hoveredSprite.userData.targetScale =
-              hoveredSprite.userData.originalScale;
+            hoveredSprite.userData.targetScale = hoveredSprite.userData.originalScale;
             hoveredSprite = null;
           }
           hideHoverLabel();
@@ -390,76 +553,13 @@
       }
     }
 
-    // Returns > 0 if sprite is on the front half of the sphere (closer to camera),
-    // and < 0 if on the back half (farther from camera).
-    // We use the Z component in camera space:
-    // - Camera is at z=5, looking toward origin (z=0)
-    // - Sphere center in camera space is at z = -5
-    // - Front sprites have z closer to -2.9 (= -5 + 2.1), back sprites closer to -7.1 (= -5 - 2.1)
-    // - So: frontness = -(camSpace.z + cameraDist), normalized by sphereRadius
-    function getSpriteFrontness(sprite: THREE.Sprite): number {
-      const worldPos = new THREE.Vector3();
-      sprite.getWorldPosition(worldPos);
-      const camSpace = worldPos.clone().applyMatrix4(camera.matrixWorldInverse);
-      // camSpace.z for sphere center = -camera.position.z = -5
-      // front sprite: camSpace.z ~ -2.9  => offset from center = +2.1  => positive
-      // back sprite:  camSpace.z ~ -7.1  => offset from center = -2.1  => negative
-      const sphereRadius = 2.1;
-      const sphereCenterZ = -camera.position.z; // dynamic, depends on screen size
-      return (camSpace.z - sphereCenterZ) / sphereRadius; // range [-1, +1]
-    }
-
-    function checkHover(event: MouseEvent) {
-      raycaster.setFromCamera(mouse, camera);
-
-      const frontSprites = techSprites.filter(
-        (s) => s.userData.isFront === true,
-      );
-      const intersects = raycaster.intersectObjects(frontSprites);
-
-      if (intersects.length > 0) {
-        const sprite = intersects[0].object as THREE.Sprite;
-
-        // Apply hover glow only when entering a new sprite
-        if (sprite !== hoveredSprite) {
-          if (hoveredSprite) {
-            hoveredSprite.userData.isHovered = false;
-            hoveredSprite.userData.targetScale =
-              hoveredSprite.userData.originalScale;
-          }
-          hoveredSprite = sprite;
-          sprite.userData.isHovered = true;
-          sprite.userData.targetScale = sprite.userData.originalScale * 2.0;
-          applyHoverTexture(sprite);
-        }
-
-        // Show label below the icon
-        const screen = spriteToScreen(sprite);
-        showHoverLabel(sprite.userData.tech.name, screen.x, screen.y);
-
-        renderer.domElement.style.cursor = "pointer";
-      } else {
-        // Restore previous sprite when mouse leaves
-        if (hoveredSprite) {
-          hoveredSprite.userData.isHovered = false;
-          hoveredSprite.userData.targetScale =
-            hoveredSprite.userData.originalScale;
-          hoveredSprite = null;
-        }
-        hideHoverLabel();
-        renderer.domElement.style.cursor = isDragging ? "grabbing" : "grab";
-      }
-    }
-
     function onWindowResize() {
       const { width, height } = getContainerSize();
       camera.aspect = width / height;
-      // Adjust FOV so the sphere always fits on screen
       camera.fov = getFov();
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
 
-      // Update all sprite scales to match new screen size
       const base = getBaseScale();
       techSprites.forEach((s) => {
         if (!s.userData.isHovered) {
@@ -470,160 +570,33 @@
       });
     }
 
-    // Draw icon in white with a subtle colored glow around it.
-    function applyHoverTexture(sprite: THREE.Sprite) {
-      const colorImg = sprite.userData.colorImg as HTMLCanvasElement;
-      const blendCanvas = sprite.userData.blendCanvas as HTMLCanvasElement;
-      const glowColor = sprite.userData.tech.glowColor as string;
-
-      // Use 2× the output size so the icon stays crisp and glow has room
-      const OUT = 128;
-      const BIG = OUT * 2; // 256px working canvas
-      const PAD = 28; // just enough for the glow to bleed without clipping
-      const ICON = BIG - PAD * 2; // 200px icon centred in 256px canvas
-
-      // Step 1 — white icon at 2× resolution
-      const whiteCanvas = document.createElement("canvas");
-      whiteCanvas.width = whiteCanvas.height = BIG;
-      const wCtx = whiteCanvas.getContext("2d")!;
-      wCtx.drawImage(colorImg, PAD, PAD, ICON, ICON);
-      wCtx.globalCompositeOperation = "source-atop";
-      wCtx.fillStyle = "white";
-      wCtx.fillRect(0, 0, BIG, BIG);
-
-      // Step 2 — subtle single-pass glow + crisp icon on top
-      const glowCanvas = document.createElement("canvas");
-      glowCanvas.width = glowCanvas.height = BIG;
-      const gCtx = glowCanvas.getContext("2d")!;
-
-      // Pass 1 — wide soft outer glow
-      gCtx.save();
-      gCtx.shadowColor = glowColor;
-      gCtx.shadowBlur = 35;
-      gCtx.globalAlpha = 2;
-      gCtx.drawImage(whiteCanvas, 0, 0);
-      gCtx.restore();
-
-      // Pass 2 — tighter inner glow, more intense
-      gCtx.save();
-      gCtx.shadowColor = glowColor;
-      gCtx.shadowBlur = 14;
-      gCtx.globalAlpha = 0.9;
-      gCtx.drawImage(whiteCanvas, 0, 0);
-      gCtx.restore();
-
-      // Pass 3 — crisp white icon on top, no shadow
-      gCtx.drawImage(whiteCanvas, 0, 0);
-
-      // Step 3 — downsample 256→128 with high-quality bilinear filtering
-      const ctx = blendCanvas.getContext("2d")!;
-      ctx.clearRect(0, 0, OUT, OUT);
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
-      ctx.drawImage(glowCanvas, 0, 0, BIG, BIG, 0, 0, OUT, OUT);
-
-      (sprite.material as THREE.SpriteMaterial).map!.needsUpdate = true;
+    function setupEventListeners() {
+      const canvas = renderer.domElement;
+      canvas.addEventListener("mousedown", onMouseDown);
+      canvas.addEventListener("mousemove", onMouseMove);
+      canvas.addEventListener("mouseup", onMouseUp);
+      canvas.addEventListener("mouseleave", onMouseUp);
+      canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+      canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+      canvas.addEventListener("touchend", onTouchEnd);
+      window.addEventListener("resize", onWindowResize);
     }
 
-    // ── Hover label overlay (DOM element, not canvas) ──────────────────────
-    const hoverLabel = document.createElement("div");
-    hoverLabel.style.cssText = `
-      position: fixed;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5px 16px;
-      background: rgba(20, 20, 35, 0.82);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 999px;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-      z-index: 1000;
-      backdrop-filter: blur(6px);
-      transform: translateX(-50%);
-    `;
-    document.body.appendChild(hoverLabel);
-
-    function showHoverLabel(name: string, screenX: number, screenY: number) {
-      hoverLabel.textContent = name;
-      hoverLabel.style.left = `${screenX}px`;
-      hoverLabel.style.top = `${screenY + 36}px`;
-      hoverLabel.style.opacity = "1";
-    }
-
-    function hideHoverLabel() {
-      hoverLabel.style.opacity = "0";
-    }
-
-    // Project a sprite's world position to screen coords
-    function spriteToScreen(sprite: THREE.Sprite): { x: number; y: number } {
-      const vec = new THREE.Vector3();
-      sprite.getWorldPosition(vec);
-      vec.project(camera);
-      const rect = renderer.domElement.getBoundingClientRect();
-      return {
-        x: rect.left + (vec.x * 0.5 + 0.5) * rect.width,
-        y: rect.top + (-vec.y * 0.5 + 0.5) * rect.height,
-      };
-    }
-
-    // Blend color and grayscale per pixel using cached ImageData.
-    // RGB lerped directly (t=1 = exact original color, never washed out).
-    // Visibility (front vs back) baked into alpha so mat.opacity stays 1.
-    function blendTexture(sprite: THREE.Sprite, t: number) {
-      const blendCanvas = sprite.userData.blendCanvas as HTMLCanvasElement;
-      const ctx = blendCanvas.getContext("2d")!;
-      const SIZE = 128;
-      const colorData = sprite.userData.colorData as ImageData;
-      const grayData = sprite.userData.grayData as ImageData;
-
-      // alpha: 0.15 fully behind, 1.0 fully in front
-      const alpha = 0.15 + t * 0.85;
-
-      const out = ctx.createImageData(SIZE, SIZE);
-      const c = colorData.data;
-      const g = grayData.data;
-      const o = out.data;
-      for (let i = 0; i < c.length; i += 4) {
-        o[i] = g[i] + (c[i] - g[i]) * t; // R
-        o[i + 1] = g[i + 1] + (c[i + 1] - g[i + 1]) * t; // G
-        o[i + 2] = g[i + 2] + (c[i + 2] - g[i + 2]) * t; // B
-        o[i + 3] = c[i + 3] * alpha; // A (dimming in alpha)
-      }
-      ctx.putImageData(out, 0, 0);
-      (sprite.material as THREE.SpriteMaterial).map!.needsUpdate = true;
-    }
-
-    function updateSpriteDepth() {
-      techSprites.forEach((sprite) => {
-        const f = getSpriteFrontness(sprite); // -1 (back) to +1 (front)
-        const mat = sprite.material as THREE.SpriteMaterial;
-
-        // Convert frontness [-1, +1] to a blend factor [0, 1]
-        // f <= -0.3 → fully gray (t=0), f >= 0.5 → fully color (t=1)
-        const t = Math.max(0, Math.min(1, (f + 0.3) / 0.8));
-
-        // Keep material opacity always 1 — transparency is baked into the texture alpha
-        // This avoids Three.js premultiplied alpha washing out the colors
-        mat.opacity = 1;
-
-        // Hover only when mostly in front
-        sprite.userData.isFront = f > 0;
-
-        // Don't overwrite hover texture each frame
-        if (!sprite.userData.isHovered) {
-          blendTexture(sprite, t);
-        }
-      });
+    function removeEventListeners() {
+      if (!renderer) return;
+      const canvas = renderer.domElement;
+      canvas.removeEventListener("mousedown", onMouseDown);
+      canvas.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("mouseup", onMouseUp);
+      canvas.removeEventListener("mouseleave", onMouseUp);
+      canvas.removeEventListener("touchstart", onTouchStart);
+      canvas.removeEventListener("touchmove", onTouchMove);
+      canvas.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("resize", onWindowResize);
     }
 
     function animate() {
+      if (isDestroyed) return;
       animationFrameId = requestAnimationFrame(animate);
 
       if (autoRotate) targetRotation.y += 0.002;
@@ -637,17 +610,15 @@
       techSprites.forEach((sprite) => {
         sprite.lookAt(camera.position);
 
-        // Animate scale smoothly toward targetScale
         const cs = sprite.userData.currentScale as number;
         const ts = sprite.userData.targetScale as number;
-        const next = cs + (ts - cs) * 0.1; // 0.12 = spring speed (lower = slower)
+        const next = cs + (ts - cs) * 0.1;
         sprite.userData.currentScale = next;
         sprite.scale.setScalar(next);
       });
 
       updateSpriteDepth();
 
-      // Keep label anchored to hovered sprite as sphere rotates
       if (hoveredSprite) {
         const screen = spriteToScreen(hoveredSprite);
         hoverLabel.style.left = `${screen.x}px`;
@@ -657,17 +628,44 @@
       renderer.render(scene, camera);
     }
 
+    function destroy() {
+      if (isDestroyed) return;
+      isDestroyed = true;
+
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      removeEventListeners();
+      hideHoverLabel();
+      hoverLabel.remove();
+
+      techSprites.forEach((sprite) => {
+        const material = sprite.material as THREE.SpriteMaterial;
+        material.map?.dispose();
+        material.dispose();
+      });
+
+      scene?.traverse((obj) => {
+        const mesh = obj as THREE.Mesh;
+        if (mesh.geometry) mesh.geometry.dispose();
+
+        const material = (mesh as any).material;
+        if (Array.isArray(material)) {
+          material.forEach((m) => m?.dispose?.());
+        } else {
+          material?.dispose?.();
+        }
+      });
+
+      renderer?.dispose();
+      container.innerHTML = "";
+      delete root.dataset.techSphereMounted;
+    }
+
     async function init() {
-      if (!container) return;
-
       scene = new THREE.Scene();
+
       const { width, height } = getContainerSize();
-
-      const fov = getFov();
-      camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 1000);
-
-      const camZ = isMobile() ? 4.8 : 5.5;
-      camera.position.z = camZ;
+      camera = new THREE.PerspectiveCamera(getFov(), width / height, 0.1, 1000);
+      camera.position.z = isMobile() ? 4.8 : 5.5;
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(width, height);
@@ -679,22 +677,25 @@
 
       createWireframeSphere();
       await createTechPoints();
+      if (isDestroyed) return;
+
       setupEventListeners();
       animate();
     }
+
     init();
 
-    window.addEventListener(
+    document.addEventListener(
       "astro:before-swap",
       () => {
-        if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        window.removeEventListener("resize", onWindowResize);
-        renderer?.dispose();
-        hoverLabel.remove();
+        destroy();
       },
       { once: true },
     );
   }
+
+  setupTechSphere();
+  document.addEventListener("astro:page-load", setupTechSphere);
 </script>
 
 <style>
@@ -718,21 +719,10 @@
     .tech-sphere-section {
       min-height: 100vh;
     }
+
     .tech-sphere-container {
       height: 100vh;
     }
-  }
-
-  .tech-sphere-instructions {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
-    text-align: center;
-    z-index: 5;
-    pointer-events: none;
   }
 
   .tech-sphere-container :global(canvas) {

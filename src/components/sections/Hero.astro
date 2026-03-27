@@ -6,7 +6,7 @@ import Email from "../../assets/svg/Email.astro";
 import Button from "../ui/Button.astro";
 ---
 
-<section class="relative min-h-screen overflow-hidden hero animate-hero">
+<section class="relative min-h-screen overflow-hidden hero animate-hero" data-hero>
   <div
     class="glow-circle absolute w-full h-250 -top-220 left-1/2 -translate-x-1/2 z-0"
   >
@@ -25,9 +25,11 @@ import Button from "../ui/Button.astro";
           <span class="dot"></span>
           Available for work
         </div>
+
         <h1 class="text-white text-2xl md:text-3xl font-bold">
           Hey! I'm Jackeline
         </h1>
+
         <h2 class="gradient-text text-xl font-semibold">Software Developer</h2>
       </header>
 
@@ -95,7 +97,9 @@ import Button from "../ui/Button.astro";
   .animate-hero {
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .animate-hero.show {
@@ -109,15 +113,11 @@ import Button from "../ui/Button.astro";
     gap: 0.5rem;
     padding: 0.35rem 0.75rem;
     border-radius: 999px;
-
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.02em;
-
     color: var(--color-primary-2);
-
     backdrop-filter: blur(8px);
-
     animation: fadeSlideUp 0.6s ease forwards;
     opacity: 0;
     transform: translateY(6px);
@@ -129,12 +129,10 @@ import Button from "../ui/Button.astro";
     height: 6px;
     border-radius: 999px;
     background: var(--color-primary-2);
-
     box-shadow: 0 0 8px var(--color-primary-2);
     animation: pulse 1.6s infinite ease-in-out;
   }
 
-  /* entrada suave */
   @keyframes fadeSlideUp {
     to {
       opacity: 1;
@@ -142,7 +140,6 @@ import Button from "../ui/Button.astro";
     }
   }
 
-  /* pulso del puntito */
   @keyframes pulse {
     0%,
     100% {
@@ -154,8 +151,32 @@ import Button from "../ui/Button.astro";
       opacity: 0.6;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-hero {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .availability-badge {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
 </style>
 
 <script>
-  document.querySelector(".animate-hero")?.classList.add("show");
+  function setupHero() {
+    const hero = document.querySelector("[data-hero]");
+    if (!(hero instanceof HTMLElement)) return;
+
+    requestAnimationFrame(() => {
+      hero.classList.add("show");
+    });
+  }
+
+  setupHero();
+  document.addEventListener("astro:page-load", setupHero);
 </script>

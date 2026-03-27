@@ -160,36 +160,69 @@ const {
 </style>
 
 <script>
-  const isTouchDevice = () =>
-    window.matchMedia("(hover: none)").matches ||
-    window.matchMedia("(pointer: coarse)").matches;
+  function setupProjectCards() {
+    const isTouchDevice = () =>
+      window.matchMedia("(hover: none)").matches ||
+      window.matchMedia("(pointer: coarse)").matches;
 
-  const cards = document.querySelectorAll("[data-project-card]");
+    const cards = document.querySelectorAll("[data-project-card]");
 
-  cards.forEach((card) => {
-    card.addEventListener("click", (e) => {
-      if (!isTouchDevice()) return;
-      const target = e.target as HTMLElement;
-      const interactiveEl = target.closest("a, button");
-      if (interactiveEl && card.classList.contains("touch-active")) return;
-      const isActive = card.classList.contains("touch-active");
-      if (isActive) {
-        card.classList.remove("touch-active");
-      } else {
-        cards.forEach((c) => {
-          if (c !== card) c.classList.remove("touch-active");
-        });
-        card.classList.add("touch-active");
-        e.preventDefault();
-      }
-    });
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!isTouchDevice()) return;
-    const target = e.target as Node;
     cards.forEach((card) => {
-      if (!card.contains(target)) card.classList.remove("touch-active");
+      if (!(card instanceof HTMLElement)) return;
+      if (card.dataset.bound === "true") return;
+      card.dataset.bound = "true";
+
+      card.addEventListener("click", (e) => {
+        if (!isTouchDevice()) return;
+
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) return;
+
+        const interactiveEl = target.closest("a, button");
+        if (interactiveEl && card.classList.contains("touch-active")) return;
+
+        const isActive = card.classList.contains("touch-active");
+
+        if (isActive) {
+          card.classList.remove("touch-active");
+        } else {
+          cards.forEach((c) => {
+            if (c !== card) c.classList.remove("touch-active");
+          });
+          card.classList.add("touch-active");
+          e.preventDefault();
+        }
+      });
     });
+  }
+
+  function setupOutsideClick() {
+    if (!(document.body instanceof HTMLElement)) return;
+    if (document.body.dataset.projectCardsOutsideBound === "true") return;
+    document.body.dataset.projectCardsOutsideBound = "true";
+
+    document.addEventListener("click", (e) => {
+      const isTouchDevice = () =>
+        window.matchMedia("(hover: none)").matches ||
+        window.matchMedia("(pointer: coarse)").matches;
+
+      if (!isTouchDevice()) return;
+
+      const target = e.target;
+      if (!(target instanceof Node)) return;
+
+      const cards = document.querySelectorAll("[data-project-card]");
+      cards.forEach((card) => {
+        if (!card.contains(target)) card.classList.remove("touch-active");
+      });
+    });
+  }
+
+  setupProjectCards();
+  setupOutsideClick();
+
+  document.addEventListener("astro:page-load", () => {
+    setupProjectCards();
+    setupOutsideClick();
   });
 </script>

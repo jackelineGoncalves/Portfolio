@@ -24,218 +24,220 @@ const { project, lang } = Astro.props as {
 const backHref = `/${lang}/#projects`;
 ---
 
+<Layout lang={lang} showNav={false} title={project.name}>
+  <div class="project-detail">
+    <!-- BACK -->
+    <div class="container-main pt-16 pb-4">
+      <a
+        href={backHref}
+        class="inline-flex items-center gap-2 text-sm font-semibold text-secondary-5 transition-colors duration-200 ease-in-out hover:text-white"
+      >
+        <Chevron class="h4 w-5 rotate-180" />
+        Back to projects
+      </a>
+    </div>
 
-<div class="project-detail">
-  <div class="detail-top-glow"></div>
-  <div class="detail-side-glow"></div>
-
-  <!-- BACK -->
-  <div class="container-main pt-16 pb-4">
-    <a
-      href={backHref}
-      class="inline-flex gap-2 text-secondary-5 hover:text-white text-sm font-semibold items-center transition-colors duration-200 ease-in-out"
+    <!-- HERO -->
+    <section
+      class="container-main grid grid-cols-1 gap-12 pt-8 pb-16 md:grid-cols-2 md:items-center md:gap-16"
     >
-      <Chevron class="h4 w-5 rotate-180" />
-      Back to projects
-    </a>
-  </div>
+      <div>
+        <div class="mb-6 flex flex-wrap gap-2">
+          {
+            project.onProgressTag && (
+              <span class="tag tag--progress">
+                <span class="tag-dot" />
+                In progress
+              </span>
+            )
+          }
 
-  <!-- HERO -->
-  <section
-    class="grid grid-cols-1 gap-12 pt-8 pb-16 container-main md:grid-cols-2 md:items-center md:gap-16"
-  >
-    <div>
-      <div class="flex flex-wrap gap-2 mb-6">
-        {
-          project.onProgressTag && (
-            <span class="tag tag--progress">
-              <span class="tag-dot" />
-              In progress
-            </span>
-          )
-        }
+          {
+            project.workProjectTag && (
+              <span class="tag tag--work">Work project</span>
+            )
+          }
 
-        {
-          project.workProjectTag && (
-            <span class="tag tag--work">Work project</span>
-          )
-        }
+          <span class="tag tag--type">{project.projectType}</span>
+        </div>
 
-        <span class="tag tag--type">{project.projectType}</span>
-      </div>
-
-    <h1
-  transition:name={`project-title-${project.slug}`}
-  class="detail-title gradient-text mb-4 text-2xl font-extrabold leading-[1.1]"
->
-  {project.name}
-</h1>
-      <p class="text-text-secondary text-sm font-normal">
-        {project.fullDescription}
-      </p>
-
-      <div class="flex items-stretch gap-4 mt-6">
-        <div
-          class="w-0.75 rounded-full bg-primary-2 shadow-[0_0_12px_rgba(83,235,243,0.35)]"
+        <h1
+          transition:name={`project-title-${project.slug}`}
+          class="detail-title gradient-text mb-4 text-2xl font-extrabold leading-[1.1]"
         >
-        </div>
+          {project.name}
+        </h1>
 
-        <div>
-          <span
-            class="text-xs uppercase tracking-wider text-secondary-5 font-semibold"
+        <p class="text-sm font-normal text-text-secondary">
+          {project.fullDescription}
+        </p>
+
+        <div class="mt-6 flex items-stretch gap-4">
+          <div
+            class="w-0.75 rounded-full bg-primary-2 shadow-[0_0_12px_rgba(83,235,243,0.35)]"
           >
-            Categories
-          </span>
+          </div>
 
-          <p class="mt-1 text-sm text-white/70">
-            {project.category.join(" | ")}
-          </p>
+          <div>
+            <span
+              class="text-xs font-semibold uppercase tracking-wider text-secondary-5"
+            >
+              Categories
+            </span>
+
+            <p class="mt-1 text-sm text-white/70">
+              {project.category.join(" | ")}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-4 pt-9">
+          {
+            project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary-detail"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M6 4H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2M10 2h4m0 0v4m0-4L7 9"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Live demo
+              </a>
+            )
+          }
+
+          {
+            project.codeUrl && (
+              <a
+                href={project.codeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-secondary-detail"
+              >
+                <Code />
+                Source code
+              </a>
+            )
+          }
         </div>
       </div>
 
-      <div class="flex gap-4 flex-wrap pt-9">
+      <div class="relative flex items-end justify-center py-4">
         {
-          project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-primary-detail"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M6 4H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2M10 2h4m0 0v4m0-4L7 9"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              Live demo
-            </a>
-          )
-        }
+          project.previewImages && (
+            <div class="flex w-full max-w-125 items-end justify-center gap-4">
+              <img
+                src={project.previewImages[0].src}
+                alt={`${project.name} screen 1`}
+                loading="lazy"
+                class="w-[35%] max-w-40 object-contain shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+              />
 
-        {
-          project.codeUrl && (
-            <a
-              href={project.codeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-secondary-detail"
-            >
-              <Code />
-              Source code
-            </a>
-          )
-        }
-      </div>
-    </div>
-
-    <div class="relative flex justify-center items-end py-4">
-      {
-        project.previewImages && (
-          <div class="flex items-end justify-center gap-4 w-full max-w-125">
-            <img
-              src={project.previewImages[0].src}
-              alt={`${project.name} screen 1`}
-              loading="lazy"
-              class="w-[35%] max-w-40 object-contain shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
-            />
-
-           <img
-  src={project.previewImages[1].src}
-  alt={`${project.name} screen 2`}
-  transition:name={`project-image-${project.slug}`}
-  loading="eager"
-  class="w-[45%] max-w-50 object-contain shadow-[0_24px_50px_rgba(0,0,0,0.65)]"
-/>
-          </div>
-        )
-      }
-    </div>
-  </section>
-
-  <!-- TECH STACK -->
-  <section class="pb-18 container-main">
-    <h2 class="section-heading">Tech Stack</h2>
-
-    <div class="flex flex-wrap gap-2 md:gap-4">
-      {
-        project.technologiesIcons.map((tech) => {
-          const Icon = tech.icon;
-
-          return (
-            <div class="tech-chip flex items-center gap-2 py-2 px-4 rounded-full bg-bg-surface outline-1 outline-secondary-1 text-text-secondary font-semibold text-sm  hover:outline-2 hover:outline-primary/70 transition-all duration-200 ease-in-out">
-              <Icon class="h-5 w-5" />
-              <span>{tech.label}</span>
+              <img
+                src={project.previewImages[1].src}
+                alt={`${project.name} screen 2`}
+                transition:name={`project-image-${project.slug}`}
+                loading="eager"
+                class="w-[45%] max-w-50 object-contain shadow-[0_24px_50px_rgba(0,0,0,0.65)]"
+              />
             </div>
-          );
-        })
-      }
-    </div>
-  </section>
-
-  <!-- CHALLENGE & SOLUTION -->
-  <section class="container-main">
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-      <div class="cs-card">
-        <div class="cs-icon cs-icon--challenge">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M10 2L2 7v6l8 5 8-5V7L10 2z"
-              stroke="#53EBF3"
-              stroke-width="1.5"
-              stroke-linejoin="round"></path>
-            <path
-              d="M10 10v4M10 7v.5"
-              stroke="#53EBF3"
-              stroke-width="1.5"
-              stroke-linecap="round"></path>
-          </svg>
-        </div>
-
-        <h3 class="cs-title">The Challenge</h3>
-        <p class="cs-text">{project.challenge}</p>
+          )
+        }
       </div>
+    </section>
 
-      <div class="cs-card">
-        <div class="cs-icon cs-icon--solution">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <circle cx="10" cy="10" r="8" stroke="#3090E9" stroke-width="1.5"
-            ></circle>
-            <path
-              d="M7 10l2 2 4-4"
-              stroke="#3090E9"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </div>
+    <!-- TECH STACK -->
+    <section class="container-main pb-18">
+      <h2 class="section-heading">Tech Stack</h2>
 
-        <h3 class="cs-title">The Solution</h3>
-        <p class="cs-text">{project.solution}</p>
+      <div class="flex flex-wrap gap-2 md:gap-4">
+        {
+          project.technologiesIcons.map((tech) => {
+            const Icon = tech.icon;
+
+            return (
+              <div class="tech-chip flex items-center gap-2 rounded-full bg-bg-surface px-4 py-2 text-sm font-semibold text-text-secondary outline-1 outline-secondary-1 transition-all duration-200 ease-in-out hover:outline-2 hover:outline-primary/70">
+                <Icon class="h-5 w-5" />
+                <span>{tech.label}</span>
+              </div>
+            );
+          })
+        }
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FEATURES -->
-  <section class="container-main pb-32 pt-18">
-    <h2 class="section-heading">Key Features</h2>
-
-    <div class="features-grid">
-      {
-        project.features.map((feature, i) => (
-          <div class="feature-card" style={`--delay: ${i * 80}ms`}>
-            <div class="feature-number">{String(i + 1).padStart(2, "0")}</div>
-            <h3 class="feature-title">{feature.title}</h3>
-            <p class="feature-desc">{feature.description}</p>
+    <!-- CHALLENGE & SOLUTION -->
+    <section class="container-main">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div class="cs-card">
+          <div class="cs-icon cs-icon--challenge">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M10 2L2 7v6l8 5 8-5V7L10 2z"
+                stroke="#53EBF3"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M10 10v4M10 7v.5"
+                stroke="#53EBF3"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+            </svg>
           </div>
-        ))
-      }
-    </div>
-  </section>
-</div>
+
+          <h3 class="cs-title">The Challenge</h3>
+          <p class="cs-text">{project.challenge}</p>
+        </div>
+
+        <div class="cs-card">
+          <div class="cs-icon cs-icon--solution">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="8" stroke="#3090E9" stroke-width="1.5"
+              ></circle>
+              <path
+                d="M7 10l2 2 4-4"
+                stroke="#3090E9"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </div>
+
+          <h3 class="cs-title">The Solution</h3>
+          <p class="cs-text">{project.solution}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="container-main pb-32 pt-18">
+      <h2 class="section-heading">Key Features</h2>
+
+      <div class="features-grid">
+        {
+          project.features.map((feature, i) => (
+            <div class="feature-card" style={`--delay: ${i * 80}ms`}>
+              <div class="feature-number">{String(i + 1).padStart(2, "0")}</div>
+              <h3 class="feature-title">{feature.title}</h3>
+              <p class="feature-desc">{feature.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</Layout>
 
 <style is:global>
   .project-detail {
@@ -243,56 +245,9 @@ const backHref = `/${lang}/#projects`;
     min-height: 100vh;
     overflow: hidden;
     color: white;
-    background:
-      radial-gradient(circle at top, rgba(28, 75, 110, 0.16), transparent 30%),
-      radial-gradient(
-        circle at 80% 30%,
-        rgba(63, 110, 180, 0.12),
-        transparent 24%
-      ),
-      radial-gradient(
-        circle at 20% 75%,
-        rgba(83, 235, 243, 0.08),
-        transparent 22%
-      ),
-      linear-gradient(180deg, #02060c 0%, #02080f 50%, #01040a 100%);
-    isolation: isolate;
   }
 
-  .detail-top-glow {
-    position: absolute;
-    top: -10rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(72rem, 90vw);
-    height: 26rem;
-    background: radial-gradient(
-      ellipse,
-      rgba(83, 235, 243, 0.12) 0%,
-      transparent 70%
-    );
-    filter: blur(40px);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .detail-side-glow {
-    position: absolute;
-    right: -8rem;
-    top: 20rem;
-    width: 26rem;
-    height: 26rem;
-    background: radial-gradient(
-      circle,
-      rgba(48, 144, 233, 0.12) 0%,
-      transparent 70%
-    );
-    filter: blur(50px);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .project-detail > *:not(.detail-top-glow):not(.detail-side-glow) {
+  .project-detail > * {
     position: relative;
     z-index: 1;
   }
@@ -336,7 +291,7 @@ const backHref = `/${lang}/#projects`;
     }
   }
 
-  .tag--category {
+  .tag--work {
     border-color: rgba(48, 144, 233, 0.3);
     color: var(--primary-2);
     background: rgba(48, 144, 233, 0.07);
@@ -346,39 +301,6 @@ const backHref = `/${lang}/#projects`;
     border-color: var(--secondary-1);
     color: var(--secondary-5);
     background: transparent;
-  }
-
-  .detail-meta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .meta-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .meta-label {
-    font-size: 0.7rem;
-    color: var(--secondary-5);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .meta-value {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #fff;
-  }
-
-  .meta-divider {
-    width: 1px;
-    height: 2rem;
-    background: var(--secondary-1);
   }
 
   .btn-primary-detail,
@@ -416,25 +338,6 @@ const backHref = `/${lang}/#projects`;
     box-shadow: 0 0 16px rgba(83, 235, 243, 0.15);
   }
 
-  .preview-glow {
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    width: clamp(8rem, 20vw, 14rem);
-    height: clamp(8rem, 20vw, 14rem);
-    transform: translateX(-50%);
-    border-radius: 999px;
-    background: radial-gradient(
-      circle,
-      rgba(83, 235, 243, 0.14),
-      transparent 70%
-    );
-    filter: blur(32px);
-    pointer-events: none;
-    z-index: 0;
-  }
-
- 
   .section-heading {
     font-size: 1.4rem;
     font-weight: 800;
