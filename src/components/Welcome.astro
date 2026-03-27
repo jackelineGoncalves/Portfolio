@@ -18,11 +18,11 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const ta = useTranslations(lang, "about");
-const te = useTranslations(lang, "experience");
-const tp = useTranslations(lang, "projects");
-const ts = useTranslations(lang, "skills");
-const tc = useTranslations(lang, "contact");
+const ta  = useTranslations(lang, "about");
+const te  = useTranslations(lang, "experience");
+const tp  = useTranslations(lang, "projects");
+const ts  = useTranslations(lang, "skills");
+const tc  = useTranslations(lang, "contact");
 const tsp = useTranslations(lang, "specialtys");
 ---
 
@@ -44,7 +44,7 @@ const tsp = useTranslations(lang, "specialtys");
 
     <section class="container-main pt-24">
       <div class="flex items-center gap-3 pb-10">
-        <div class="w-0.75 h-12 bg-primary-2"></div>
+        <div class="w-[3px] h-12 bg-primary-2"></div>
         <h2 class="text-xl md:text-2xl font-bold text-white">{tsp("sectionTitle")}</h2>
       </div>
       <Specialtys />
@@ -70,7 +70,7 @@ const tsp = useTranslations(lang, "specialtys");
           {tp("description")}
         </p>
       </div>
-      <Projects />
+      <Projects lang={lang} />
     </section>
 
     <section id="stack">
