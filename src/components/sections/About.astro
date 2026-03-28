@@ -18,7 +18,10 @@ const { lang } = Astro.props;
 const t = useTranslations(lang, "about");
 ---
 
-<section class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5 container-main">
+<section
+  class="container-main grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5"
+  data-about-section
+>
   <!-- WHAT I BUILD -->
   <article
     class="interactive-card reveal-card order-1 col-span-2 flex flex-col gap-4 rounded-[28px] border-[0.5px] border-secondary-1 bg-cover bg-center p-6 md:col-span-2 md:row-span-2 md:gap-6 md:p-8 xl:col-span-2 xl:row-span-2 xl:gap-10.5"
@@ -130,28 +133,51 @@ const t = useTranslations(lang, "about");
 </section>
 
 <script>
-  const cards = document.querySelectorAll<HTMLElement>(".interactive-card");
-  cards.forEach((card) => {
-    card.addEventListener("mousemove", (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
-      card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
-    });
-  });
+  function setupAboutSection() {
+    const section = document.querySelector("[data-about-section]");
+    if (!(section instanceof HTMLElement)) return;
 
-  const revealCards = document.querySelectorAll(".reveal-card");
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add("revealed"), index * 80);
-          observer.unobserve(entry.target);
-        }
+    const cards = section.querySelectorAll(".interactive-card");
+    cards.forEach((card) => {
+      if (!(card instanceof HTMLElement)) return;
+      if (card.dataset.mouseBound === "true") return;
+
+      card.dataset.mouseBound = "true";
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+        card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
       });
-    },
-    { threshold: 0.15 }
-  );
-  revealCards.forEach((card) => observer.observe(card));
+    });
+
+    const revealCards = section.querySelectorAll(".reveal-card");
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (mediaQuery.matches) {
+      revealCards.forEach((card) => card.classList.add("revealed"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry, index) => {
+          if (!entry.isIntersecting) return;
+          setTimeout(() => entry.target.classList.add("revealed"), index * 80);
+          obs.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    revealCards.forEach((card) => {
+      card.classList.remove("revealed");
+      observer.observe(card);
+    });
+  }
+
+  setupAboutSection();
+  document.addEventListener("astro:page-load", setupAboutSection);
 </script>
 
 <style>
@@ -163,18 +189,32 @@ const t = useTranslations(lang, "about");
     transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
     will-change: transform;
   }
+
   .interactive-card:hover {
     border-color: var(--color-primary);
     box-shadow: 0 0 25px 2px rgba(83,235,243,0.2);
     border-width: 0.0625rem;
   }
+
   .reveal-card {
     opacity: 0;
     transform: translateY(30px) translateX(-20px);
-    transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1), border-color 220ms ease, box-shadow 220ms ease;
+    transition:
+      opacity 0.6s cubic-bezier(0.22,1,0.36,1),
+      transform 0.6s cubic-bezier(0.22,1,0.36,1),
+      border-color 220ms ease,
+      box-shadow 220ms ease;
   }
-  .reveal-card.revealed { opacity: 1; transform: translateY(0) translateX(0); }
-  .reveal-card.revealed:hover { transform: translateY(-6px) translateX(0); }
+
+  .reveal-card.revealed {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+
+  .reveal-card.revealed:hover {
+    transform: translateY(-6px) translateX(0);
+  }
+
   .card-glow {
     pointer-events: none;
     position: absolute;
@@ -182,12 +222,34 @@ const t = useTranslations(lang, "about");
     z-index: 0;
     opacity: 0;
     transition: opacity 220ms ease;
-    background: radial-gradient(240px circle at var(--mouse-x,50%) var(--mouse-y,50%), rgba(79,209,217,0.16), transparent 65%);
+    background: radial-gradient(
+      240px circle at var(--mouse-x,50%) var(--mouse-y,50%),
+      rgba(79,209,217,0.16),
+      transparent 65%
+    );
   }
-  .interactive-card:hover .card-glow { opacity: 1; }
+
+  .interactive-card:hover .card-glow {
+    opacity: 1;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .interactive-card { transition: none; }
-    .interactive-card:hover { transform: none; }
-    .card-glow { transition: none; }
+    .interactive-card {
+      transition: none;
+    }
+
+    .interactive-card:hover {
+      transform: none;
+    }
+
+    .card-glow,
+    .reveal-card {
+      transition: none;
+    }
+
+    .reveal-card {
+      opacity: 1;
+      transform: none;
+    }
   }
 </style>

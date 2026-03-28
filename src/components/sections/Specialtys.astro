@@ -3,125 +3,100 @@ import SpecialtyCard from "../ui/SpecialtyCard.astro";
 
 const specialties = [
   {
+    icon: "design" as const,
+    accent: "purple" as const,
     title: "UX/UI Design",
     description:
-      "jndjenf fejbfe fj43ibi4bt cyebyfbef feybfhyebf efybeyfbe feyfeyvfevfe fevbfwf ",
+      "I design complete systems, not just screens. From user flows and component libraries to final handoff — every interaction is intentional.",
+    tags: ["Figma", "Design Systems", "User Flows", "Prototyping", "UI/UX"],
   },
   {
-    title: "UX/UI Design",
-    description: "jndjenf fejbfe fj43ibi4bt ",
+    icon: "frontend" as const,
+    accent: "cyan" as const,
+    title: "Frontend & Web",
+    description:
+      "Pixel-perfect interfaces that perform. I build responsive, accessible web apps with React, Next.js and TypeScript — from design system to production.",
+    tags: ["React", "Next.js", "TypeScript", "Tailwind", "GraphQL"],
   },
   {
-    title: "UX/UI Design",
-    description: "jndjenf fejbfe fj43ibi4bt ",
+    icon: "mobile" as const,
+    accent: "blue" as const,
+    title: "Mobile Development",
+    description:
+      "Cross-platform apps built for the real world. I've shipped to App Store and Google Play — handling architecture, UX, and release pipeline end-to-end.",
+    tags: ["React Native", "Flutter", "Expo", "App Store", "Play Store"],
+  },
+  {
+    icon: "backend" as const,
+    accent: "cyan" as const,
+    title: "Backend & Databases",
+    description:
+      "Solid foundations that scale. I design multi-tenant architectures, RESTful APIs, and secure data models — Node.js, PostgreSQL, Supabase and more.",
+    tags: ["Node.js", "PostgreSQL", "Supabase", "REST", "RLS"],
   },
 ];
 ---
 
 <div
-  class=" grid grid-cols-2 md:grid-cols-3 gap-5"
+  class="container-main grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4"
   data-specialties-reveal
 >
   {
-    specialties.map((specialty, index) => {
-      const isLast = index === specialties.length - 1;
-      const isOdd = specialties.length % 2 !== 0;
-      const shouldCenter = isLast && isOdd;
-
-      const directionClass = shouldCenter
-        ? "reveal-card reveal-card-center"
-        : index % 2 === 0
-          ? "reveal-card reveal-card-left"
-          : "reveal-card reveal-card-right";
-
-      return (
-        <div
-          class:list={[
-            shouldCenter
-              ? "col-span-2 flex justify-center md:col-span-1 md:block"
-              : "w-full",
-            directionClass,
-          ]}
-          style={`--reveal-delay: ${index * 120}ms;`}
-        >
-          <div
-            class={shouldCenter
-              ? "w-[calc(50%-0.625rem)] md:w-full h-full"
-              : "w-full h-full"}
-          >
-            <SpecialtyCard {...specialty} />
-          </div>
-        </div>
-      );
-    })
+    specialties.map((specialty, index) => (
+      <div
+        class="specialty-reveal-card h-full"
+        style={`--reveal-delay: ${index * 100}ms;`}
+      >
+        <SpecialtyCard {...specialty} />
+      </div>
+    ))
   }
 </div>
 
 <script>
-  const section = document.querySelector("[data-specialties-reveal]");
-  const cards = document.querySelectorAll(".reveal-card");
+  function setupSpecialtiesReveal() {
+    const section = document.querySelector("[data-specialties-reveal]");
+    if (!(section instanceof HTMLElement)) return;
 
-  if (section && cards.length) {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    if (mediaQuery.matches) {
-      cards.forEach((card) => card.classList.add("is-visible"));
-    } else {
-      const observer = new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-
-            cards.forEach((card) => card.classList.add("is-visible"));
-            obs.unobserve(entry.target);
-          });
-        },
-        {
-          threshold: 0.18,
-          rootMargin: "0px 0px -8% 0px",
-        },
-      );
-
-      observer.observe(section);
+    const cards = section.querySelectorAll(".specialty-reveal-card");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      cards.forEach((c) => c.classList.add("is-visible"));
+      return;
     }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          cards.forEach((c) => c.classList.add("is-visible"));
+          obs.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+    );
+
+    observer.observe(section);
   }
+
+  setupSpecialtiesReveal();
+  document.addEventListener("astro:page-load", setupSpecialtiesReveal);
 </script>
 
 <style>
-  .reveal-card {
+  .specialty-reveal-card {
     opacity: 0;
+    transform: translateY(28px);
     will-change: transform, opacity;
     transition:
-      opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
     transition-delay: var(--reveal-delay, 0ms);
   }
-
-  .reveal-card-left {
-    transform: translate3d(-18px, 28px, 0);
-  }
-
-  .reveal-card-right {
-    transform: translate3d(18px, 28px, 0);
-  }
-
-  .reveal-card-center {
-    transform: translate3d(0, 28px, 0);
-  }
-
-  .reveal-card.is-visible {
+  .specialty-reveal-card.is-visible {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translateY(0);
   }
-
   @media (prefers-reduced-motion: reduce) {
-    .reveal-card,
-    .reveal-card-left,
-    .reveal-card-right,
-    .reveal-card-center {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
+    .specialty-reveal-card { opacity: 1; transform: none; transition: none; }
   }
 </style>

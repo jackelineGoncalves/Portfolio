@@ -33,10 +33,14 @@ button {
     cursor: pointer;
 }
 
+
 .gradient-text {
-    background: linear-gradient(to right, var(--primary), var(--primary-2));
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background: linear-gradient(to right, var(--primary), var(--primary-2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-position: center;
+    display: inline-block;
 }
 
 .social-btn {

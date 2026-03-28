@@ -1,0 +1,14 @@
+{
+  "back": "Back to projects",
+  "tags": {
+    "inProgress": "In progress",
+    "work": "Work project"
+  },
+  "categories": "Categories",
+  "liveDemo": "Live demo",
+  "sourceCode": "Source code",
+  "techStack": "Tech Stack",
+  "challenge": "The Challenge",
+  "solution": "The Solution",
+  "keyFeatures": "Key Features"
+}

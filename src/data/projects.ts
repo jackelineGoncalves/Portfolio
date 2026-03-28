@@ -1,0 +1,86 @@
+// src/data/projects.ts
+import mova from "../assets/images/MOVA-1.png";
+import Expo from "../assets/svg/Expo.astro";
+import Postgre from "../assets/svg/Postgre.astro";
+import React from "../assets/svg/React.astro";
+import Supabase from "../assets/svg/Supabase.astro";
+import TypeScript from "../assets/svg/TypeScript.astro";
+
+export type TechItem = {
+  icon: any;
+  label: string;
+};
+
+export type ProjectCategory = "Mobile" | "Frontend" | "Backend" | "Full Stack" | "UI/UX" | "SaaS";
+
+export type Project = {
+  slug: string;
+  name: string;
+  onProgressTag?: boolean;
+  workProjectTag?: boolean;
+  hoveredTitle: string;
+  projectType: string;
+  categories: ProjectCategory[];
+  hasCodeBtn?: boolean;
+  hasDetailsBtn?: boolean;
+  codeUrl?: string;
+  liveUrl?: string;
+  image: ImageMetadata;
+  previewImages?: ImageMetadata[];
+  technologiesIcons: TechItem[];
+  year: string;
+  role: string;
+  status: "In Progress" | "Completed" | "Archived";
+};
+
+export const projects: Project[] = [
+  {
+    slug: "mova",
+    name: "MOVA",
+    onProgressTag: true,
+    workProjectTag: false,
+    hoveredTitle: "SaaS platform for personal trainers",
+    projectType: "Personal Project · Founder",
+    categories: ["Mobile", "Full Stack", "UI/UX", "SaaS"],
+    hasCodeBtn: false,
+    hasDetailsBtn: true,
+    codeUrl: undefined,
+    liveUrl: undefined,
+    image: mova,
+    previewImages: [mova, mova, mova],
+    technologiesIcons: [
+      { icon: React, label: "React Native" },
+      { icon: Expo, label: "Expo" },
+      { icon: TypeScript, label: "TypeScript" },
+      { icon: Supabase, label: "Supabase" },
+      { icon: Postgre, label: "PostgreSQL" },
+    ],
+    year: "2025",
+    role: "Founder & Full Stack Developer",
+    status: "In Progress",
+  },
+  {
+    slug: "elephai",
+    name: "ElephAi App",
+    onProgressTag: true,
+    workProjectTag: true,
+    hoveredTitle: "Production Flutter app — from broken to live",
+    projectType: "Work Project · Lead Developer",
+    categories: ["Mobile", "Frontend"],
+    hasCodeBtn: false,
+    hasDetailsBtn: true,
+    codeUrl: undefined,
+    liveUrl: undefined,
+    image: mova,
+    previewImages: [mova, mova, mova],
+    technologiesIcons: [
+      { icon: React, label: "Flutter" },
+      { icon: TypeScript, label: "Dart" },
+      { icon: Supabase, label: "Firebase" },
+      { icon: Postgre, label: "REST API" },
+    ],
+    year: "2025",
+    role: "Lead Developer",
+    status: "In Progress",
+  },
+];

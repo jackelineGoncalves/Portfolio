@@ -3,33 +3,33 @@
   "title": "Get to Know Me",
   "whatIBuild": {
     "title": "What I Build",
-    "description": "Scalable solutions and responsive applications across mobile and desktop focused on performance and user experience"
+    "description": "End-to-end digital products — mobile apps, SaaS platforms and web interfaces. From architecture decisions to pixel-perfect UI, I own the full cycle."
   },
   "education": {
     "title": "Education",
-    "degree": "Técnico Superior em Tecnologias e Programação de Sistemas da Informação",
+    "degree": "Higher Technical Professional in Information Systems Technology & Programming",
     "university": "Universidade da Madeira"
   },
   "experience": {
-    "label": "Years of Experience"
+    "label": "Years shipping real products"
   },
   "relocation": {
     "text": "Open to remote work & relocation worldwide"
   },
   "howIWork": {
     "title": "How I work",
-    "description": "Performance-Driven · Product-Minded · Detail-Oriented"
+    "description": "Product-Minded · Clean Architecture · Pixel-Perfect"
   },
   "basedIn": {
     "title": "Based in",
-    "location": "Ilha da Madeira - Portugal"
+    "location": "Madeira Island — Portugal"
   },
   "currentRole": {
     "title": "Current Role",
-    "value": "Lead Mobile Developer"
+    "value": "Lead Developer @ Unwind Minds"
   },
   "languages": {
     "title": "Languages",
-    "list": "Spanish (Native) · English (Fluent) · Portuguese (Bilingual)"
+    "list": "Spanish (Native) · English (B2) · Portuguese (C1)"
   }
 }

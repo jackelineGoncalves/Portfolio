@@ -183,76 +183,115 @@ const localeLabels: Record<Locale, string> = {
 </header>
 
 <script>
-  const header = document.getElementById("site-header")!;
-  const menuToggle = document.getElementById("menu-toggle")!;
-  const md = window.matchMedia("(min-width: 768px)");
+  function setupNavbar() {
+    const header = document.getElementById("site-header");
+    const menuToggle = document.getElementById("menu-toggle");
+    const md = window.matchMedia("(min-width: 768px)");
 
-  const syncScroll = () => {
-    if (!md.matches) {
-      header.classList.remove("scrolled");
-      return;
+    if (!(header instanceof HTMLElement)) return;
+
+    const syncScroll = () => {
+      if (!md.matches) {
+        header.classList.remove("scrolled");
+        return;
+      }
+      header.classList.toggle("scrolled", window.scrollY > 80);
+    };
+
+    if (header.dataset.scrollBound !== "true") {
+      header.dataset.scrollBound = "true";
+      window.addEventListener("scroll", syncScroll);
+      window.addEventListener("resize", syncScroll);
     }
-    header.classList.toggle("scrolled", window.scrollY > 80);
-  };
 
-  window.addEventListener("scroll", syncScroll);
-  window.addEventListener("resize", syncScroll);
-  syncScroll();
+    syncScroll();
 
-  menuToggle?.addEventListener("click", () => {
-    const isOpen = header.classList.toggle("menu-open");
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
-    menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
-  });
+    if (
+      menuToggle instanceof HTMLButtonElement &&
+      menuToggle.dataset.bound !== "true"
+    ) {
+      menuToggle.dataset.bound = "true";
 
-  document.querySelectorAll("#mobile-menu a").forEach((link) => {
-    link.addEventListener("click", () => {
-      header.classList.remove("menu-open");
-      menuToggle?.setAttribute("aria-expanded", "false");
-      menuToggle?.setAttribute("aria-label", "Open menu");
-    });
-  });
+      menuToggle.addEventListener("click", () => {
+        const isOpen = header.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+        menuToggle.setAttribute(
+          "aria-label",
+          isOpen ? "Close menu" : "Open menu",
+        );
+      });
+    }
 
-  function initLangSelector(id: string) {
-    const root = document.getElementById(id);
-    if (!root) return;
+    document.querySelectorAll("#mobile-menu a").forEach((link) => {
+      if (!(link instanceof HTMLAnchorElement)) return;
+      if (link.dataset.bound === "true") return;
 
-    const trigger = root.querySelector<HTMLButtonElement>(".lang-trigger");
-    const dropdown = root.querySelector<HTMLElement>(".lang-dropdown");
+      link.dataset.bound = "true";
 
-    if (!trigger || !dropdown) return;
-
-    const open = () => {
-      dropdown.classList.add("is-open");
-      trigger.setAttribute("aria-expanded", "true");
-    };
-
-    const close = () => {
-      dropdown.classList.remove("is-open");
-      trigger.setAttribute("aria-expanded", "false");
-    };
-
-    const toggle = () => {
-      if (dropdown.classList.contains("is-open")) close();
-      else open();
-    };
-
-    trigger.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggle();
+      link.addEventListener("click", () => {
+        header.classList.remove("menu-open");
+        if (menuToggle instanceof HTMLButtonElement) {
+          menuToggle.setAttribute("aria-expanded", "false");
+          menuToggle.setAttribute("aria-label", "Open menu");
+        }
+      });
     });
 
-    document.addEventListener("click", (e) => {
-      if (!root.contains(e.target as Node)) close();
-    });
+    function initLangSelector(id: string) {
+      const root = document.getElementById(id);
+      if (!(root instanceof HTMLElement)) return;
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") close();
-    });
+      const trigger = root.querySelector(".lang-trigger");
+      const dropdown = root.querySelector(".lang-dropdown");
+
+      if (!(trigger instanceof HTMLButtonElement)) return;
+      if (!(dropdown instanceof HTMLElement)) return;
+
+      const open = () => {
+        dropdown.classList.add("is-open");
+        trigger.setAttribute("aria-expanded", "true");
+      };
+
+      const close = () => {
+        dropdown.classList.remove("is-open");
+        trigger.setAttribute("aria-expanded", "false");
+      };
+
+      const toggle = () => {
+        if (dropdown.classList.contains("is-open")) close();
+        else open();
+      };
+
+      if (trigger.dataset.bound !== "true") {
+        trigger.dataset.bound = "true";
+
+        trigger.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggle();
+        });
+      }
+
+      if (root.dataset.docClickBound !== "true") {
+        root.dataset.docClickBound = "true";
+
+        document.addEventListener("click", (e) => {
+          const target = e.target;
+          if (!(target instanceof Node)) return;
+          if (!root.contains(target)) close();
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") close();
+        });
+      }
+    }
+
+    initLangSelector("lang-selector-mobile");
+    initLangSelector("lang-selector-desktop");
   }
 
-  initLangSelector("lang-selector-mobile");
-  initLangSelector("lang-selector-desktop");
+  setupNavbar();
+  document.addEventListener("astro:page-load", setupNavbar);
 </script>
 
 <style>

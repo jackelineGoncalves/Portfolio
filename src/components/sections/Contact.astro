@@ -147,67 +147,139 @@ const t = useTranslations(lang, "contact");
 </style>
 
 <script>
-  // Read i18n strings from data attributes (set at build time by Astro)
-  const section       = document.querySelector<HTMLElement>("[data-i18n-submitting]")!;
-  const i18n = {
-    submitting: section?.dataset.i18nSubmitting ?? "Sending...",
-    submit:     section?.dataset.i18nSubmit     ?? "Send Message",
-    success:    section?.dataset.i18nSuccess    ?? "Message sent successfully.",
-    error:      section?.dataset.i18nError      ?? "An error occurred.",
-    copied:     section?.dataset.i18nCopied     ?? "Copied.",
-    copyError:  section?.dataset.i18nCopyError  ?? "Could not copy.",
-  };
+  function setupContactSection() {
+    const section = document.querySelector("[data-i18n-submitting]");
+    if (!(section instanceof HTMLElement)) return;
 
-  const form         = document.querySelector("[data-contact-form]");
-  const status       = document.querySelector("[data-contact-status]");
-  const submitButton = document.querySelector("[data-contact-submit]");
-  const submitLabel  = document.querySelector("[data-submit-label]");
+    const i18n = {
+      submitting: section.dataset.i18nSubmitting ?? "Sending...",
+      submit: section.dataset.i18nSubmit ?? "Send Message",
+      success: section.dataset.i18nSuccess ?? "Message sent successfully.",
+      error: section.dataset.i18nError ?? "An error occurred.",
+      copied: section.dataset.i18nCopied ?? "Copied.",
+      copyError: section.dataset.i18nCopyError ?? "Could not copy.",
+    };
 
-  const phoneModalOpen  = document.querySelector("[data-phone-modal-open]");
-  const phoneModal      = document.querySelector("[data-phone-modal]");
-  const phoneModalClose = document.querySelector("[data-phone-modal-close]");
-  const copyPhoneButton = document.querySelector("[data-copy-phone]");
-  const copyStatus      = document.querySelector("[data-copy-status]");
+    const form = section.querySelector("[data-contact-form]");
+    const status = section.querySelector("[data-contact-status]");
+    const submitButton = section.querySelector("[data-contact-submit]");
+    const submitLabel = section.querySelector("[data-submit-label]");
 
-  const openPhoneModal  = () => { phoneModal?.classList.add("show"); phoneModal?.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden"; };
-  const closePhoneModal = () => { phoneModal?.classList.remove("show"); phoneModal?.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; if (copyStatus) copyStatus.textContent = ""; };
+    const phoneModalOpen = section.querySelector("[data-phone-modal-open]");
+    const phoneModal = section.querySelector("[data-phone-modal]");
+    const phoneModalClose = section.querySelector("[data-phone-modal-close]");
+    const copyPhoneButton = section.querySelector("[data-copy-phone]");
+    const copyStatus = section.querySelector("[data-copy-status]");
 
-  phoneModalOpen?.addEventListener("click", openPhoneModal);
-  phoneModalClose?.addEventListener("click", closePhoneModal);
-  phoneModal?.addEventListener("click", (e) => { if (e.target === phoneModal) closePhoneModal(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePhoneModal(); });
+    const openPhoneModal = () => {
+      if (!(phoneModal instanceof HTMLElement)) return;
+      phoneModal.classList.add("show");
+      phoneModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
 
-  copyPhoneButton?.addEventListener("click", async () => {
-    const number = (copyPhoneButton as HTMLElement).dataset.phoneNumber;
-    if (!number || !copyStatus) return;
-    try {
-      await navigator.clipboard.writeText(number);
-      copyStatus.textContent = i18n.copied;
-    } catch {
-      copyStatus.textContent = i18n.copyError;
+    const closePhoneModal = () => {
+      if (!(phoneModal instanceof HTMLElement)) return;
+      phoneModal.classList.remove("show");
+      phoneModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      if (copyStatus instanceof HTMLElement) copyStatus.textContent = "";
+    };
+
+    if (phoneModalOpen instanceof HTMLButtonElement && phoneModalOpen.dataset.bound !== "true") {
+      phoneModalOpen.dataset.bound = "true";
+      phoneModalOpen.addEventListener("click", openPhoneModal);
     }
-  });
 
-  form?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const formEl   = event.currentTarget as HTMLFormElement;
-    const formData = new FormData(formEl);
-    const payload  = { name: formData.get("name"), email: formData.get("email"), message: formData.get("message") };
-
-    if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
-    if (submitLabel) submitLabel.textContent = i18n.submitting;
-    if (status) { status.textContent = ""; status.classList.remove("text-red-400","text-green-400"); }
-
-    try {
-      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      if (!response.ok) throw new Error("Request failed");
-      formEl.reset();
-      if (status) { status.textContent = i18n.success; status.classList.add("text-green-400"); }
-    } catch {
-      if (status) { status.textContent = i18n.error; status.classList.add("text-red-400"); }
-    } finally {
-      if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
-      if (submitLabel) submitLabel.textContent = i18n.submit;
+    if (phoneModalClose instanceof HTMLButtonElement && phoneModalClose.dataset.bound !== "true") {
+      phoneModalClose.dataset.bound = "true";
+      phoneModalClose.addEventListener("click", closePhoneModal);
     }
-  });
+
+    if (phoneModal instanceof HTMLElement && phoneModal.dataset.bound !== "true") {
+      phoneModal.dataset.bound = "true";
+
+      phoneModal.addEventListener("click", (e) => {
+        if (e.target === phoneModal) closePhoneModal();
+      });
+    }
+
+    if (section.dataset.escapeBound !== "true") {
+      section.dataset.escapeBound = "true";
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closePhoneModal();
+      });
+    }
+
+    if (copyPhoneButton instanceof HTMLButtonElement && copyPhoneButton.dataset.bound !== "true") {
+      copyPhoneButton.dataset.bound = "true";
+
+      copyPhoneButton.addEventListener("click", async () => {
+        const number = copyPhoneButton.dataset.phoneNumber;
+        if (!number || !(copyStatus instanceof HTMLElement)) return;
+
+        try {
+          await navigator.clipboard.writeText(number);
+          copyStatus.textContent = i18n.copied;
+        } catch {
+          copyStatus.textContent = i18n.copyError;
+        }
+      });
+    }
+
+    if (form instanceof HTMLFormElement && form.dataset.bound !== "true") {
+      form.dataset.bound = "true";
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formEl = event.currentTarget;
+        if (!(formEl instanceof HTMLFormElement)) return;
+
+        const formData = new FormData(formEl);
+        const payload = {
+          name: formData.get("name"),
+          email: formData.get("email"),
+          message: formData.get("message"),
+        };
+
+        if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
+        if (submitLabel instanceof HTMLElement) submitLabel.textContent = i18n.submitting;
+
+        if (status instanceof HTMLElement) {
+          status.textContent = "";
+          status.classList.remove("text-red-400", "text-green-400");
+        }
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) throw new Error("Request failed");
+
+          formEl.reset();
+
+          if (status instanceof HTMLElement) {
+            status.textContent = i18n.success;
+            status.classList.add("text-green-400");
+          }
+        } catch {
+          if (status instanceof HTMLElement) {
+            status.textContent = i18n.error;
+            status.classList.add("text-red-400");
+          }
+        } finally {
+          if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+          if (submitLabel instanceof HTMLElement) submitLabel.textContent = i18n.submit;
+        }
+      });
+    }
+  }
+
+  setupContactSection();
+  document.addEventListener("astro:page-load", setupContactSection);
 </script>
