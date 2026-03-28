@@ -48,3 +48,20 @@ export function useTranslations(locale: Locale, namespace: Namespace) {
     return value !== key ? value : (fallback ?? key);
   };
 }
+
+export type ProjectFeature = { title: string; description: string };
+
+export type ProjectContent = {
+  smallDescription: string;
+  fullDescription: string;
+  challenge: string;
+  solution: string;
+  features: ProjectFeature[];
+};
+
+export function getProjectContent(locale: Locale, slug: string): ProjectContent {
+  const dict = getTranslations(locale, "projectsContent");
+  const fallback = getTranslations("en", "projectsContent");
+  const data = (dict[slug] ?? fallback[slug] ?? {}) as ProjectContent;
+  return data;
+}

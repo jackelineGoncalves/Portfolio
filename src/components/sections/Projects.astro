@@ -2,6 +2,7 @@
 import ProjectCard from "../ui/ProjectCard.astro";
 import { projects } from "../../data/projects";
 import type { Locale } from "../../i18n/config";
+import { getProjectContent } from "../../i18n/utils";
 
 interface Props {
   lang: Locale;
@@ -37,6 +38,7 @@ const { lang } = Astro.props;
           <div class={shouldCenter ? "w-full md:w-1/2" : "w-full"}>
             <ProjectCard
               {...project}
+              {...getProjectContent(lang, project.slug)}
               detailHref={`/${lang}/projects/${project.slug}/`}
             >
               <div

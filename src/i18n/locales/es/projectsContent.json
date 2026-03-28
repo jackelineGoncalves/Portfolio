@@ -1,0 +1,50 @@
+{
+  "mova": {
+    "smallDescription": "Plataforma SaaS que reemplaza los flujos de trabajo basados en hojas de cálculo para entrenadores personales con un sistema unificado y automatizado de gestión de clientes.",
+    "fullDescription": "MOVA es un SaaS multi-tenant construido de principio a fin como proyecto de fundador en solitario. Reemplaza las hojas de cálculo dispersas, los mensajes de WhatsApp y los PDFs manuales que los entrenadores personales usan a diario — consolidando la gestión de clientes, planes de entrenamiento, seguimiento nutricional y evaluaciones de progreso en una experiencia móvil rápida y limpia.",
+    "challenge": "Los entrenadores personales pierden entre 3 y 4 horas diarias gestionando clientes a través de hojas de cálculo, apps de mensajería y PDFs desconectados. No existía ninguna herramienta móvil todo-en-uno diseñada específicamente para su flujo de trabajo real — la mayoría de las soluciones son demasiado genéricas o demasiado caras.",
+    "solution": "Construí MOVA como un SaaS multi-tenant desde cero — una app en React Native respaldada por una arquitectura Supabase con aislamiento de datos por workspace (RLS), sincronización en tiempo real y control de acceso por roles. Diseñé más de 40 pantallas en Figma antes de escribir una sola línea de código, asegurando que la UX se adapte realmente a cómo piensan los entrenadores.",
+    "features": [
+      {
+        "title": "Gestión de clientes",
+        "description": "Perfiles completos de clientes con historial, objetivos, datos físicos y progreso a lo largo del tiempo. Los entrenadores gestionan 10+ clientes sin cambiar de herramienta."
+      },
+      {
+        "title": "Constructor de planes de entrenamiento",
+        "description": "Crea planes de entrenamiento estructurados con ejercicios, series, repeticiones y descanso. Asígnalos a cualquier cliente en segundos. Reducción estimada del 70% en el tiempo de creación de planes."
+      },
+      {
+        "title": "Seguimiento nutricional",
+        "description": "Diseña planes de alimentación con objetivos de macros por cliente. Soporta múltiples horarios diarios y restricciones dietéticas."
+      },
+      {
+        "title": "Arquitectura multi-tenant",
+        "description": "Cada entrenador tiene un workspace aislado. La seguridad a nivel de fila (RLS) en PostgreSQL garantiza cero filtración de datos entre cuentas."
+      }
+    ]
+  },
+  "elephai": {
+    "smallDescription": "Rescaté y reconstruí una app Flutter que estaba fallando — de un código base inestable en pre-lanzamiento a producción en menos de 8 semanas.",
+    "fullDescription": "ElephAi es una app móvil B2C/B2B de Unwind Minds. Me uní como Lead Developer cuando la app estaba atascada en un estado crítico de pre-lanzamiento — inestable, fuertemente acoplada y sin poder salir a producción. Tomé responsabilidad técnica total: refactoricé todo el código, establecí una arquitectura limpia y entregué el primer lanzamiento público exitoso tanto en App Store como en Google Play.",
+    "challenge": "La app llevaba meses en desarrollo pero estaba lejos de estar lista para producción. El código no tenía límites arquitectónicos, módulos profundamente acoplados y sin ownership claro. El equipo necesitaba a alguien que tomara las riendas, evaluara el daño y entregara.",
+    "solution": "Tomé responsabilidad técnica total desde el primer día. Audité todo el código, identifiqué puntos críticos de falla y reconstruí los módulos principales con separación clara de responsabilidades. Establecí estándares arquitectónicos, documenté decisiones y coordiné el pipeline de lanzamiento en App Store y Google Play — entregando una app estable y lista para el público en menos de 8 semanas.",
+    "features": [
+      {
+        "title": "Refactorización completa del código",
+        "description": "100% de los módulos principales reconstruidos. Se eliminaron todas las dependencias fuertemente acopladas y se introdujeron límites arquitectónicos limpios que escalan con el equipo."
+      },
+      {
+        "title": "Liderazgo arquitectónico",
+        "description": "Definí y documenté todas las decisiones técnicas, estructura de carpetas, patrones de gestión de estado y estándares de integración de API del proyecto."
+      },
+      {
+        "title": "Lanzamiento en App Store y Play Store",
+        "description": "Configuré firma, pipelines de build y metadatos para ambas tiendas. Entregué el primer lanzamiento público exitoso de la app desde cero infraestructura."
+      },
+      {
+        "title": "Desarrollo continuo de funcionalidades",
+        "description": "Sigo construyendo nuevas funcionalidades e integraciones (incluyendo API de IA) manteniendo la calidad arquitectónica y la velocidad de entrega."
+      }
+    ]
+  }
+}

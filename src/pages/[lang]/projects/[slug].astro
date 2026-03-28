@@ -3,6 +3,7 @@ import { projects } from "../../../data/projects";
 import type { ProjectCategory } from "../../../data/projects";
 import Layout from "../../../layouts/Layout.astro";
 import { LOCALES, type Locale } from "../../../i18n/config";
+import { useTranslations, getProjectContent } from "../../../i18n/utils";
 import "../../../styles/global.css";
 import Chevron from "../../../assets/svg/Chevron.astro";
 import Code from "../../../assets/svg/Code.astro";
@@ -21,6 +22,8 @@ const { project, lang } = Astro.props as {
   lang: Locale;
 };
 
+const t = useTranslations(lang, "projectDetail");
+const content = getProjectContent(lang, project.slug);
 const backHref = `/${lang}/#projects`;
 ---
 
@@ -33,7 +36,7 @@ const backHref = `/${lang}/#projects`;
         class="inline-flex items-center gap-2 text-sm font-semibold text-secondary-5 transition-colors duration-200 ease-in-out hover:text-white"
       >
         <Chevron class="h4 w-5 rotate-180" />
-        Back to projects
+        {t("back")}
       </a>
     </div>
 
@@ -47,14 +50,14 @@ const backHref = `/${lang}/#projects`;
             project.onProgressTag && (
               <span class="tag tag--progress">
                 <span class="tag-dot" />
-                In progress
+                {t("tags.inProgress")}
               </span>
             )
           }
 
           {
             project.workProjectTag && (
-              <span class="tag tag--work">Work project</span>
+              <span class="tag tag--work">{t("tags.work")}</span>
             )
           }
 
@@ -69,7 +72,7 @@ const backHref = `/${lang}/#projects`;
         </h1>
 
         <p class="text-sm font-normal text-text-secondary">
-          {project.fullDescription}
+          {content.fullDescription}
         </p>
 
         <div class="mt-6 flex items-stretch gap-4">
@@ -82,7 +85,7 @@ const backHref = `/${lang}/#projects`;
             <span
               class="text-xs font-semibold uppercase tracking-wider text-secondary-5"
             >
-              Categories
+              {t("categories")}
             </span>
 
             <p class="mt-1 text-sm text-white/70">
@@ -109,7 +112,7 @@ const backHref = `/${lang}/#projects`;
                     stroke-linejoin="round"
                   />
                 </svg>
-                Live demo
+                {t("liveDemo")}
               </a>
             )
           }
@@ -123,7 +126,7 @@ const backHref = `/${lang}/#projects`;
                 class="btn-secondary-detail"
               >
                 <Code />
-                Source code
+                {t("sourceCode")}
               </a>
             )
           }
@@ -156,7 +159,7 @@ const backHref = `/${lang}/#projects`;
 
     <!-- TECH STACK -->
     <section class="container-main pb-18">
-      <h2 class="section-heading">Tech Stack</h2>
+      <h2 class="section-heading">{t("techStack")}</h2>
 
       <div class="flex flex-wrap gap-2 md:gap-4">
         {
@@ -195,8 +198,8 @@ const backHref = `/${lang}/#projects`;
             </svg>
           </div>
 
-          <h3 class="cs-title">The Challenge</h3>
-          <p class="cs-text">{project.challenge}</p>
+          <h3 class="cs-title">{t("challenge")}</h3>
+          <p class="cs-text">{content.challenge}</p>
         </div>
 
         <div class="cs-card">
@@ -214,19 +217,19 @@ const backHref = `/${lang}/#projects`;
             </svg>
           </div>
 
-          <h3 class="cs-title">The Solution</h3>
-          <p class="cs-text">{project.solution}</p>
+          <h3 class="cs-title">{t("solution")}</h3>
+          <p class="cs-text">{content.solution}</p>
         </div>
       </div>
     </section>
 
     <!-- FEATURES -->
     <section class="container-main pb-32 pt-18">
-      <h2 class="section-heading">Key Features</h2>
+      <h2 class="section-heading">{t("keyFeatures")}</h2>
 
       <div class="features-grid">
         {
-          project.features.map((feature, i) => (
+          content.features.map((feature, i) => (
             <div class="feature-card" style={`--delay: ${i * 80}ms`}>
               <div class="feature-number">{String(i + 1).padStart(2, "0")}</div>
               <h3 class="feature-title">{feature.title}</h3>
