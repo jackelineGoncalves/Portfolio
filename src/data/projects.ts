@@ -1,10 +1,15 @@
 // src/data/projects.ts
 import mova from "../assets/images/MOVA-1.png";
-import Expo from "../assets/svg/Expo.astro";
-import Postgre from "../assets/svg/Postgre.astro";
-import React from "../assets/svg/React.astro";
-import Supabase from "../assets/svg/Supabase.astro";
-import TypeScript from "../assets/svg/TypeScript.astro";
+import Server from "../assets/svg/Server.astro";
+import Dart from "../assets/svg/technologies/Dart.astro";
+import Expo from "../assets/svg/technologies/Expo.astro";
+import Figma from "../assets/svg/technologies/Figma.astro";
+import Firebase from "../assets/svg/technologies/Firebase.astro";
+import Flutter from "../assets/svg/technologies/Flutter.astro";
+import Postgre from "../assets/svg/technologies/Postgre.astro";
+import React from "../assets/svg/technologies/React.astro";
+import Supabase from "../assets/svg/technologies/Supabase.astro";
+import TypeScript from "../assets/svg/technologies/TypeScript.astro";
 
 export type TechItem = {
   icon: any;
@@ -54,6 +59,8 @@ export const projects: Project[] = [
       { icon: TypeScript, label: "TypeScript" },
       { icon: Supabase, label: "Supabase" },
       { icon: Postgre, label: "PostgreSQL" },
+      { icon: Figma, label: "Figma" },
+
     ],
     year: "2025",
     role: "Founder & Full Stack Developer",
@@ -74,10 +81,10 @@ export const projects: Project[] = [
     image: mova,
     previewImages: [mova, mova, mova],
     technologiesIcons: [
-      { icon: React, label: "Flutter" },
-      { icon: TypeScript, label: "Dart" },
-      { icon: Supabase, label: "Firebase" },
-      { icon: Postgre, label: "REST API" },
+      { icon: Flutter, label: "Flutter" },
+      { icon: Dart, label: "Dart" },
+      { icon: Firebase, label: "Firebase" },
+      { icon: Server, label: "API Integration" },
     ],
     year: "2025",
     role: "Lead Developer",
