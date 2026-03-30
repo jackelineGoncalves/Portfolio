@@ -46,5 +46,69 @@
         "description": "Sigo construyendo nuevas funcionalidades e integraciones (incluyendo API de IA) manteniendo la calidad arquitectónica y la velocidad de entrega."
       }
     ]
+  },
+  "nearsoft-onboarding": {
+    "smallDescription": "Plataforma de onboarding digital configurable desplegada en múltiples instituciones financieras — reemplazando flujos manuales con un proceso totalmente automatizado y gestionado por CMS.",
+    "fullDescription": "Desarrollada en Nearsoft, empresa fintech con sede en Madeira, esta plataforma digitaliza todo el proceso de onboarding de clientes para bancos e instituciones financieras. El sistema es multi-banco, preparado para white-label y gestionado por CMS — lo que significa que los equipos no técnicos pueden configurar flujos de onboarding, actualizar contenido y gestionar pasos de aprobación sin tocar una sola línea de código. Fui responsable de la arquitectura frontend y de la integración con Directus CMS de extremo a extremo.",
+    "challenge": "Las instituciones financieras gestionaban el onboarding mediante formularios en papel, entrada manual de datos y herramientas internas fragmentadas — creando cuellos de botella, riesgos de cumplimiento y una experiencia de cliente deficiente. La plataforma debía ser lo suficientemente robusta para industrias reguladas, lo suficientemente flexible para servir a múltiples bancos, y lo suficientemente rápida para que los clientes la completaran en móvil en minutos.",
+    "solution": "Arquitecté un frontend configurable usando React, Next.js y TypeScript con un backend Directus CMS (REST + GraphQL). Cada paso del onboarding está impulsado dinámicamente por la configuración del CMS, permitiendo que distintas instituciones tengan flujos totalmente personalizados sin cambios de código. Integré browser APIs para captura de documentos, persistencia de pasos y validación en tiempo real. Configuré pipelines de CI/CD y linting para reforzar la calidad del código y acelerar el onboarding del equipo.",
+    "features": [
+      {
+        "title": "Arquitectura CMS multi-banco",
+        "description": "Una sola instancia de Directus CMS gestiona flujos de onboarding independientes para múltiples instituciones financieras. Los equipos no técnicos controlan la lógica de pasos, contenido y reglas de validación — sin necesidad de deploys. Reducción de tickets de soporte en un 80%."
+      },
+      {
+        "title": "KYC y captura de documentos",
+        "description": "Integración de browser APIs para escaneo de documentos e identificación en el navegador, permitiendo cumplimiento KYC completamente remoto sin redirigir a los usuarios a herramientas externas."
+      },
+      {
+        "title": "Persistencia y recuperación de pasos",
+        "description": "Los usuarios pueden abandonar y retomar el flujo de onboarding en cualquier punto. Las browser APIs nativas gestionan la persistencia del estado, evitando pérdida de datos y reduciendo el abandono."
+      },
+      {
+        "title": "CI/CD y calidad de código",
+        "description": "Implementé ESLint, Prettier y GitHub Actions CI desde cero. Estandaricé el estilo de código en todo el equipo y automaticé las puertas de calidad, reduciendo bugs de integración y acelerando el onboarding de desarrolladores."
+      },
+      {
+        "title": "Integración de chatbot de IA interno",
+        "description": "Contribuí con la UI frontend y la integración de API para un prototipo de chatbot de IA interno impulsado por un LLM alojado localmente (Ollama), como parte de una iniciativa de innovación paralela dentro de la empresa."
+      },
+      {
+        "title": "Interfaces responsive y accesibles",
+        "description": "Implementación pixel-perfect de componentes del sistema de diseño en todos los dispositivos. Seguimiento de estándares de accesibilidad para garantizar el cumplimiento con los requisitos del sector financiero."
+      }
+    ]
+  },
+  "nearsoft-llm-chatbot": {
+    "smallDescription": "Chatbot de IA on-premise construido con Ollama y Llama 3 — conectando APIs privadas y fuentes de datos CMS para automatizar la recuperación de información interna sin exponer ningún dato a la nube.",
+    "fullDescription": "La mayoría de las empresas envían sus datos internos a APIs de IA externas — exponiendo información sensible a la nube. Este prototipo, construido durante mi etapa en Nearsoft, tomó el camino opuesto: un stack LLM completamente local usando Ollama y Llama 3, corriendo íntegramente en la infraestructura de la empresa. Diseñé y construí el sistema completo — desde la capa de API en Express.js que conecta con fuentes de datos privadas y CMS internos, hasta la interfaz de chat en React donde los equipos podían consultar el conocimiento de la empresa en tiempo real. No era solo una demo. Demostró que las herramientas de IA a nivel empresarial son posibles sin que un solo byte salga del edificio.",
+    "challenge": "Los equipos internos perdían tiempo valioso buscando manualmente en herramientas desconectadas — APIs privadas, plataformas CMS, documentación interna — para encontrar información que debería ser accesible al instante. Las soluciones de IA off-the-shelf eran demasiado caras, demasiado genéricas, o requerían enviar datos propietarios a proveedores externos en la nube, lo cual era inaceptable en el contexto de una industria regulada.",
+    "solution": "Diseñé y construí un chatbot de IA full-stack que corre 100% on-premise usando Ollama para servir Llama 3 localmente. Construí un backend en Express.js que agrega datos de APIs privadas y plataformas CMS en una capa de contexto unificada que se inyecta al LLM. Construí la interfaz de conversación en React, gestionando respuestas en streaming, estado de la conversación y UX de baja latencia. El resultado: un asistente de conocimiento interno funcional que demostró que los LLMs locales son viables para flujos de trabajo empresariales — sin dependencia de la nube, sin exposición de datos y sin coste por consulta.",
+    "features": [
+      {
+        "title": "Stack LLM completamente on-premise",
+        "description": "Ollama sirve Llama 3 localmente en hardware de la empresa — sin API keys, sin costes de nube, sin datos saliendo del edificio. Se validó que la inferencia LLM de calidad de producción es alcanzable sin dependencias externas."
+      },
+      {
+        "title": "Agregación de APIs privadas y CMS",
+        "description": "El backend en Express.js se conecta a APIs internas y plataformas CMS, agregando fuentes de datos fragmentadas en una capa de contexto unificada. El chatbot responde preguntas que antes requerían búsqueda manual en múltiples herramientas."
+      },
+      {
+        "title": "Interfaz de chat con streaming en tiempo real",
+        "description": "Frontend en React con soporte de respuestas en streaming, gestión del historial de conversación y patrones de UI optimista — garantizando una experiencia rápida y fluida incluso al consultar grandes conjuntos de datos internos."
+      },
+      {
+        "title": "Arquitectura de respuesta de baja latencia",
+        "description": "La lógica de integración de API fue diseñada para fiabilidad y velocidad — minimizando el tiempo de ida y vuelta entre el frontend, la capa Express y el LLM local. Se validó la calidad de respuesta y la latencia bajo condiciones de uso reales."
+      },
+      {
+        "title": "Prueba de viabilidad de IA empresarial",
+        "description": "El prototipo demostró directamente que los LLMs locales pueden reemplazar la IA en la nube en contextos de herramientas internas — sentando las bases técnicas y conceptuales para futuros flujos de trabajo habilitados por IA dentro de la empresa."
+      },
+      {
+        "title": "Inyección de contexto multi-fuente",
+        "description": "Se diseñó un pipeline de construcción de contexto que extrae datos relevantes de múltiples fuentes internas y los inyecta en el prompt del LLM — permitiendo respuestas precisas y conscientes del contexto basadas en datos reales de la empresa."
+      }
+    ]
   }
 }

@@ -2,10 +2,13 @@
 import mova from "../assets/images/MOVA-1.png";
 import Server from "../assets/svg/Server.astro";
 import Dart from "../assets/svg/technologies/Dart.astro";
+import Directus from "../assets/svg/technologies/Directus.astro";
 import Expo from "../assets/svg/technologies/Expo.astro";
 import Figma from "../assets/svg/technologies/Figma.astro";
 import Firebase from "../assets/svg/technologies/Firebase.astro";
 import Flutter from "../assets/svg/technologies/Flutter.astro";
+import GraphQL from "../assets/svg/technologies/GraphQL.astro";
+import NextJS from "../assets/svg/technologies/NextJS.astro";
 import Postgre from "../assets/svg/technologies/Postgre.astro";
 import React from "../assets/svg/technologies/React.astro";
 import Supabase from "../assets/svg/technologies/Supabase.astro";
@@ -17,6 +20,11 @@ export type TechItem = {
 };
 
 export type ProjectCategory = "Mobile" | "Frontend" | "Backend" | "Full Stack" | "UI/UX" | "SaaS";
+
+export type MetricItem = {
+  value: string;
+  label: string;
+};
 
 export type Project = {
   slug: string;
@@ -33,6 +41,7 @@ export type Project = {
   image: ImageMetadata;
   previewImages?: ImageMetadata[];
   technologiesIcons: TechItem[];
+  metrics?: MetricItem[];
   year: string;
   role: string;
   status: "In Progress" | "Completed" | "Archived";
@@ -60,7 +69,12 @@ export const projects: Project[] = [
       { icon: Supabase, label: "Supabase" },
       { icon: Postgre, label: "PostgreSQL" },
       { icon: Figma, label: "Figma" },
-
+    ],
+    metrics: [
+      { value: "40+", label: "Screens designed in Figma" },
+      { value: "70%", label: "Reduction in plan creation time" },
+      { value: "0→1", label: "Built solo end-to-end" },
+      { value: "Multi", label: "Tenant architecture with RLS" },
     ],
     year: "2025",
     role: "Founder & Full Stack Developer",
@@ -86,8 +100,76 @@ export const projects: Project[] = [
       { icon: Firebase, label: "Firebase" },
       { icon: Server, label: "API Integration" },
     ],
+    metrics: [
+      { value: "<8w", label: "Broken to live on both stores" },
+      { value: "100%", label: "Core modules rebuilt" },
+      { value: "2", label: "Stores launched (iOS & Android)" },
+      { value: "0→1", label: "Architecture built from scratch" },
+    ],
     year: "2025",
     role: "Lead Developer",
     status: "In Progress",
   },
+  {
+    slug: "nearsoft-onboarding",
+    name: "Digital Onboarding Platform",
+    onProgressTag: false,
+    workProjectTag: true,
+    hoveredTitle: "Configurable onboarding for financial institutions",
+    projectType: "Work Project · Frontend Engineer",
+    categories: ["Frontend", "Full Stack"],
+    hasCodeBtn: false,
+    hasDetailsBtn: true,
+    codeUrl: undefined,
+    liveUrl: "https://nearsoft.pt/digital-banking/onboarding/",
+    image: mova,
+    previewImages: [mova, mova, mova],
+    technologiesIcons: [
+      { icon: TypeScript, label: "TypeScript" },
+      { icon: React, label: "React" },
+      { icon: NextJS, label: "Next.js" },
+      { icon: Directus, label: "Directus CMS" },
+      { icon: GraphQL, label: "GraphQL" },
+      { icon: Figma, label: "Figma" },
+    ],
+    metrics: [
+      { value: "80%", label: "Reduction in support tickets" },
+      { value: "3+", label: "Financial institutions served" },
+      { value: "8mo", label: "Internship duration" },
+      { value: "0→1", label: "CI/CD built from scratch" },
+    ],
+    year: "2024",
+    role: "Frontend Engineer Intern",
+    status: "Completed",
+  },
+  // {
+  //   slug: "nearsoft-llm-chatbot",
+  //   name: "Local LLM Chatbot",
+  //   onProgressTag: false,
+  //   workProjectTag: true,
+  //   hoveredTitle: "Enterprise AI chatbot running fully on-premise",
+  //   projectType: "Work Project · Full Stack Engineer",
+  //   categories: ["Full Stack", "Backend"],
+  //   hasCodeBtn: false,
+  //   hasDetailsBtn: true,
+  //   codeUrl: undefined,
+  //   liveUrl: undefined,
+  //   image: mova,
+  //   previewImages: [mova, mova, mova],
+  //   technologiesIcons: [
+  //     { icon: Server, label: "Ollama + Llama 3" },
+  //     { icon: Server, label: "Express.js" },
+  //     { icon: TypeScript, label: "JavaScript" },
+  //     { icon: React, label: "React" },
+  //   ],
+  //   metrics: [
+  //     { value: "0→1", label: "Prototype built end-to-end" },
+  //     { value: "100%", label: "On-premise — zero data exposure" },
+  //     { value: "Local", label: "LLM inference, no cloud cost" },
+  //     { value: "POC", label: "Laid groundwork for AI tooling" },
+  //   ],
+  //   year: "2024",
+  //   role: "Full Stack Engineer",
+  //   status: "Completed",
+  // },
 ];

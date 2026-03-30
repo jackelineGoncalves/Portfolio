@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 ---
 
 <section
-  class="container-main grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-5 lg:gap-8"
+  class="container-main grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-5 lg:gap-8 h-full"
   data-projects-reveal
 >
   {
@@ -35,7 +35,7 @@ const { lang } = Astro.props;
           ]}
           style={`--reveal-delay: ${index * 120}ms;`}
         >
-          <div class={shouldCenter ? "w-full md:w-1/2" : "w-full"}>
+          <div class={shouldCenter ? "w-full md:w-1/2 h-full" : "w-full h-full"}>
             <ProjectCard
               {...project}
               {...getProjectContent(lang, project.slug)}

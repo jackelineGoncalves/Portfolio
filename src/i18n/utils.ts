@@ -17,6 +17,10 @@
 
 import { DEFAULT_LOCALE, type Locale, type Namespace } from "./config";
 
+// Static imports for projectsContent — guaranteed to be picked up by Vite
+import enProjectsContent from "./locales/en/projectsContent.json";
+import esProjectsContent from "./locales/es/projectsContent.json";
+
 type TranslationRecord = Record<string, unknown>;
 
 // Vite bundles all locale JSON files statically at build time
@@ -59,9 +63,21 @@ export type ProjectContent = {
   features: ProjectFeature[];
 };
 
+type ProjectsContentMap = Record<string, Partial<ProjectContent>>;
+
+const projectsContentMap: Record<Locale, ProjectsContentMap> = {
+  en: enProjectsContent as ProjectsContentMap,
+  es: esProjectsContent as ProjectsContentMap,
+};
+
 export function getProjectContent(locale: Locale, slug: string): ProjectContent {
-  const dict = getTranslations(locale, "projectsContent");
-  const fallback = getTranslations("en", "projectsContent");
-  const data = (dict[slug] ?? fallback[slug] ?? {}) as ProjectContent;
-  return data;
+  const localeMap = projectsContentMap[locale] ?? projectsContentMap[DEFAULT_LOCALE];
+  const raw = localeMap[slug] ?? projectsContentMap[DEFAULT_LOCALE][slug] ?? {};
+  return {
+    smallDescription: raw.smallDescription ?? "",
+    fullDescription:  raw.fullDescription  ?? "",
+    challenge:        raw.challenge        ?? "",
+    solution:         raw.solution         ?? "",
+    features:         Array.isArray(raw.features) ? raw.features : [],
+  };
 }

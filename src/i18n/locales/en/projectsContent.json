@@ -46,5 +46,69 @@
         "description": "Continuing to build new product features and integrations (including AI API) while maintaining architectural quality and velocity."
       }
     ]
+  },
+  "nearsoft-onboarding": {
+    "smallDescription": "Configurable digital onboarding platform deployed across multiple financial institutions — replacing manual workflows with a fully automated, CMS-driven process.",
+    "fullDescription": "Built at Nearsoft, a fintech software company based in Madeira, this platform digitizes the entire client onboarding journey for banks and financial institutions. The system is multi-bank, white-label ready, and CMS-driven — meaning non-technical teams can configure onboarding flows, update content, and manage approval steps without touching a single line of code. I owned the frontend architecture and the Directus CMS integration end-to-end.",
+    "challenge": "Financial institutions were running onboarding through paper forms, manual data entry, and fragmented internal tools — creating bottlenecks, compliance risks, and poor customer experience. The platform needed to be robust enough for regulated industries, flexible enough to serve multiple banks, and fast enough for customers to complete on mobile in minutes.",
+    "solution": "Architected a configurable frontend using React, Next.js and TypeScript with a Directus CMS backend (REST + GraphQL). Each onboarding step is dynamically driven by CMS configuration, enabling different institutions to have fully customized flows without code changes. Integrated browser APIs for document capture, step persistence and real-time validation. Set up CI/CD pipelines and linting to harden code quality and speed up team onboarding.",
+    "features": [
+      {
+        "title": "Multi-bank CMS Architecture",
+        "description": "A single Directus CMS instance powers independent onboarding flows for multiple financial institutions. Non-technical teams control step logic, content and validation rules — no deployments needed. Reduced support tickets by 80%."
+      },
+      {
+        "title": "KYC & Document Capture",
+        "description": "Integrated browser APIs for in-browser document scanning and identity verification, enabling fully remote KYC compliance without redirecting users to third-party tools."
+      },
+      {
+        "title": "Step Persistence & Recovery",
+        "description": "Users can abandon and resume the onboarding flow at any point. Browser-native APIs handle state persistence, preventing data loss and reducing drop-off rates."
+      },
+      {
+        "title": "CI/CD & Code Quality",
+        "description": "Introduced ESLint, Prettier and GitHub Actions CI pipelines from scratch. Standardized code style across the team and automated quality gates, cutting integration bugs and accelerating developer onboarding."
+      },
+      {
+        "title": "Internal AI Chatbot Integration",
+        "description": "Contributed frontend UI and API integration for an internal AI chatbot prototype powered by a locally hosted LLM (Ollama), as part of a parallel innovation initiative within the company."
+      },
+      {
+        "title": "Responsive & Accessible Interfaces",
+        "description": "Pixel-perfect implementation of design system components across all devices. Followed accessibility standards to ensure compliance with financial sector requirements."
+      }
+    ]
+  },
+  "nearsoft-llm-chatbot": {
+    "smallDescription": "On-premise AI chatbot built with Ollama and Llama 3 — connecting private APIs and CMS data sources to automate internal information retrieval with zero cloud exposure.",
+    "fullDescription": "Most companies send their internal data to third-party AI APIs — exposing sensitive information to the cloud. This prototype, built during my time at Nearsoft, took the opposite approach: a fully local LLM stack using Ollama and Llama 3, running entirely on company infrastructure. I designed and built the complete system — from the Express.js API layer connecting to private CMS and internal data sources, to the React chat interface where teams could query company knowledge in real time. It wasn't just a demo. It proved that enterprise-grade AI tooling is possible without a single byte leaving the building.",
+    "challenge": "Internal teams were losing significant time manually searching across disconnected tools — private APIs, CMS platforms, internal docs — to find information that should have been instantly accessible. Off-the-shelf AI solutions were either too expensive, too generic, or required sending proprietary data to external cloud providers, which was a non-starter in a regulated industry context.",
+    "solution": "Designed and built a full-stack AI chatbot running 100% on-premise using Ollama to serve Llama 3 locally. Built an Express.js backend that aggregated data from private APIs and CMS platforms into a unified context layer fed to the LLM. Built the frontend conversation interface with React, handling real-time streaming responses, conversation state, and low-latency UX. The result: a working internal knowledge assistant that demonstrated local LLMs are viable for enterprise workflows — with no cloud dependency, no data exposure, and no per-query cost.",
+    "features": [
+      {
+        "title": "Fully On-Premise LLM Stack",
+        "description": "Ollama serves Llama 3 locally on company hardware — no API keys, no cloud costs, no data leaving the building. Validated that production-quality LLM inference is achievable without external dependencies."
+      },
+      {
+        "title": "Private API & CMS Aggregation",
+        "description": "Express.js backend connects to internal APIs and CMS platforms, aggregating fragmented data sources into a unified context layer. The chatbot answers questions that previously required manual lookup across multiple tools."
+      },
+      {
+        "title": "Real-Time Streaming Chat Interface",
+        "description": "React frontend with streaming response support, conversation history management, and optimistic UI patterns — ensuring a fast, fluid experience even when querying large internal datasets."
+      },
+      {
+        "title": "Low-Latency Response Architecture",
+        "description": "API integration logic was designed for reliability and speed — minimizing round-trip time between the frontend, the Express layer, and the local LLM. Validated response quality and latency under realistic usage conditions."
+      },
+      {
+        "title": "Enterprise AI Feasibility Proof",
+        "description": "The prototype directly demonstrated that local LLMs can replace cloud AI in internal tooling contexts — laying the technical and conceptual groundwork for future AI-enabled workflows within the company."
+      },
+      {
+        "title": "Multi-Source Context Injection",
+        "description": "Engineered a context-building pipeline that pulls relevant data from multiple internal sources and injects it into the LLM prompt — enabling accurate, context-aware answers grounded in real company data."
+      }
+    ]
   }
 }
