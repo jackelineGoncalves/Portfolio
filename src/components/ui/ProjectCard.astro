@@ -2,6 +2,8 @@
 import Chevron from "../../assets/svg/Chevron.astro";
 import GitBranch from "../../assets/svg/GitBranch.astro";
 import Button from "../ui/Button.astro";
+import { useTranslations } from "../../i18n";
+import type { Locale } from "../../i18n/config";
 
 type ProjectCategory = "Mobile" | "Frontend" | "Backend" | "Full Stack" | "UI/UX" | "SaaS";
 
@@ -11,6 +13,7 @@ interface TechItem {
 }
 
 interface Props {
+  lang: Locale;
   name: string;
   smallDescription: string;
   onProgressTag?: boolean;
@@ -29,6 +32,7 @@ interface Props {
 }
 
 const {
+  lang,
   name,
   smallDescription,
   onProgressTag = false,
@@ -44,6 +48,8 @@ const {
   detailHref,
   slug,
 } = Astro.props;
+
+const t = useTranslations(lang, "projects");
 
 // Color map per category
 const categoryColors: Record<ProjectCategory, { bg: string; text: string; border: string }> = {
@@ -74,12 +80,12 @@ const categoryColors: Record<ProjectCategory, { bg: string; text: string; border
           <div class="flex h-4 w-4 items-center justify-center rounded-full bg-secondary-3">
             <div class="h-2.5 w-2.5 rounded-full bg-primary" />
           </div>
-          <p class="text-xs text-text-secondary">In progress</p>
+          <p class="text-xs text-text-secondary">{t("card.inProgress")}</p>
         </div>
       )}
       {workProjectTag && (
         <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
-          <p class="text-xs text-text-secondary">Work project</p>
+          <p class="text-xs text-text-secondary">{t("card.work")}</p>
         </div>
       )}
     </div>
@@ -145,7 +151,7 @@ const categoryColors: Record<ProjectCategory, { bg: string; text: string; border
       <div class={`flex w-full gap-4 ${hasCodeBtn && hasDetailsBtn ? "justify-between" : "justify-end"}`}>
         {hasDetailsBtn && (
           <Button
-            label="View Details"
+            label={t("card.viewDetails")}
             variant="primary"
             href={detailHref ?? "#"}
             size="sm"
@@ -156,7 +162,7 @@ const categoryColors: Record<ProjectCategory, { bg: string; text: string; border
         )}
         {hasCodeBtn && (
           <Button
-            label="Code"
+            label={t("card.code")}
             variant="secondary"
             href={codeUrl ?? "#"}
             size="sm"

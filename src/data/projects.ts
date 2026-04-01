@@ -113,7 +113,7 @@ export const projects: Project[] = [
   {
     slug: "elephai",
     name: "ElephAi App",
-    onProgressTag: true,
+    onProgressTag: false,
     workProjectTag: true,
     hoveredTitle: "Production Flutter app — from broken to live",
     projectType: "Work Project · Lead Developer",

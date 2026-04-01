@@ -12,5 +12,7 @@
   "challenge": "El desafío",
   "solution": "La solución",
   "keyFeatures": "Funcionalidades clave",
-  "gallery": "Galería"
+  "gallery": "Galería",
+  "galleryScreenshots": "Capturas de pantalla",
+  "galleryViewFull": "Ver galería completa"
 }

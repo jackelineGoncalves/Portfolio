@@ -2,5 +2,11 @@
   "sectionLabel": "PORTAFOLIO",
   "title": "Proyectos",
   "titleHighlight": "destacados",
-  "description": "Una selección de proyectos que me dieron confianza para construir software."
+  "description": "Una selección de proyectos que me dieron confianza para construir software.",
+  "card": {
+    "inProgress": "En progreso",
+    "work": "Proyecto laboral",
+    "viewDetails": "Ver detalles",
+    "code": "Código"
+  }
 }

@@ -2,5 +2,11 @@
   "sectionLabel": "PORTFOLIO",
   "title": "Featured",
   "titleHighlight": "Projects",
-  "description": "A curated selection of projects that made me confident in building software."
+  "description": "A curated selection of projects that made me confident in building software.",
+  "card": {
+    "inProgress": "In progress",
+    "work": "Work project",
+    "viewDetails": "View Details",
+    "code": "Code"
+  }
 }

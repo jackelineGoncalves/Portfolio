@@ -4,6 +4,12 @@ import Github from "../../assets/svg/Github.astro";
 import LinkedIn from "../../assets/svg/LinkedIn.astro";
 import Email from "../../assets/svg/Email.astro";
 import Button from "../ui/Button.astro";
+import { useTranslations } from "../../i18n";
+import type { Locale } from "../../i18n/config";
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang, "hero");
 ---
 
 <section class="relative min-h-screen overflow-hidden hero animate-hero" data-hero>
@@ -23,31 +29,29 @@ import Button from "../ui/Button.astro";
           class="availability-badge bg-primary-2/15 border border-primary-2/20 mb-4"
         >
           <span class="dot"></span>
-          Available for work
+          {t("badge")}
         </div>
 
         <h1 class="text-white text-2xl md:text-3xl font-bold">
-          Hey! I'm Jackeline
+          {t("greeting")}
         </h1>
 
-        <h2 class="gradient-text text-xl font-semibold">Software Developer</h2>
+        <h2 class="gradient-text text-xl font-semibold">{t("role")}</h2>
       </header>
 
       <div class="grid gap-10">
         <p class="text-text-secondary text-sm">
-          Mobile Developer specializing in React Native, TypeScript and Flutter.
-          I build high-performance mobile applications with a focus on clean
-          architecture and great user experience.
+          {t("description")}
         </p>
 
         <div
           class="flex items-center justify-center md:justify-start gap-8 md:gap-10.5"
         >
-          <Button label="View CV" variant="primary" href="#projects">
+          <Button label={t("cta")} variant="primary" href="#projects">
             <Chevron slot="icon-right" />
           </Button>
 
-          <nav aria-label="Social links">
+          <nav aria-label={t("socials.ariaLabel")}>
             <ul class="flex items-center gap-5">
               <li>
                 <a class="social-btn social-btn--github" href="https://github.com/jackelineGoncalves">
@@ -86,7 +90,7 @@ import Button from "../ui/Button.astro";
     >
       <img
         src="/src/assets/images/profile.png"
-        alt="Profile card"
+        alt={t("profileImageAlt")}
         class="block h-auto w-[clamp(160px,60vw,420px)] object-contain rotate-[8deg] -translate-x-1.5 drop-shadow-[0_24px_45px_rgba(0,0,0,0.35)] md:max-h-[82vh] md:w-[clamp(280px,34vw,500px)] md:rotate-10 md:-translate-x-4.5 lg:w-[clamp(340px,32vw,560px)] lg:rotate-11 lg:-translate-x-6.5"
       />
     </aside>

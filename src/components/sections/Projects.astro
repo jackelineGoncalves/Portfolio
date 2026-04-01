@@ -49,6 +49,7 @@ const { lang } = Astro.props;
             <ProjectCard
               {...project}
               {...getProjectContent(lang, project.slug)}
+              lang={lang}
               detailHref={`/${lang}/projects/${project.slug}/`}
             >
               <div slot="preview" class="relative mt-4">
