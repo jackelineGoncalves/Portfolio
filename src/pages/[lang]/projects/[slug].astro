@@ -176,7 +176,7 @@ const thirdImage = previewImages[2] ?? previewImages[0];
               src={firstImage.src}
               alt={`${project.name} screen 1`}
               loading="lazy"
-              class="relative z-10 w-[32%] translate-y-10 rounded-[20px] object-contain shadow-[0_20px_40px_rgba(0,0,0,0.55)]"
+              class="relative z-10 w-[28%] rounded-[20px] object-contain shadow-[0_20px_40px_rgba(0,0,0,0.55)]"
             />
 
             <img
@@ -184,7 +184,7 @@ const thirdImage = previewImages[2] ?? previewImages[0];
               alt={`${project.name} screen 2`}
               transition:name={`project-image-${project.slug}`}
               loading="eager"
-              class="relative z-20 w-[32%] translate-y-14 rounded-[20px] object-contain shadow-[0_24px_50px_rgba(0,0,0,0.65)]"
+              class="relative z-20 w-[32%] rounded-[20px] object-contain shadow-[0_24px_50px_rgba(0,0,0,0.65)]"
             />
           </div>
         )}
@@ -285,7 +285,10 @@ const thirdImage = previewImages[2] ?? previewImages[0];
       </div>
     </section>
 
-    <section class="container-main pb-32 pt-18">
+    <section
+      class="container-main pt-18"
+      class:list={[project.galleryImages?.length ? "pb-18" : "pb-32"]}
+    >
       <h2 class="section-heading">{t("keyFeatures")}</h2>
 
       <div class="features-grid">
@@ -300,6 +303,130 @@ const thirdImage = previewImages[2] ?? previewImages[0];
         }
       </div>
     </section>
+
+    {project.galleryImages && project.galleryImages.length > 0 && (
+      <section class="container-main pb-32 pt-4">
+        <h2 class="section-heading">{t("gallery")}</h2>
+
+        <button
+          class="gallery-cta"
+          id="open-gallery-cta"
+          type="button"
+          aria-label={`Open ${project.name} gallery`}
+        >
+          <div class="gallery-cta__content">
+            <div class="gallery-cta__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                />
+                <path
+                  d="m8 15 2.5-2.5a1.5 1.5 0 0 1 2.12 0L16 16"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor" />
+              </svg>
+            </div>
+
+            <div class="gallery-cta__text">
+              <span class="gallery-cta__eyebrow">Screenshots</span>
+              <h3 class="gallery-cta__title">View full gallery</h3>
+            </div>
+          </div>
+
+          <div class="gallery-cta__arrow">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M7 17 17 7M17 7H8M17 7v9"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </button>
+
+        <div class="hidden-gallery-items" aria-hidden="true">
+          {project.galleryImages.map((img, i) => (
+            <button
+              type="button"
+              data-gallery-index={i}
+              data-gallery-src={img.src}
+              aria-label={`View ${project.name} screenshot ${i + 1}`}
+              tabindex="-1"
+            >
+              <img
+                src={img.src}
+                alt={`${project.name} screenshot ${i + 1}`}
+                loading="lazy"
+              />
+            </button>
+          ))}
+        </div>
+
+        <div
+          id="gallery-lightbox"
+          class="lightbox"
+          aria-modal="true"
+          role="dialog"
+          aria-hidden="true"
+        >
+          <button id="lightbox-close" class="lightbox-close" aria-label="Close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M18 6L6 18M6 6l12 12"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+
+          <button
+            id="lightbox-prev"
+            class="lightbox-nav lightbox-nav--prev"
+            aria-label="Previous"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="" class="lightbox-img" />
+            <p id="lightbox-counter" class="lightbox-counter"></p>
+          </div>
+
+          <button
+            id="lightbox-next"
+            class="lightbox-nav lightbox-nav--next"
+            aria-label="Next"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M9 18l6-6-6-6"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+    )}
   </div>
 </Layout>
 
@@ -587,4 +714,262 @@ const thirdImage = previewImages[2] ?? previewImages[0];
       transform: none;
     }
   }
+
+  /* GALLERY CTA */
+  .gallery-cta {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.3rem 1.4rem;
+    border-radius: 24px;
+    border: 1px solid var(--secondary-1);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.01)
+      ),
+      var(--bg-surface);
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      transform 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .gallery-cta:hover {
+    transform: translateY(-2px);
+    border-color: rgba(83, 235, 243, 0.35);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.28),
+      0 0 0 1px rgba(83, 235, 243, 0.08);
+  }
+
+  .gallery-cta__content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .gallery-cta__icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    color: var(--primary);
+    background: rgba(83, 235, 243, 0.08);
+    border: 1px solid rgba(83, 235, 243, 0.16);
+  }
+
+  .gallery-cta__text {
+    min-width: 0;
+  }
+
+  .gallery-cta__eyebrow {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--secondary-5);
+  }
+
+  .gallery-cta__title {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  .gallery-cta__desc {
+    margin: 0.28rem 0 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--secondary-5);
+  }
+
+  .gallery-cta__arrow {
+    flex-shrink: 0;
+    color: white;
+    opacity: 0.8;
+    transition:
+      transform 0.25s ease,
+      opacity 0.25s ease;
+  }
+
+  .gallery-cta:hover .gallery-cta__arrow {
+    transform: translate(2px, -2px);
+    opacity: 1;
+  }
+
+  .hidden-gallery-items {
+    display: none;
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(2, 8, 23, 0.92);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .lightbox.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .lightbox-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+
+  .lightbox-img {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.8);
+  }
+
+  .lightbox-counter {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    z-index: 1;
+  }
+
+  .lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .lightbox-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    z-index: 1;
+  }
+
+  .lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .lightbox-nav--prev {
+    left: 1.25rem;
+  }
+
+  .lightbox-nav--next {
+    right: 1.25rem;
+  }
 </style>
+
+<script>
+  function setupGallery() {
+    const lightbox = document.getElementById("gallery-lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxCounter = document.getElementById("lightbox-counter");
+    const btnClose = document.getElementById("lightbox-close");
+    const btnPrev = document.getElementById("lightbox-prev");
+    const btnNext = document.getElementById("lightbox-next");
+    const openGalleryCta = document.getElementById("open-gallery-cta");
+
+    if (!lightbox || !lightboxImg || !lightboxCounter) return;
+
+    const items = Array.from(document.querySelectorAll("[data-gallery-index]"));
+
+    if (!items.length) return;
+
+    const srcs = items.map((item) => item.dataset.gallerySrc || "");
+
+    let current = 0;
+
+    function open(index) {
+      current = index;
+      lightboxImg.src = srcs[current];
+      lightboxImg.alt = `Screenshot ${current + 1}`;
+      lightboxCounter.textContent = `${current + 1} / ${srcs.length}`;
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function close() {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function prev() {
+      open((current - 1 + srcs.length) % srcs.length);
+    }
+
+    function next() {
+      open((current + 1) % srcs.length);
+    }
+
+    openGalleryCta?.addEventListener("click", () => open(0));
+    btnClose?.addEventListener("click", close);
+    btnPrev?.addEventListener("click", prev);
+    btnNext?.addEventListener("click", next);
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("is-open")) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    });
+  }
+
+  setupGallery();
+  document.addEventListener("astro:page-load", setupGallery);
+</script>

@@ -2,8 +2,23 @@
 import tasks from "../assets/images/projects/mova/tasks.png";
 import finantialDashboard from "../assets/images/projects/mova/finantial-dashboard.png";
 import mondayMeals from "../assets/images/projects/mova/monday-meals.png";
+import assessmentChart from "../assets/images/projects/mova/assessment-chart.png";
+import assessmentsPhotos from "../assets/images/projects/mova/assessments-photos.png";
+import clientNavbar from "../assets/images/projects/mova/client-navbar.png";
+import customizeExercise from "../assets/images/projects/mova/customize-exercise.png";
+import mealDetails from "../assets/images/projects/mova/meal-datails.png";
+import nutritionFacts from "../assets/images/projects/mova/nutrition-facts.png";
+import nutritionPlan from "../assets/images/projects/mova/nutrition-plan.png";
+import ptNavbar from "../assets/images/projects/mova/pt-navbar.png";
+import ptPacks from "../assets/images/projects/mova/pt-packs.png";
+import trainingPlan from "../assets/images/projects/mova/training-plan.png";
+import workoutDetails from "../assets/images/projects/mova/workout-details.png";
 import elephai1 from "../assets/images/projects/elephAi/image-1.png";
 import elephai2 from "../assets/images/projects/elephAi/image-2.png";
+import elephaiHome from "../assets/images/projects/elephAi/home.png";
+import elephaiChat from "../assets/images/projects/elephAi/chat.png";
+import elephaiProfile from "../assets/images/projects/elephAi/profile.png";
+import elephaiImage35 from "../assets/images/projects/elephAi/image 35.png";
 import onboarding1 from "../assets/images/projects/onboarding/image-1.png";
 import Server from "../assets/svg/Server.astro";
 import Dart from "../assets/svg/technologies/Dart.astro";
@@ -47,7 +62,8 @@ export type Project = {
   liveUrl?: string;
   image: ImageMetadata;
   previewImages?: ImageMetadata[];
-    previewVariant: PreviewVariant;
+  previewVariant: PreviewVariant;
+  galleryImages?: ImageMetadata[];
   technologiesIcons: TechItem[];
   metrics?: MetricItem[];
   year: string;
@@ -71,6 +87,11 @@ export const projects: Project[] = [
     image: tasks,
     previewImages: [finantialDashboard, tasks, mondayMeals],
     previewVariant: "triple-phone",
+    galleryImages: [
+      finantialDashboard, tasks, mondayMeals, trainingPlan, workoutDetails,
+      customizeExercise, nutritionPlan, nutritionFacts, mealDetails,
+      ptPacks, assessmentChart, assessmentsPhotos, clientNavbar, ptNavbar,
+    ],
     technologiesIcons: [
       { icon: React, label: "React Native" },
       { icon: Expo, label: "Expo" },
@@ -103,7 +124,8 @@ export const projects: Project[] = [
     liveUrl: undefined,
     image: elephai1,
     previewImages: [elephai1, elephai2],
-      previewVariant: "two-screens",
+    previewVariant: "two-screens",
+    galleryImages: [elephaiHome, elephai1, elephai2, elephaiChat, elephaiProfile, elephaiImage35],
     technologiesIcons: [
       { icon: Flutter, label: "Flutter" },
       { icon: Dart, label: "Dart" },
@@ -134,14 +156,14 @@ export const projects: Project[] = [
     liveUrl: "https://nearsoft.pt/digital-banking/onboarding/",
     image: onboarding1,
     previewImages: [onboarding1],
-        previewVariant: "single-screen",
+    previewVariant: "single-screen",
+    galleryImages: [onboarding1],
     technologiesIcons: [
       { icon: TypeScript, label: "TypeScript" },
       { icon: React, label: "React" },
       { icon: NextJS, label: "Next.js" },
       { icon: Directus, label: "Directus CMS" },
       { icon: GraphQL, label: "GraphQL" },
-      { icon: Figma, label: "Figma" },
     ],
     metrics: [
       { value: "80%", label: "Reduction in support tickets" },
