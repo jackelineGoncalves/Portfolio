@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 ---
 
 <section
-  class="container-main grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-5 lg:gap-8 h-full"
+  class="container-main grid h-full grid-cols-1 gap-8 md:grid-cols-2 md:gap-5 lg:gap-8"
   data-projects-reveal
 >
   {
@@ -27,6 +27,14 @@ const { lang } = Astro.props;
           ? "project-reveal-card project-reveal-card--left"
           : "project-reveal-card project-reveal-card--right";
 
+      const previewImages = project.previewImages?.length
+        ? project.previewImages
+        : [project.image];
+
+      const firstImage = previewImages[0];
+      const secondImage = previewImages[1] ?? previewImages[0];
+      const thirdImage = previewImages[2] ?? previewImages[0];
+
       return (
         <div
           class:list={[
@@ -35,33 +43,70 @@ const { lang } = Astro.props;
           ]}
           style={`--reveal-delay: ${index * 120}ms;`}
         >
-          <div class={shouldCenter ? "w-full md:w-1/2 h-full" : "w-full h-full"}>
+          <div
+            class={shouldCenter ? "h-full w-full md:w-1/2" : "h-full w-full"}
+          >
             <ProjectCard
               {...project}
               {...getProjectContent(lang, project.slug)}
               detailHref={`/${lang}/projects/${project.slug}/`}
             >
-              <div
-                slot="preview"
-                class="relative mt-4 flex items-end justify-center"
-              >
-                <div class="absolute bottom-8 left-1/2 h-28 w-28 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
-                <img
-                  src={project.image.src}
-                  alt={`${project.name} screen left`}
-                  class="relative z-0 w-[24%] translate-x-5 translate-y-5 -rotate-12 object-cover shadow-[0_20px_40px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:scale-[0.98] md:w-[22%]"
-                />
-                <img
-                  src={project.image.src}
-                  alt={`${project.name} main screen`}
-                  transition:name={`project-image-${project.slug}`}
-                  class="relative z-10 w-[32%] translate-y-10 object-cover shadow-[0_24px_50px_rgba(0,0,0,0.65)] transition-transform duration-500 group-hover:scale-[0.98] md:w-[30%]"
-                />
-                <img
-                  src={project.image.src}
-                  alt={`${project.name} screen right`}
-                  class="relative z-0 w-[24%] -translate-x-5 translate-y-5 rotate-12 object-cover shadow-[0_20px_40px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:scale-[0.98] md:w-[22%]"
-                />
+              <div slot="preview" class="relative mt-4">
+                {project.previewVariant === "triple-phone" && (
+                  <div class="relative flex items-end justify-center">
+                    <div class="absolute bottom-8 left-1/2 h-28 w-28 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+
+                    <img
+                      src={firstImage.src}
+                      alt={`${project.name} screen left`}
+                      class="relative z-0 w-[24%] translate-x-5 translate-y-5 -rotate-12 object-cover shadow-[0_20px_40px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:-translate-y-1 md:w-[22%]"
+                    />
+
+                    <img
+                      src={secondImage.src}
+                      alt={`${project.name} main screen`}
+                      transition:name={`project-image-${project.slug}`}
+                      class="relative z-10 w-[32%] translate-y-10 object-cover shadow-[0_24px_50px_rgba(0,0,0,0.65)] transition-transform duration-500 group-hover:-translate-y-1 md:w-[30%]"
+                    />
+
+                    <img
+                      src={thirdImage.src}
+                      alt={`${project.name} screen right`}
+                      class="relative z-0 w-[24%] -translate-x-5 translate-y-5 rotate-12 object-cover shadow-[0_20px_40px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:-translate-y-1 md:w-[22%]"
+                    />
+                  </div>
+                )}
+
+                {project.previewVariant === "two-screens" && (
+                  <div class="relative flex items-end justify-center gap-4">
+                    <div class="absolute bottom-6 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+
+                    <img
+                      src={firstImage.src}
+                      alt={`${project.name} preview 1`}
+                      class="relative z-10 w-[31%] translate-y-12 object-cover shadow-[0_24px_50px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:-translate-y-1 md:w-[27%]"
+                    />
+                    <img
+                      src={secondImage.src}
+                      alt={`${project.name} preview 2`}
+                      transition:name={`project-image-${project.slug}`}
+                      class="relative z-20 w-[34%] translate-y-12 object-cover shadow-[0_24px_50px_rgba(0,0,0,0.65)] transition-transform duration-500 group-hover:-translate-y-1 md:w-[30%]"
+                    />
+                  </div>
+                )}
+
+                {project.previewVariant === "single-screen" && (
+                  <div class="relative flex justify-center">
+                    <div class="absolute inset-0 mx-auto h-32 w-32 rounded-full bg-primary/10 blur-3xl" />
+
+                    <img
+                      src={firstImage.src}
+                      alt={`${project.name} preview`}
+                      transition:name={`project-image-${project.slug}`}
+                      class="relative z-10 w-[78%] rounded-[22px] object-cover shadow-[0_24px_50px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:scale-[1.02] md:w-[72%]"
+                    />
+                  </div>
+                )}
               </div>
             </ProjectCard>
           </div>
@@ -95,7 +140,7 @@ const { lang } = Astro.props;
           obs.unobserve(entry.target);
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" },
     );
 
     observer.observe(section);
@@ -114,19 +159,24 @@ const { lang } = Astro.props;
       transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
     transition-delay: var(--reveal-delay, 0ms);
   }
+
   .project-reveal-card--left {
     transform: translate3d(-18px, 28px, 0);
   }
+
   .project-reveal-card--right {
     transform: translate3d(18px, 28px, 0);
   }
+
   .project-reveal-card--center {
     transform: translate3d(0, 28px, 0);
   }
+
   .project-reveal-card.is-visible {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+
   @media (prefers-reduced-motion: reduce) {
     .project-reveal-card {
       opacity: 1;

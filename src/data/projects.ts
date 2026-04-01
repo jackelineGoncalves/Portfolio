@@ -1,5 +1,10 @@
 // src/data/projects.ts
-import mova from "../assets/images/MOVA-1.png";
+import tasks from "../assets/images/projects/mova/tasks.png";
+import finantialDashboard from "../assets/images/projects/mova/finantial-dashboard.png";
+import mondayMeals from "../assets/images/projects/mova/monday-meals.png";
+import elephai1 from "../assets/images/projects/elephAi/image-1.png";
+import elephai2 from "../assets/images/projects/elephAi/image-2.png";
+import onboarding1 from "../assets/images/projects/onboarding/image-1.png";
 import Server from "../assets/svg/Server.astro";
 import Dart from "../assets/svg/technologies/Dart.astro";
 import Directus from "../assets/svg/technologies/Directus.astro";
@@ -21,6 +26,8 @@ export type TechItem = {
 
 export type ProjectCategory = "Mobile" | "Frontend" | "Backend" | "Full Stack" | "UI/UX" | "SaaS";
 
+export type PreviewVariant = "triple-phone" | "single-screen" | "two-screens";
+
 export type MetricItem = {
   value: string;
   label: string;
@@ -40,6 +47,7 @@ export type Project = {
   liveUrl?: string;
   image: ImageMetadata;
   previewImages?: ImageMetadata[];
+    previewVariant: PreviewVariant;
   technologiesIcons: TechItem[];
   metrics?: MetricItem[];
   year: string;
@@ -60,8 +68,9 @@ export const projects: Project[] = [
     hasDetailsBtn: true,
     codeUrl: undefined,
     liveUrl: undefined,
-    image: mova,
-    previewImages: [mova, mova, mova],
+    image: tasks,
+    previewImages: [finantialDashboard, tasks, mondayMeals],
+    previewVariant: "triple-phone",
     technologiesIcons: [
       { icon: React, label: "React Native" },
       { icon: Expo, label: "Expo" },
@@ -92,8 +101,9 @@ export const projects: Project[] = [
     hasDetailsBtn: true,
     codeUrl: undefined,
     liveUrl: undefined,
-    image: mova,
-    previewImages: [mova, mova, mova],
+    image: elephai1,
+    previewImages: [elephai1, elephai2],
+      previewVariant: "two-screens",
     technologiesIcons: [
       { icon: Flutter, label: "Flutter" },
       { icon: Dart, label: "Dart" },
@@ -117,13 +127,14 @@ export const projects: Project[] = [
     workProjectTag: true,
     hoveredTitle: "Configurable onboarding for financial institutions",
     projectType: "Work Project · Frontend Engineer",
-    categories: ["Frontend", "Full Stack"],
+    categories: ["Frontend"],
     hasCodeBtn: false,
     hasDetailsBtn: true,
     codeUrl: undefined,
     liveUrl: "https://nearsoft.pt/digital-banking/onboarding/",
-    image: mova,
-    previewImages: [mova, mova, mova],
+    image: onboarding1,
+    previewImages: [onboarding1],
+        previewVariant: "single-screen",
     technologiesIcons: [
       { icon: TypeScript, label: "TypeScript" },
       { icon: React, label: "React" },

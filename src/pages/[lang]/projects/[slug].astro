@@ -25,11 +25,18 @@ const { project, lang } = Astro.props as {
 const t = useTranslations(lang, "projectDetail");
 const content = getProjectContent(lang, project.slug);
 const backHref = `/${lang}/#projects`;
+
+const previewImages = project.previewImages?.length
+  ? project.previewImages
+  : [project.image];
+
+const firstImage = previewImages[0];
+const secondImage = previewImages[1] ?? previewImages[0];
+const thirdImage = previewImages[2] ?? previewImages[0];
 ---
 
 <Layout lang={lang} showNav={false} title={project.name}>
   <div class="project-detail">
-    <!-- BACK -->
     <div class="container-main pt-16 pb-4">
       <a
         href={backHref}
@@ -40,7 +47,6 @@ const backHref = `/${lang}/#projects`;
       </a>
     </div>
 
-    <!-- HERO -->
     <section
       class="container-main grid grid-cols-1 gap-12 pt-8 pb-16 md:grid-cols-2 md:items-center md:gap-16"
     >
@@ -134,30 +140,71 @@ const backHref = `/${lang}/#projects`;
       </div>
 
       <div class="relative flex items-end justify-center py-4">
-        {
-          project.previewImages && (
-            <div class="flex w-full max-w-125 items-end justify-center gap-4">
-              <img
-                src={project.previewImages[0].src}
-                alt={`${project.name} screen 1`}
-                loading="lazy"
-                class="w-[35%] max-w-40 object-contain shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
-              />
+        {project.previewVariant === "triple-phone" && (
+          <div class="relative flex w-full max-w-125 items-end justify-center">
+            <div class="absolute bottom-10 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
 
-              <img
-                src={project.previewImages[1].src}
-                alt={`${project.name} screen 2`}
-                transition:name={`project-image-${project.slug}`}
-                loading="eager"
-                class="w-[45%] max-w-50 object-contain shadow-[0_24px_50px_rgba(0,0,0,0.65)]"
-              />
-            </div>
-          )
-        }
+            <img
+              src={firstImage.src}
+              alt={`${project.name} screen left`}
+              loading="lazy"
+              class="relative z-0 w-[26%] translate-x-6 translate-y-6 -rotate-12 rounded-[18px] object-contain shadow-[0_20px_40px_rgba(0,0,0,0.55)]"
+            />
+
+            <img
+              src={secondImage.src}
+              alt={`${project.name} main screen`}
+              transition:name={`project-image-${project.slug}`}
+              loading="eager"
+              class="relative z-10 w-[34%] translate-y-12 rounded-[22px] object-contain shadow-[0_24px_50px_rgba(0,0,0,0.65)]"
+            />
+
+            <img
+              src={thirdImage.src}
+              alt={`${project.name} screen right`}
+              loading="lazy"
+              class="relative z-0 w-[26%] -translate-x-6 translate-y-6 rotate-12 rounded-[18px] object-contain shadow-[0_20px_40px_rgba(0,0,0,0.55)]"
+            />
+          </div>
+        )}
+
+        {project.previewVariant === "two-screens" && (
+          <div class="relative flex w-full max-w-125 items-end justify-center gap-6">
+            <div class="absolute bottom-8 left-1/2 h-28 w-28 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+
+            <img
+              src={firstImage.src}
+              alt={`${project.name} screen 1`}
+              loading="lazy"
+              class="relative z-10 w-[32%] translate-y-10 rounded-[20px] object-contain shadow-[0_20px_40px_rgba(0,0,0,0.55)]"
+            />
+
+            <img
+              src={secondImage.src}
+              alt={`${project.name} screen 2`}
+              transition:name={`project-image-${project.slug}`}
+              loading="eager"
+              class="relative z-20 w-[32%] translate-y-14 rounded-[20px] object-contain shadow-[0_24px_50px_rgba(0,0,0,0.65)]"
+            />
+          </div>
+        )}
+
+        {project.previewVariant === "single-screen" && (
+          <div class="relative flex w-full justify-center">
+            <div class="absolute inset-0 mx-auto h-36 w-36 rounded-full bg-primary/10 blur-3xl" />
+
+            <img
+              src={firstImage.src}
+              alt={`${project.name} preview`}
+              transition:name={`project-image-${project.slug}`}
+              loading="eager"
+              class="relative z-10 w-[82%] max-w-125 rounded-[24px] object-contain shadow-[0_24px_50px_rgba(0,0,0,0.65)]"
+            />
+          </div>
+        )}
       </div>
     </section>
 
-    <!-- IMPACT METRICS (only shown if project has metrics) -->
     {
       project.metrics && project.metrics.length > 0 && (
         <section class="container-main pb-16">
@@ -174,7 +221,6 @@ const backHref = `/${lang}/#projects`;
       )
     }
 
-    <!-- TECH STACK -->
     <section class="container-main pb-18">
       <h2 class="section-heading">{t("techStack")}</h2>
 
@@ -194,7 +240,6 @@ const backHref = `/${lang}/#projects`;
       </div>
     </section>
 
-    <!-- CHALLENGE & SOLUTION -->
     <section class="container-main">
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div class="cs-card">
@@ -240,7 +285,6 @@ const backHref = `/${lang}/#projects`;
       </div>
     </section>
 
-    <!-- FEATURES -->
     <section class="container-main pb-32 pt-18">
       <h2 class="section-heading">{t("keyFeatures")}</h2>
 
@@ -378,7 +422,6 @@ const backHref = `/${lang}/#projects`;
     border-radius: 999px;
   }
 
-  /* METRICS */
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -425,7 +468,6 @@ const backHref = `/${lang}/#projects`;
     line-height: 1.4;
   }
 
-  /* CHALLENGE & SOLUTION */
   .cs-card {
     padding: 1.75rem;
     border-radius: 24px;
