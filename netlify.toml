@@ -4,9 +4,3 @@
 
 [build.environment]
   NODE_VERSION = "22"
-
-[[redirects]]
-  from = "/"
-  to = "/en/"
-  status = 200
-  force = true
