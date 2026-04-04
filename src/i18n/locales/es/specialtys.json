@@ -1,3 +1,21 @@
 {
-  "sectionTitle": "En qué me especializo"
+  "sectionTitle": "En qué me especializo",
+  "items": [
+    {
+      "title": "Diseño UX/UI",
+      "description": "Diseño sistemas completos, no solo pantallas. Desde flujos de usuario y librerías de componentes hasta el handoff final, conectando las decisiones de diseño con las necesidades reales del producto."
+    },
+    {
+      "title": "Frontend & Web",
+      "description": "Interfaces pixel-perfect con alto rendimiento. Construyo aplicaciones web responsivas y accesibles con React, Next.js y TypeScript, cubriendo desde el sistema de diseño hasta producción."
+    },
+    {
+      "title": "Desarrollo Mobile",
+      "description": "Apps móviles multiplataforma para productos reales. Desde la arquitectura y la UI hasta las decisiones de producto, llevo ideas del concepto a producción con experiencia publicando en App Store y Google Play."
+    },
+    {
+      "title": "Backend & Bases de datos",
+      "description": "Bases sólidas de backend y bases de datos. Diseño sistemas seguros y escalables con foco en mantenibilidad a largo plazo, casos edge y requisitos reales del producto."
+    }
+  ]
 }

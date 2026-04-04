@@ -48,7 +48,7 @@ const tsp = useTranslations(lang, "specialtys");
         <div class="w-[3px] h-12 bg-primary-2"></div>
         <h2 class="text-xl md:text-2xl font-bold text-white">{tsp("sectionTitle")}</h2>
       </div>
-      <Specialtys />
+      <Specialtys lang={lang} />
     </section>
 
     <section id="experience">
@@ -58,7 +58,7 @@ const tsp = useTranslations(lang, "specialtys");
           {te("sectionDescription")}
         </p>
       </div>
-      <Experience />
+      <Experience lang={lang} />
     </section>
 
     <section id="projects">

@@ -1,4 +1,40 @@
 {
   "sectionTitle": "Mi trayectoria",
-  "sectionDescription": "Desde rescatar la app de una startup antes de su lanzamiento hasta arquitectar mi propio SaaS y construir plataformas digitales de nivel enterprise — así he crecido como desarrolladora."
+  "sectionDescription": "Desde rescatar la app de una startup antes de su lanzamiento hasta arquitectar mi propio SaaS y construir plataformas digitales de nivel enterprise — así he crecido como desarrolladora.",
+  "present": "Presente",
+  "items": [
+    {
+      "title": "Lead Developer",
+      "company": "Unwind Minds (ElephAi)",
+      "period": "Remoto · Dic 2025 — Presente",
+      "bullets": [
+        "Rescaté y reconstruí desde cero una app Flutter en estado crítico, pasando de 0% de estabilidad a producción en menos de 8 semanas.",
+        "Única responsable de todas las decisiones de arquitectura, hoja de ruta técnica y entrega del producto como ingeniería principal del proyecto.",
+        "Refactoricé el 100% de los módulos core, eliminé dependencias fuertemente acopladas y establecí límites arquitectónicos limpios en toda la base de código.",
+        "Configuré y gestioné la infraestructura de App Store y Google Play, logrando el primer lanzamiento público exitoso de la app."
+      ]
+    },
+    {
+      "title": "Fundadora & Full Stack Developer",
+      "company": "MOVA — SaaS Personal",
+      "period": "Remoto · Mar 2025 — Presente",
+      "bullets": [
+        "Diseñé y construí de extremo a extremo una plataforma SaaS multi-tenant, reemplazando flujos basados en hojas de cálculo por un sistema estructurado de gestión de clientes.",
+        "Arquitecté un backend seguro con Supabase (PostgreSQL, RLS, Auth) con aislamiento de datos por workspace y sincronización en tiempo real.",
+        "Diseñé el sistema completo de UI/UX en Figma — más de 50 pantallas entre onboarding, gestión de clientes, planes de entrenamiento y flujos de nutrición.",
+        "Actualmente desarrollando e iterando sobre el producto, refinando funcionalidades, estructuras de datos y flujos de usuario basados en casos de uso reales."
+      ]
+    },
+    {
+      "title": "Frontend Developer Intern",
+      "company": "Nearsoft",
+      "period": "Madeira, Portugal · Feb 2024 — Ago 2024",
+      "bullets": [
+        "Construí el frontend de una plataforma de onboarding de clientes para instituciones financieras, optimizando los flujos de creación y aprobación de cuentas.",
+        "Desarrollé interfaces pixel-perfect, accesibles y de alto rendimiento, garantizando consistencia entre dispositivos y tamaños de pantalla.",
+        "Implementé un CMS escalable con Directus (REST/GraphQL) que permite a equipos no técnicos gestionar flujos de onboarding de forma autónoma.",
+        "Prototipé un chatbot interno de IA, integrando un LLM local con APIs internas y datos del CMS para acceso en tiempo real a información de la empresa."
+      ]
+    }
+  ]
 }

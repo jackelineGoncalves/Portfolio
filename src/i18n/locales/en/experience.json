@@ -1,4 +1,40 @@
 {
   "sectionTitle": "My journey so far",
-  "sectionDescription": "From rescuing a pre-launch startup app to architecting my own SaaS and building enterprise-grade digital platforms — here's how I've grown as a developer."
+  "sectionDescription": "From rescuing a pre-launch startup app to architecting my own SaaS and building enterprise-grade digital platforms — here's how I've grown as a developer.",
+  "present": "Present",
+  "items": [
+    {
+      "title": "Lead Developer",
+      "company": "Unwind Minds (ElephAi)",
+      "period": "Remote · Dec 2025 — Present",
+      "bullets": [
+        "Rescued and rebuilt a failing Flutter app from the ground up, going from 0% stability to production-ready in under 8 weeks.",
+        "Sole responsible for all architecture decisions, technical roadmap, and product delivery as the lead engineer of the project.",
+        "Refactored 100% of core modules, eliminated tightly coupled dependencies, and established clean architectural boundaries across the codebase.",
+        "Configured and managed App Store & Google Play infrastructure, delivering the app's first successful public release."
+      ]
+    },
+    {
+      "title": "Founder & Full Stack Developer",
+      "company": "MOVA — Personal SaaS",
+      "period": "Remote · Mar 2025 — Present",
+      "bullets": [
+        "Designed and built a multi-tenant SaaS platform end-to-end, replacing spreadsheet-based workflows with a structured client management system.",
+        "Architected a secure backend with Supabase (PostgreSQL, RLS, Auth) supporting per-workspace data isolation and real-time sync.",
+        "Designed the full UI/UX system in Figma — 50+ screens across onboarding, client management, training plans, and nutrition flows.",
+        "Currently developing and iterating on the product, refining features, data structures, and user flows based on real-world use cases."
+      ]
+    },
+    {
+      "title": "Frontend Developer Intern",
+      "company": "Nearsoft",
+      "period": "Madeira, Portugal · Feb 2024 — Aug 2024",
+      "bullets": [
+        "Built the frontend of a client onboarding platform for financial institutions, streamlining account creation and approval workflows.",
+        "Built pixel-perfect, accessible, and high-performance interfaces, ensuring consistency across devices and screen sizes.",
+        "Implemented a scalable CMS with Directus (REST/GraphQL) enabling non-technical teams to manage onboarding flows autonomously.",
+        "Prototyped an internal AI chatbot, integrating a local LLM with internal APIs and CMS data for real-time access to company information."
+      ]
+    }
+  ]
 }

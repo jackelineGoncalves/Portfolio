@@ -1,40 +1,31 @@
 ---
 import SpecialtyCard from "../ui/SpecialtyCard.astro";
+import type { Locale } from "../../i18n/config";
+import enSpecialtys from "../../i18n/locales/en/specialtys.json";
+import esSpecialtys from "../../i18n/locales/es/specialtys.json";
 
-const specialties = [
-  {
-    icon: "design" as const,
-    accent: "purple" as const,
-    title: "UX/UI Design",
-    description:
-      "I design complete systems, not just screens. From user flows and component libraries to final handoff — every interaction is intentional.",
-    tags: ["Figma", "Design Systems", "User Flows", "Prototyping", "UI/UX"],
-  },
-  {
-    icon: "frontend" as const,
-    accent: "cyan" as const,
-    title: "Frontend & Web",
-    description:
-      "Pixel-perfect interfaces that perform. I build responsive, accessible web apps with React, Next.js and TypeScript — from design system to production.",
-    tags: ["React", "Next.js", "TypeScript", "Tailwind", "GraphQL"],
-  },
-  {
-    icon: "mobile" as const,
-    accent: "blue" as const,
-    title: "Mobile Development",
-    description:
-      "Cross-platform apps built for the real world. I've shipped to App Store and Google Play — handling architecture, UX, and release pipeline end-to-end.",
-    tags: ["React Native", "Flutter", "Expo", "App Store", "Play Store"],
-  },
-  {
-    icon: "backend" as const,
-    accent: "cyan" as const,
-    title: "Backend & Databases",
-    description:
-      "Solid foundations that scale. I design multi-tenant architectures, RESTful APIs, and secure data models — Node.js, PostgreSQL, Supabase and more.",
-    tags: ["Node.js", "PostgreSQL", "Supabase", "REST", "RLS"],
-  },
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const data = lang === "es" ? esSpecialtys : enSpecialtys;
+
+const accents = ["purple", "cyan", "blue", "cyan"] as const;
+const icons = ["design", "frontend", "mobile", "backend"] as const;
+const tags = [
+  ["Figma", "Design Systems", "User Flows", "Prototyping", "UI/UX"],
+  ["React", "Next.js", "TypeScript", "Tailwind", "GraphQL"],
+  ["React Native", "Flutter", "Expo", "App Store", "Play Store"],
+  ["Node.js", "PostgreSQL", "Supabase", "REST", "RLS"],
 ];
+
+const items = data.items.map((item, i) => ({
+  ...item,
+  accent: accents[i],
+  icon: icons[i],
+  tags: tags[i],
+}));
 ---
 
 <div
@@ -42,7 +33,7 @@ const specialties = [
   data-specialties-reveal
 >
   {
-    specialties.map((specialty, index) => (
+    items.map((specialty, index) => (
       <div
         class="specialty-reveal-card h-full"
         style={`--reveal-delay: ${index * 100}ms;`}

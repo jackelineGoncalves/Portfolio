@@ -6,13 +6,19 @@ import Email from "../../assets/svg/Email.astro";
 import Button from "../ui/Button.astro";
 import { useTranslations } from "../../i18n";
 import type { Locale } from "../../i18n/config";
+import profileImage from "../../assets/images/profile.png";
 
-interface Props { lang: Locale; }
+interface Props {
+  lang: Locale;
+}
 const { lang } = Astro.props;
 const t = useTranslations(lang, "hero");
 ---
 
-<section class="relative min-h-screen overflow-hidden hero animate-hero" data-hero>
+<section
+  class="relative min-h-screen overflow-hidden hero animate-hero"
+  data-hero
+>
   <div
     class="glow-circle absolute w-full h-250 -top-220 left-1/2 -translate-x-1/2 z-0"
   >
@@ -54,7 +60,10 @@ const t = useTranslations(lang, "hero");
           <nav aria-label={t("socials.ariaLabel")}>
             <ul class="flex items-center gap-5">
               <li>
-                <a class="social-btn social-btn--github" href="https://github.com/jackelineGoncalves">
+                <a
+                  class="social-btn social-btn--github"
+                  href="https://github.com/jackelineGoncalves"
+                >
                   <span class="social-btn__icon">
                     <Github />
                   </span>
@@ -62,7 +71,10 @@ const t = useTranslations(lang, "hero");
               </li>
 
               <li>
-                <a class="social-btn social-btn--linkedin" href="https://www.linkedin.com/in/jackeline-goncalves-dev/">
+                <a
+                  class="social-btn social-btn--linkedin"
+                  href="https://www.linkedin.com/in/jackeline-goncalves-dev/"
+                >
                   <span class="social-btn__icon">
                     <LinkedIn />
                   </span>
@@ -89,7 +101,7 @@ const t = useTranslations(lang, "hero");
       class="relative z-10 flex items-center justify-center md:justify-end md:translate-x-6"
     >
       <img
-        src="/src/assets/images/profile.png"
+        src={profileImage.src}
         alt={t("profileImageAlt")}
         class="block h-auto w-[clamp(160px,60vw,420px)] object-contain rotate-[8deg] -translate-x-1.5 drop-shadow-[0_24px_45px_rgba(0,0,0,0.35)] md:max-h-[82vh] md:w-[clamp(280px,34vw,500px)] md:rotate-10 md:-translate-x-4.5 lg:w-[clamp(340px,32vw,560px)] lg:rotate-11 lg:-translate-x-6.5"
       />

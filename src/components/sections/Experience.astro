@@ -1,48 +1,25 @@
 ---
 import BriefCase from "../../assets/svg/BriefCase.astro";
 import IconBox from "..//ui/InfoBox.astro";
+import type { Locale } from "../../i18n/config";
+import enExperience from "../../i18n/locales/en/experience.json";
+import esExperience from "../../i18n/locales/es/experience.json";
 
-const experiences = [
-  {
-    title: "Lead Developer",
-    company: "Unwind Minds (ElephAi)",
-    period: "Remote · Dec 2025 — Present",
-    side: "left",
-    technologies: ["Flutter", "Dart", "Firebase", "REST API", "App Store", "Google Play"],
-    bullets: [
-      "Rescued and rebuilt a failing Flutter app from the ground up — went from 0% stability to production-ready in under 8 weeks.",
-      "Sole responsible for all architecture decisions, technical roadmap, and product delivery as the lead engineer of the project.",
-      "Refactored 100% of core modules, eliminated tightly coupled dependencies, and established clean architectural boundaries across the codebase.",
-      "Configured and managed App Store & Google Play infrastructure, delivering the app's first successful public release.",
-    ],
-  },
-  {
-    title: "Founder & Full Stack Developer",
-    company: "MOVA — Personal SaaS",
-    period: "Remote · Mar 2025 — Present",
-    side: "right",
-    technologies: ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL", "Figma"],
-    bullets: [
-      "Designed and built a multi-tenant SaaS platform end-to-end, replacing spreadsheet-based workflows used by 10+ personal trainers.",
-      "Architected a secure backend with Supabase (PostgreSQL, RLS, Auth) supporting per-workspace data isolation and real-time sync.",
-      "Designed the full UI/UX system in Figma — 40+ screens across onboarding, client management, training plans, and nutrition flows.",
-      "Reduced client management time by an estimated 70% by automating manual workflows personal trainers do daily.",
-    ],
-  },
-  {
-    title: "Frontend Developer Intern",
-    company: "Nearsoft",
-    period: "Madeira, Portugal · Feb 2024 — Aug 2024",
-    side: "left",
-    technologies: ["React", "Next.js", "TypeScript", "GraphQL", "Directus CMS", "REST API"],
-    bullets: [
-      "Built a configurable digital client onboarding platform for multiple banks, cutting manual approval time by ~60%.",
-      "Delivered pixel-perfect, accessible, high-performance interfaces with React and Next.js — consistent across all devices and breakpoints.",
-      "Implemented a scalable CMS with Directus (REST/GraphQL) enabling non-technical teams to manage onboarding flows autonomously.",
-      "Prototyped an internal AI chatbot using a local LLM via Ollama — integrated into the UI with full API and streaming support.",
-    ],
-  },
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const data = lang === "es" ? esExperience : enExperience;
+
+const sides = ["left", "right", "left"] as const;
+const technologies = [
+  ["Flutter", "Dart", "Firebase", "REST API", "App Store", "Google Play"],
+  ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL", "Figma"],
+  ["React", "Next.js", "TypeScript", "GraphQL", "Directus CMS", "REST API"],
 ];
+
+const items = data.items.map((item, i) => ({ ...item, side: sides[i], technologies: technologies[i] }));
 ---
 
 <section class="relative overflow-hidden">
@@ -70,8 +47,8 @@ const experiences = [
       ></div>
 
       {
-        experiences.map((item, index) => {
-          const isLast = index === experiences.length - 1;
+        items.map((item, index) => {
+          const isLast = index === items.length - 1;
 
           return (
             <article
