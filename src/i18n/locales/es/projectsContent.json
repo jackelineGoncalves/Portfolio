@@ -1,7 +1,10 @@
 {
   "mova": {
-    "smallDescription": "Plataforma SaaS que reemplaza los flujos de trabajo basados en hojas de cálculo para entrenadores personales con un sistema unificado y automatizado de gestión de clientes.",
-    "fullDescription": "MOVA es un SaaS multi-tenant construido de principio a fin como proyecto de fundador en solitario. Reemplaza las hojas de cálculo dispersas, los mensajes de WhatsApp y los PDFs manuales que los entrenadores personales usan a diario — consolidando la gestión de clientes, planes de entrenamiento, seguimiento nutricional y evaluaciones de progreso en una experiencia móvil rápida y limpia.",
+    "smallDescription": "App para entrenadores personales que reemplaza herramientas dispersas por un sistema único y estructurado para gestionar clientes y su trabajo diario.",
+    "fullDescription": [
+      "MOVA es una plataforma SaaS multi-tenant desarrollada de extremo a extremo como un proyecto de fundadora en solitario. Sustituye los flujos de trabajo fragmentados basados en hojas de cálculo, WhatsApp y PDFs manuales, integrando la gestión de clientes, el entrenamiento, la nutrición y el seguimiento del progreso en un único sistema móvil, diseñado en torno a casos de uso reales y con un alto nivel de personalización.",
+      "Diseñada en colaboración directa con entrenadores personales, traduciendo sus flujos de trabajo reales en decisiones de producto escalables."
+    ],
     "challenge": "Los entrenadores personales pierden entre 3 y 4 horas diarias gestionando clientes a través de hojas de cálculo, apps de mensajería y PDFs desconectados. No existía ninguna herramienta móvil todo-en-uno diseñada específicamente para su flujo de trabajo real — la mayoría de las soluciones son demasiado genéricas o demasiado caras.",
     "solution": "Construí MOVA como un SaaS multi-tenant desde cero — una app en React Native respaldada por una arquitectura Supabase con aislamiento de datos por workspace (RLS), sincronización en tiempo real y control de acceso por roles. Diseñé más de 40 pantallas en Figma antes de escribir una sola línea de código, asegurando que la UX se adapte realmente a cómo piensan los entrenadores.",
     "features": [

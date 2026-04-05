@@ -5,7 +5,13 @@ import Button from "../ui/Button.astro";
 import { useTranslations } from "../../i18n";
 import type { Locale } from "../../i18n/config";
 
-type ProjectCategory = "Mobile" | "Frontend" | "Backend" | "Full Stack" | "UI/UX" | "SaaS";
+type ProjectCategory =
+  | "Mobile"
+  | "Frontend"
+  | "Backend"
+  | "Full Stack"
+  | "UI/UX"
+  | "SaaS";
 
 interface TechItem {
   icon: any;
@@ -19,7 +25,7 @@ interface Props {
   onProgressTag?: boolean;
   workProjectTag?: boolean;
   hoveredTitle: string;
-  fullDescription: string;
+  fullDescription: string[];
   technologiesIcons: TechItem[];
   projectType: string;
   categories?: ProjectCategory[];
@@ -42,7 +48,7 @@ const {
   technologiesIcons,
   projectType,
   categories = [],
-  hasCodeBtn    = false,
+  hasCodeBtn = false,
   hasDetailsBtn = false,
   codeUrl,
   detailHref,
@@ -52,13 +58,40 @@ const {
 const t = useTranslations(lang, "projects");
 
 // Color map per category
-const categoryColors: Record<ProjectCategory, { bg: string; text: string; border: string }> = {
-  "Mobile":     { bg: "rgba(48,144,233,0.12)",  text: "#3090E9", border: "rgba(48,144,233,0.3)"  },
-  "Frontend":   { bg: "rgba(83,235,243,0.10)",  text: "#53EBF3", border: "rgba(83,235,243,0.3)"  },
-  "Backend":    { bg: "rgba(139,92,246,0.12)",  text: "#a78bfa", border: "rgba(139,92,246,0.3)"  },
-  "Full Stack": { bg: "rgba(52,211,153,0.10)",  text: "#34d399", border: "rgba(52,211,153,0.3)"  },
-  "UI/UX":      { bg: "rgba(251,113,133,0.10)", text: "#fb7185", border: "rgba(251,113,133,0.3)" },
-  "SaaS":       { bg: "rgba(251,191,36,0.10)",  text: "#fbbf24", border: "rgba(251,191,36,0.3)"  },
+const categoryColors: Record<
+  ProjectCategory,
+  { bg: string; text: string; border: string }
+> = {
+  Mobile: {
+    bg: "rgba(48,144,233,0.12)",
+    text: "#3090E9",
+    border: "rgba(48,144,233,0.3)",
+  },
+  Frontend: {
+    bg: "rgba(83,235,243,0.10)",
+    text: "#53EBF3",
+    border: "rgba(83,235,243,0.3)",
+  },
+  Backend: {
+    bg: "rgba(139,92,246,0.12)",
+    text: "#a78bfa",
+    border: "rgba(139,92,246,0.3)",
+  },
+  "Full Stack": {
+    bg: "rgba(52,211,153,0.10)",
+    text: "#34d399",
+    border: "rgba(52,211,153,0.3)",
+  },
+  "UI/UX": {
+    bg: "rgba(251,113,133,0.10)",
+    text: "#fb7185",
+    border: "rgba(251,113,133,0.3)",
+  },
+  SaaS: {
+    bg: "rgba(251,191,36,0.10)",
+    text: "#fbbf24",
+    border: "rgba(251,191,36,0.3)",
+  },
 };
 ---
 
@@ -66,7 +99,9 @@ const categoryColors: Record<ProjectCategory, { bg: string; text: string; border
   class="group relative w-full h-full overflow-hidden rounded-[28px] border-[0.5px] border-secondary-1 bg-bg-surface p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 hover:shadow-[0_0_20px_rgba(103,232,249,0.35)]"
   data-project-card
 >
-  <header class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+  <header
+    class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between"
+  >
     <h3
       transition:name={`project-title-${slug}`}
       class="text-lg md:text-xl font-bold gradient-text"
@@ -75,19 +110,23 @@ const categoryColors: Record<ProjectCategory, { bg: string; text: string; border
     </h3>
 
     <div class="flex flex-wrap gap-2 lg:justify-end">
-      {onProgressTag && (
-        <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
-          <div class="flex h-4 w-4 items-center justify-center rounded-full bg-secondary-3">
-            <div class="h-2.5 w-2.5 rounded-full bg-primary" />
+      {
+        onProgressTag && (
+          <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
+            <div class="flex h-4 w-4 items-center justify-center rounded-full bg-secondary-3">
+              <div class="h-2.5 w-2.5 rounded-full bg-primary" />
+            </div>
+            <p class="text-xs text-text-secondary">{t("card.inProgress")}</p>
           </div>
-          <p class="text-xs text-text-secondary">{t("card.inProgress")}</p>
-        </div>
-      )}
-      {workProjectTag && (
-        <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
-          <p class="text-xs text-text-secondary">{t("card.work")}</p>
-        </div>
-      )}
+        )
+      }
+      {
+        workProjectTag && (
+          <div class="flex h-fit items-center justify-center gap-2 rounded-full border-[0.5px] border-secondary-4 px-3 py-1.5">
+            <p class="text-xs text-text-secondary">{t("card.work")}</p>
+          </div>
+        )
+      }
     </div>
   </header>
 
@@ -101,79 +140,94 @@ const categoryColors: Record<ProjectCategory, { bg: string; text: string; border
     data-project-overlay
   >
     <div class="relative flex h-full flex-col justify-between gap-3 p-4 md:p-5">
-
       <!-- Top: type + title + description -->
       <div>
-        <p class="text-xs uppercase tracking-wider text-primary/80 font-medium">{projectType}</p>
-        <h3 class="mt-1.5 text-base md:text-lg font-extrabold leading-tight text-white">
+        <p class="text-xs uppercase tracking-wider text-primary/80 font-medium">
+          {projectType}
+        </p>
+        <h3
+          class="mt-1.5 text-base md:text-lg font-extrabold leading-tight text-white"
+        >
           {hoveredTitle}
         </h3>
-        <p class="mt-2 text-xs md:text-sm leading-[1.6] text-white/75">
-          {fullDescription}
-        </p>
-
+        {
+          fullDescription.map((p: string) => (
+            <p class="mt-2 text-xs md:text-sm leading-[1.6] text-white/75">
+              {p}
+            </p>
+          ))
+        }
         <!-- Category chips -->
-        {categories.length > 0 && (
-          <div class="mt-3 flex flex-wrap gap-1.5">
-            {categories.map((cat) => {
-              const c = categoryColors[cat];
-              return (
-                <span
-                  class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide"
-                  style={`background: ${c.bg}; color: ${c.text}; border: 1px solid ${c.border};`}
-                >
-                  {cat}
-                </span>
-              );
-            })}
-          </div>
-        )}
+        {
+          categories.length > 0 && (
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              {categories.map((cat) => {
+                const c = categoryColors[cat];
+                return (
+                  <span
+                    class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide"
+                    style={`background: ${c.bg}; color: ${c.text}; border: 1px solid ${c.border};`}
+                  >
+                    {cat}
+                  </span>
+                );
+              })}
+            </div>
+          )
+        }
       </div>
 
       <!-- Middle: tech icons -->
       <div class="flex w-full flex-wrap justify-center gap-4 md:gap-5">
-        {technologiesIcons.map((tech) => {
-          const Icon = tech.icon;
-          return (
-            <div class="group/icon relative">
-              <div class="flex items-center justify-center">
-                <Icon class="h-8 w-8 md:h-9 md:w-9" />
+        {
+          technologiesIcons.map((tech) => {
+            const Icon = tech.icon;
+            return (
+              <div class="group/icon relative">
+                <div class="flex items-center justify-center">
+                  <Icon class="h-8 w-8 md:h-9 md:w-9" />
+                </div>
+                <div class="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2 py-1 text-xs text-white opacity-0 transition-all duration-200 group-hover/icon:-translate-y-1 group-hover/icon:opacity-100">
+                  {tech.label}
+                </div>
               </div>
-              <div class="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2 py-1 text-xs text-white opacity-0 transition-all duration-200 group-hover/icon:-translate-y-1 group-hover/icon:opacity-100">
-                {tech.label}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })
+        }
       </div>
 
       <!-- Bottom: CTA buttons -->
-      <div class={`flex w-full gap-4 ${hasCodeBtn && hasDetailsBtn ? "justify-between" : "justify-end"}`}>
-        {hasDetailsBtn && (
-          <Button
-            label={t("card.viewDetails")}
-            variant="primary"
-            href={detailHref ?? "#"}
-            size="sm"
-            fullWidth={hasCodeBtn}
-          >
-            <Chevron slot="icon-right" />
-          </Button>
-        )}
-        {hasCodeBtn && (
-          <Button
-            label={t("card.code")}
-            variant="secondary"
-            href={codeUrl ?? "#"}
-            size="sm"
-            fullWidth={hasDetailsBtn}
-            class={hasDetailsBtn ? "max-w-37.5" : ""}
-          >
-            <GitBranch slot="icon-left" />
-          </Button>
-        )}
+      <div
+        class={`flex w-full gap-4 ${hasCodeBtn && hasDetailsBtn ? "justify-between" : "justify-end"}`}
+      >
+        {
+          hasDetailsBtn && (
+            <Button
+              label={t("card.viewDetails")}
+              variant="primary"
+              href={detailHref ?? "#"}
+              size="sm"
+              fullWidth={hasCodeBtn}
+            >
+              <Chevron slot="icon-right" />
+            </Button>
+          )
+        }
+        {
+          hasCodeBtn && (
+            <Button
+              label={t("card.code")}
+              variant="secondary"
+              href={codeUrl ?? "#"}
+              size="sm"
+              fullWidth={hasDetailsBtn}
+              class={hasDetailsBtn ? "max-w-37.5" : ""}
+            >
+              <GitBranch slot="icon-left" />
+            </Button>
+          )
+        }
       </div>
-
     </div>
   </div>
 </article>
@@ -208,7 +262,9 @@ const categoryColors: Record<ProjectCategory, { bg: string; text: string; border
         if (isActive) {
           card.classList.remove("touch-active");
         } else {
-          cards.forEach((c) => { if (c !== card) c.classList.remove("touch-active"); });
+          cards.forEach((c) => {
+            if (c !== card) c.classList.remove("touch-active");
+          });
           card.classList.add("touch-active");
           e.preventDefault();
         }
@@ -229,7 +285,9 @@ const categoryColors: Record<ProjectCategory, { bg: string; text: string; border
       const target = e.target;
       if (!(target instanceof Node)) return;
       const cards = document.querySelectorAll("[data-project-card]");
-      cards.forEach((card) => { if (!card.contains(target)) card.classList.remove("touch-active"); });
+      cards.forEach((card) => {
+        if (!card.contains(target)) card.classList.remove("touch-active");
+      });
     });
   }
 
