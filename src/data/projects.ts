@@ -60,6 +60,8 @@ export type Project = {
   hasDetailsBtn?: boolean;
   codeUrl?: string;
   liveUrl?: string;
+  appStoreUrl?: string;
+  playStoreUrl?: string;
   image: ImageMetadata;
   previewImages?: ImageMetadata[];
   previewVariant: PreviewVariant;
@@ -122,6 +124,8 @@ export const projects: Project[] = [
     hasDetailsBtn: true,
     codeUrl: undefined,
     liveUrl: undefined,
+    appStoreUrl: "https://apps.apple.com/pt/app/elephai-womens-safe-space/id6759984926",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.unwindminds.elephai.app",
     image: elephai1,
     previewImages: [elephai1, elephai2],
     previewVariant: "two-screens",
@@ -175,34 +179,4 @@ export const projects: Project[] = [
     role: "Frontend Engineer Intern",
     status: "Completed",
   },
-  // {
-  //   slug: "nearsoft-llm-chatbot",
-  //   name: "Local LLM Chatbot",
-  //   onProgressTag: false,
-  //   workProjectTag: true,
-  //   hoveredTitle: "Enterprise AI chatbot running fully on-premise",
-  //   projectType: "Work Project · Full Stack Engineer",
-  //   categories: ["Full Stack", "Backend"],
-  //   hasCodeBtn: false,
-  //   hasDetailsBtn: true,
-  //   codeUrl: undefined,
-  //   liveUrl: undefined,
-  //   image: mova,
-  //   previewImages: [mova, mova, mova],
-  //   technologiesIcons: [
-  //     { icon: Server, label: "Ollama + Llama 3" },
-  //     { icon: Server, label: "Express.js" },
-  //     { icon: TypeScript, label: "JavaScript" },
-  //     { icon: React, label: "React" },
-  //   ],
-  //   metrics: [
-  //     { value: "0→1", label: "Prototype built end-to-end" },
-  //     { value: "100%", label: "On-premise — zero data exposure" },
-  //     { value: "Local", label: "LLM inference, no cloud cost" },
-  //     { value: "POC", label: "Laid groundwork for AI tooling" },
-  //   ],
-  //   year: "2024",
-  //   role: "Full Stack Engineer",
-  //   status: "Completed",
-  // },
 ];

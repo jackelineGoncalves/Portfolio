@@ -5,7 +5,7 @@
   "items": [
     {
       "title": "Lead Developer",
-      "company": "Unwind Minds (ElephAi)",
+      "company": "Unwind Minds",
       "period": "Remoto · Dic 2025 — Presente",
       "bullets": [
         "Rescaté y reconstruí desde cero una app Flutter en estado crítico, pasando de 0% de estabilidad a producción en menos de 8 semanas.",
@@ -23,6 +23,17 @@
         "Arquitecté un backend seguro con Supabase (PostgreSQL, RLS, Auth) con aislamiento de datos por workspace y sincronización en tiempo real.",
         "Diseñé el sistema completo de UI/UX en Figma — más de 50 pantallas entre onboarding, gestión de clientes, planes de entrenamiento y flujos de nutrición.",
         "Actualmente desarrollando e iterando sobre el producto, refinando funcionalidades, estructuras de datos y flujos de usuario basados en casos de uso reales."
+      ]
+    },
+    {
+      "title": "AI Summer Intern",
+      "company": "Nearsoft",
+      "period": "Remoto · Ago 2024 — Sep 2024",
+      "bullets": [
+        "Exploré el uso de LLMs locales (Ollama) para aplicaciones internas de IA.",
+        "Prototipé un chatbot capaz de responder preguntas sobre APIs y herramientas CMS internas.",
+        "Desarrollé la interfaz del chat e integré el modelo LLM.",
+        "Mejoré la precisión de las respuestas mediante diseño de prompts y estructuración del contexto."
       ]
     },
     {

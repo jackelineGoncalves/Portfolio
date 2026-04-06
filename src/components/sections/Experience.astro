@@ -15,13 +15,16 @@ const localeData = { en: enExperience, es: esExperience, pt: ptExperience };
 const { lang } = Astro.props;
 const data = localeData[lang] ?? enExperience;
 
-const sides = ["left", "right", "left"] as const;
+const sides = ["left", "right", "left", "right"] as const;
 const technologies = [
   ["Flutter", "Dart", "Firebase", "REST API", "App Store", "Google Play"],
   ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL", "Figma"],
+  ["Express.js", "React", "Ollama"],
   ["React", "Next.js", "TypeScript", "GraphQL", "Directus CMS", "REST API"],
+
 ];
 
+// FALTAN TRADUCCIONES DE AI INTERNSHIP
 const items = data.items.map((item, i) => ({ ...item, side: sides[i], technologies: technologies[i] }));
 ---
 
