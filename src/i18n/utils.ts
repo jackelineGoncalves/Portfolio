@@ -35,7 +35,7 @@ function getTranslations(locale: Locale, namespace: Namespace): TranslationRecor
   return (translations[key] ?? translations[fallbackKey] ?? {}) as TranslationRecord;
 }
 
-function resolveDot(obj: TranslationRecord, key: string): string {
+function resolveDot(obj: TranslationRecord, key: string): unknown {
   const parts = key.split(".");
   let current: unknown = obj;
 
@@ -44,21 +44,35 @@ function resolveDot(obj: TranslationRecord, key: string): string {
     current = (current as TranslationRecord)[part];
   }
 
-  return typeof current === "string" ? current : key;
+  return current;
 }
 
 export function useTranslations(locale: Locale, namespace: Namespace) {
   const dict = getTranslations(locale, namespace);
 
-  return function t(key: string, fallback?: string): string {
+  function t(key: string, fallback?: string): string {
     const value = resolveDot(dict, key);
-    return value !== key ? value : (fallback ?? key);
-  };
+    return typeof value === "string" ? value : (fallback ?? key);
+  }
+
+  function tArray(key: string): string[] {
+    const value = resolveDot(dict, key);
+    if (Array.isArray(value)) return value.filter((v) => typeof v === "string");
+    if (typeof value === "string") return [value];
+    return [];
+  }
+
+  return { t, tArray };
 }
 
 export type ProjectFeature = {
   title: string;
   description: string;
+};
+
+export type ProjectMetric = {
+  value: string;
+  label: string;
 };
 
 export type ProjectContent = {
@@ -67,6 +81,9 @@ export type ProjectContent = {
   challenge: string;
   solution: string;
   features: ProjectFeature[];
+  metrics: ProjectMetric[];
+  hoveredTitle?: string;
+  projectType?: string;
 };
 
 type RawProjectContent = Partial<{
@@ -75,6 +92,9 @@ type RawProjectContent = Partial<{
   challenge: string;
   solution: string;
   features: ProjectFeature[];
+  metrics: ProjectMetric[];
+  hoveredTitle: string;
+  projectType: string;
 }>;
 
 type ProjectsContentMap = Record<string, RawProjectContent>;
@@ -98,5 +118,8 @@ export function getProjectContent(locale: Locale, slug: string): ProjectContent 
     challenge: raw.challenge ?? "",
     solution: raw.solution ?? "",
     features: Array.isArray(raw.features) ? raw.features : [],
+    metrics: Array.isArray(raw.metrics) ? raw.metrics : [],
+    ...(raw.hoveredTitle ? { hoveredTitle: raw.hoveredTitle } : {}),
+    ...(raw.projectType ? { projectType: raw.projectType } : {}),
   };
 }

@@ -5,83 +5,115 @@
       "MOVA is a multi-tenant SaaS built end-to-end as a solo founder project. It replaces fragmented workflows based on spreadsheets, WhatsApp and manual PDFs, consolidating client management, training, nutrition and progress tracking into a single mobile system, built around real-world use cases and highly customizable workflows.",
       "Designed through direct collaboration with personal trainers, translating real workflows into scalable product decisions."
     ],
-    "challenge": "Personal trainers lose 3–4 hours daily managing clients through spreadsheets, messaging apps and disconnected PDFs. There was no mobile-first, all-in-one tool built specifically around their real workflow — most solutions are either too generic or too expensive.",
-    "solution": "Built MOVA as a multi-tenant SaaS from scratch — a React Native app backed by a Supabase architecture with per-workspace data isolation (RLS), real-time sync, and role-based access. Designed 40+ screens in Figma before writing a single line of code, ensuring the UX actually fits how trainers think.",
+    "challenge": "Personal trainers lose 3–4 hours daily managing clients through spreadsheets, messaging apps and disconnected PDFs. Existing tools are too generic and fail to reflect how they actually work, lacking the flexibility to handle real-world details like custom nutrition setups, local food brands, or adaptable training structures, forcing trainers to rely on manual workarounds.",
+    "solution": "Built MOVA as a mobile-first, multi-tenant SaaS from scratch, designed around how personal trainers actually work. The platform consolidates client management, training, nutrition, progress tracking and finance management into a single system, with highly customizable workflows that support real-world needs like custom nutrition setups and flexible training structures, all within a structured and scalable platform.",
     "features": [
       {
         "title": "Client Management",
-        "description": "Full client profiles with history, goals, physical data and progress over time. Trainers manage 10+ clients without switching tools."
+        "description": "Full client profiles with history, goals, physical data and progress over time, providing a complete overview of each client."
       },
       {
         "title": "Training Plan Builder",
-        "description": "Create structured training plans with exercises, sets, reps and rest. Assign to any client in seconds. Estimated 70% reduction in plan creation time."
+        "description": "Create structured training plans with exercises, sets, reps and rest, including alternative exercise options and flexible scheduling tailored to each client."
       },
       {
-        "title": "Nutrition Tracking",
-        "description": "Design meal plans with macro targets per client. Supports multiple daily schedules and dietary restrictions."
+        "title": "Advanced Nutrition System",
+        "description": "Custom meal plans with support for local food brands, flexible meal structures and automatic nutritional calculations tailored to each client."
+      },
+      {
+        "title": "Client–Trainer Matching & Onboarding",
+        "description": "Structured onboarding for trainers and clients, with a request-based system where clients choose trainers and trainers accept or decline requests."
+      },
+      {
+        "title": "Financial Management",
+        "description": "Track payments, subscriptions and client-related finances, giving trainers visibility over their business."
       },
       {
         "title": "Multi-tenant Architecture",
-        "description": "Each trainer gets an isolated workspace. Row-Level Security on PostgreSQL ensures zero data leakage between accounts."
+        "description": "Each trainer operates within an isolated workspace, with Row-Level Security ensuring secure data separation between accounts."
       }
+    ],
+    "metrics": [
+      { "value": "50+", "label": "Product screens designed in Figma" },
+      { "value": "0→1", "label": "Built end-to-end as a solo founder" },
+      { "value": "70%", "label": "Estimated reduction in plan creation time" },
+      { "value": "Multi-tenant", "label": "Isolated data per workspace" }
     ]
   },
   "elephai": {
-    "smallDescription": "Rescued and rebuilt a failing Flutter app — from unstable pre-launch codebase to production-ready in under 8 weeks.",
-    "fullDescription": ["ElephAi is a B2C/B2B mobile app by Unwind Minds. I joined as Lead Developer when the app was stuck in a critical pre-launch state — unstable, tightly coupled, and blocked from going live. I took full ownership of the technical recovery: refactored the entire codebase, established a clean architecture, and delivered the first successful public release to both App Store and Google Play."],
+    "smallDescription": "Rescued and rebuilt a pre-launch Flutter app, transforming an unstable codebase into a production-ready product in under 8 weeks.",
+    "fullDescription": [
+      "ElephAi is an AI-powered mobile app focused on proactive emotional wellbeing, helping users detect and manage emotional distress before it escalates through real-time support and behavioural analysis.", 
+      "I joined as Lead Developer during a critical pre-launch phase, taking full ownership of the app. I refactored the codebase, established a clean architecture, and delivered the first successful public release to both App Store and Google Play."
+    ],
     "challenge": "The app had been in development for months but was nowhere near production-ready. The codebase had no architectural boundaries, deeply coupled modules, and no clear ownership. The team needed someone to take the wheel, assess the damage, and ship.",
-    "solution": "Took full technical ownership from day one. Audited the entire codebase, identified critical failure points, and rebuilt core modules with clear separation of concerns. Established architectural standards, documented decisions, and coordinated the App Store / Google Play release pipeline — delivering a stable, public-ready app in under 8 weeks.",
+    "solution": "Took full technical ownership from day one. Audited the entire codebase, identified critical failure points, and rebuilt core modules with clear separation of concerns. Established architectural standards, documented decisions, and coordinated the App Store / Google Play release pipeline, delivering a stable, public-ready app in under 8 weeks.",
     "features": [
       {
         "title": "Full Codebase Refactor",
-        "description": "100% of core modules rebuilt. Eliminated all tightly coupled dependencies and introduced clean architectural boundaries that scale with the team."
+        "description": "Rebuilt 100% of core modules, eliminating tightly coupled dependencies and establishing a scalable, maintainable architecture."
       },
       {
-        "title": "Architecture Leadership",
+        "title": "Architecture Ownership",
         "description": "Defined and documented all technical decisions, folder structure, state management patterns and API integration standards for the project."
       },
       {
-        "title": "App Store & Play Store Release",
-        "description": "Configured signing, build pipelines and metadata for both stores. Delivered the app's first successful public launch from zero infrastructure."
+        "title": "Production Release Delivery",
+        "description": "Set up and managed the App Store and Google Play release pipeline, delivering the app’s first successful public launch."
+      },
+      {
+        "title": "UI Implementation & Redesign",
+        "description": "Implemented the new product design across the app, translating updated UI/UX into a consistent and  experience."
       },
       {
         "title": "Ongoing Feature Development",
         "description": "Continuing to build new product features and integrations (including AI API) while maintaining architectural quality and velocity."
       }
+    ],
+    "metrics": [
+      { "value": "<8w", "label": "From pre-launch to production" },
+      { "value": "100%", "label": "Core modules rebuilt" },
+      { "value": "2", "label": "App Store & Google Play release" },
+      { "value": "Full redesign", "label": "New UI fully implemented" }
     ]
   },
   "nearsoft-onboarding": {
-    "smallDescription": "Configurable digital onboarding platform deployed across multiple financial institutions — replacing manual workflows with a fully automated, CMS-driven process.",
-    "fullDescription": ["Built at Nearsoft, a fintech software company based in Madeira, this platform digitizes the entire client onboarding journey for banks and financial institutions. The system is multi-bank, white-label ready, and CMS-driven — meaning non-technical teams can configure onboarding flows, update content, and manage approval steps without touching a single line of code. I owned the frontend architecture and the Directus CMS integration end-to-end."],
-    "challenge": "Financial institutions were running onboarding through paper forms, manual data entry, and fragmented internal tools — creating bottlenecks, compliance risks, and poor customer experience. The platform needed to be robust enough for regulated industries, flexible enough to serve multiple banks, and fast enough for customers to complete on mobile in minutes.",
-    "solution": "Architected a configurable frontend using React, Next.js and TypeScript with a Directus CMS backend (REST + GraphQL). Each onboarding step is dynamically driven by CMS configuration, enabling different institutions to have fully customized flows without code changes. Integrated browser APIs for document capture, step persistence and real-time validation. Set up CI/CD pipelines and linting to harden code quality and speed up team onboarding.",
+    "smallDescription": "Configurable digital onboarding platform deployed across multiple financial institutions, replacing manual workflows with a fully automated, CMS-driven process.",
+    "fullDescription": ["Built at Nearsoft, a fintech software company based in Madeira, this platform digitizes the entire client onboarding journey for banks and financial institutions. The system is multi-bank, white-label ready, and CMS-driven, allowing non-technical teams to configure onboarding flows, update content, and manage approval steps without writing code. I owned the frontend architecture and the Directus CMS integration end-to-end."],
+    "challenge": "Financial institutions relied on paper forms, manual data entry and fragmented internal tools, creating bottlenecks, compliance risks and poor customer experience. The platform needed to be robust enough for regulated environments, flexible enough to support multiple institutions, and fast enough for users to complete onboarding quickly from any device.",
+    "solution": "Built a configurable frontend architecture using React, Next.js and TypeScript, powered by a Directus CMS (REST + GraphQL). Onboarding flows are fully driven by dynamic configuration, enabling institutions to customize processes without code changes and reducing setup time from days to minutes. Implemented browser APIs for document capture, step persistence and real-time validation, improving completion rates and minimizing user drop-off.",
     "features": [
       {
-        "title": "Multi-bank CMS Architecture",
-        "description": "A single Directus CMS instance powers independent onboarding flows for multiple financial institutions. Non-technical teams control step logic, content and validation rules — no deployments needed. Reduced support tickets by 80%."
+        "title": "CMS-Driven Onboarding System",
+        "description": "Architected the onboarding platform around CMS-driven configuration using Directus, allowing flows, validation rules and content to be dynamically defined and adapted per institution without requiring code changes."
       },
       {
-        "title": "KYC & Document Capture",
-        "description": "Integrated browser APIs for in-browser document scanning and identity verification, enabling fully remote KYC compliance without redirecting users to third-party tools."
+        "title": "KYC & Document Processing",
+        "description": "Implemented document capture flows and UI for identity verification processes, contributing to a fully digital KYC onboarding experience."
       },
       {
-        "title": "Step Persistence & Recovery",
-        "description": "Users can abandon and resume the onboarding flow at any point. Browser-native APIs handle state persistence, preventing data loss and reducing drop-off rates."
+        "title": "Multi-Institution Flow Support",
+        "description": "Implemented onboarding flows adaptable to different institutional requirements, supporting variations in structure, validation and user scenarios across deployments."
       },
       {
-        "title": "CI/CD & Code Quality",
-        "description": "Introduced ESLint, Prettier and GitHub Actions CI pipelines from scratch. Standardized code style across the team and automated quality gates, cutting integration bugs and accelerating developer onboarding."
+        "title": "Configurable Frontend Architecture",
+        "description": "Designed and implemented a scalable frontend architecture driven by dynamic configuration, translating product designs into responsive and pixel-accurate interfaces."
       },
       {
-        "title": "Internal AI Chatbot Integration",
-        "description": "Contributed frontend UI and API integration for an internal AI chatbot prototype powered by a locally hosted LLM (Ollama), as part of a parallel innovation initiative within the company."
-      },
-      {
-        "title": "Responsive & Accessible Interfaces",
-        "description": "Pixel-perfect implementation of design system components across all devices. Followed accessibility standards to ensure compliance with financial sector requirements."
+        "title": "State Persistence & Recovery",
+        "description": "Built persistent onboarding state across sessions using browser-native APIs, allowing users to resume multi-step flows at any point without losing progress."
       }
+    ],
+    "metrics": [
+      { "value": "Reusable", "label": "Onboarding platform across institutions" },
+      { "value": "CMS-driven", "label": "Configurable onboarding flows per client" },
+      { "value": "Real-time", "label": "Validation & step persistence" },
+      { "value": "No-code", "label": "Flow changes without deployments" }
     ]
   },
+
+
+  
   "nearsoft-llm-chatbot": {
     "smallDescription": "On-premise AI chatbot built with Ollama and Llama 3 — connecting private APIs and CMS data sources to automate internal information retrieval with zero cloud exposure.",
     "fullDescription": "Most companies send their internal data to third-party AI APIs — exposing sensitive information to the cloud. This prototype, built during my time at Nearsoft, took the opposite approach: a fully local LLM stack using Ollama and Llama 3, running entirely on company infrastructure. I designed and built the complete system — from the Express.js API layer connecting to private CMS and internal data sources, to the React chat interface where teams could query company knowledge in real time. It wasn't just a demo. It proved that enterprise-grade AI tooling is possible without a single byte leaving the building.",

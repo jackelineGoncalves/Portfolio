@@ -1,87 +1,128 @@
 {
   "mova": {
+    "hoveredTitle": "Plataforma SaaS para entrenadores personales",
+    "projectType": "Proyecto Personal · Fundadora",
     "smallDescription": "App para entrenadores personales que reemplaza herramientas dispersas por un sistema único y estructurado para gestionar clientes y su trabajo diario.",
     "fullDescription": [
       "MOVA es una plataforma SaaS multi-tenant desarrollada de extremo a extremo como un proyecto de fundadora en solitario. Sustituye los flujos de trabajo fragmentados basados en hojas de cálculo, WhatsApp y PDFs manuales, integrando la gestión de clientes, el entrenamiento, la nutrición y el seguimiento del progreso en un único sistema móvil, diseñado en torno a casos de uso reales y con un alto nivel de personalización.",
       "Diseñada en colaboración directa con entrenadores personales, traduciendo sus flujos de trabajo reales en decisiones de producto escalables."
     ],
-    "challenge": "Los entrenadores personales pierden entre 3 y 4 horas diarias gestionando clientes a través de hojas de cálculo, apps de mensajería y PDFs desconectados. No existía ninguna herramienta móvil todo-en-uno diseñada específicamente para su flujo de trabajo real — la mayoría de las soluciones son demasiado genéricas o demasiado caras.",
-    "solution": "Construí MOVA como un SaaS multi-tenant desde cero — una app en React Native respaldada por una arquitectura Supabase con aislamiento de datos por workspace (RLS), sincronización en tiempo real y control de acceso por roles. Diseñé más de 40 pantallas en Figma antes de escribir una sola línea de código, asegurando que la UX se adapte realmente a cómo piensan los entrenadores.",
+    "challenge": "Los entrenadores personales pierden entre 3 y 4 horas al día gestionando clientes mediante hojas de cálculo, apps de mensajería y PDFs desconectados. Las herramientas actuales son demasiado genéricas y no reflejan cómo trabajan realmente, ya que no ofrecen la flexibilidad necesaria para manejar detalles como planes nutricionales personalizados, marcas locales de alimentos o estructuras de entrenamiento adaptables, obligando a recurrir a soluciones manuales.",
+    "solution": "Desarrollé MOVA como una plataforma SaaS multi-tenant mobile-first desde cero, diseñada en torno a cómo trabajan realmente los entrenadores personales. Integra en un único sistema la gestión de clientes, entrenamiento, nutrición, seguimiento del progreso y finanzas, con flujos altamente personalizables adaptados a necesidades reales como planes nutricionales personalizados y estructuras de entrenamiento flexibles, dentro de una solución estructurada y escalable.",
     "features": [
       {
-        "title": "Gestión de clientes",
-        "description": "Perfiles completos de clientes con historial, objetivos, datos físicos y progreso a lo largo del tiempo. Los entrenadores gestionan 10+ clientes sin cambiar de herramienta."
+        "title": "Gestión de Clientes",
+        "description": "Perfiles completos de clientes con historial, objetivos, datos físicos y seguimiento del progreso a lo largo del tiempo, ofreciendo una visión completa de cada cliente."
       },
       {
-        "title": "Constructor de planes de entrenamiento",
-        "description": "Crea planes de entrenamiento estructurados con ejercicios, series, repeticiones y descanso. Asígnalos a cualquier cliente en segundos. Reducción estimada del 70% en el tiempo de creación de planes."
+        "title": "Constructor de Planes de Entrenamiento",
+        "description": "Creación de planes de entrenamiento estructurados con ejercicios, series, repeticiones y descansos, incluyendo opciones de sustitución de ejercicios y programación flexible adaptada a cada cliente."
       },
       {
-        "title": "Seguimiento nutricional",
-        "description": "Diseña planes de alimentación con objetivos de macros por cliente. Soporta múltiples horarios diarios y restricciones dietéticas."
+        "title": "Sistema Avanzado de Nutrición",
+        "description": "Planes de alimentación personalizados con soporte para marcas locales, estructuras de comidas flexibles y cálculo automático de valores nutricionales adaptado a cada cliente."
       },
       {
-        "title": "Arquitectura multi-tenant",
-        "description": "Cada entrenador tiene un workspace aislado. La seguridad a nivel de fila (RLS) en PostgreSQL garantiza cero filtración de datos entre cuentas."
+        "title": "Matching y Onboarding Cliente–Entrenador",
+        "description": "Onboarding estructurado para entrenadores y clientes, con un sistema de solicitudes donde los clientes eligen entrenadores y estos pueden aceptar o rechazar."
+      },
+      {
+        "title": "Gestión Financiera",
+        "description": "Seguimiento de pagos, suscripciones y finanzas relacionadas con los clientes, proporcionando a los entrenadores visibilidad sobre su negocio."
+      },
+      {
+        "title": "Arquitectura Multi-tenant",
+        "description": "Cada entrenador opera en un espacio de trabajo aislado, con Row-Level Security que garantiza una separación segura de los datos entre cuentas."
       }
+    ],
+    "metrics": [
+      { "value": "50+", "label": "Pantallas de producto diseñadas en Figma" },
+      { "value": "0→1", "label": "Construido de extremo a extremo como fundadora en solitario" },
+      { "value": "70%", "label": "Reducción estimada en el tiempo de creación de planes" },
+      { "value": "Multi-tenant", "label": "Datos aislados por workspace" }
     ]
   },
   "elephai": {
-    "smallDescription": "Rescaté y reconstruí una app Flutter que estaba fallando — de un código base inestable en pre-lanzamiento a producción en menos de 8 semanas.",
-    "fullDescription": "ElephAi es una app móvil B2C/B2B de Unwind Minds. Me uní como Lead Developer cuando la app estaba atascada en un estado crítico de pre-lanzamiento — inestable, fuertemente acoplada y sin poder salir a producción. Tomé responsabilidad técnica total: refactoricé todo el código, establecí una arquitectura limpia y entregué el primer lanzamiento público exitoso tanto en App Store como en Google Play.",
-    "challenge": "La app llevaba meses en desarrollo pero estaba lejos de estar lista para producción. El código no tenía límites arquitectónicos, módulos profundamente acoplados y sin ownership claro. El equipo necesitaba a alguien que tomara las riendas, evaluara el daño y entregara.",
-    "solution": "Tomé responsabilidad técnica total desde el primer día. Audité todo el código, identifiqué puntos críticos de falla y reconstruí los módulos principales con separación clara de responsabilidades. Establecí estándares arquitectónicos, documenté decisiones y coordiné el pipeline de lanzamiento en App Store y Google Play — entregando una app estable y lista para el público en menos de 8 semanas.",
-    "features": [
-      {
-        "title": "Refactorización completa del código",
-        "description": "100% de los módulos principales reconstruidos. Se eliminaron todas las dependencias fuertemente acopladas y se introdujeron límites arquitectónicos limpios que escalan con el equipo."
-      },
-      {
-        "title": "Liderazgo arquitectónico",
-        "description": "Definí y documenté todas las decisiones técnicas, estructura de carpetas, patrones de gestión de estado y estándares de integración de API del proyecto."
-      },
-      {
-        "title": "Lanzamiento en App Store y Play Store",
-        "description": "Configuré firma, pipelines de build y metadatos para ambas tiendas. Entregué el primer lanzamiento público exitoso de la app desde cero infraestructura."
-      },
-      {
-        "title": "Desarrollo continuo de funcionalidades",
-        "description": "Sigo construyendo nuevas funcionalidades e integraciones (incluyendo API de IA) manteniendo la calidad arquitectónica y la velocidad de entrega."
-      }
-    ]
-  },
+  "hoveredTitle": "App Flutter en producción — de rota a publicada",
+  "projectType": "Proyecto Laboral · Lead Developer",
+  "smallDescription": "Reconstruí una aplicación Flutter en fase pre-lanzamiento, transformando un código inestable en un producto listo para producción en menos de 8 semanas.",
+  "fullDescription": [
+    "ElephAi es una aplicación móvil impulsada por IA enfocada en el bienestar emocional proactivo, que ayuda a los usuarios a detectar y gestionar el malestar emocional antes de que escale mediante soporte en tiempo real y análisis de comportamiento.",
+    "Me incorporé como Lead Developer durante una fase crítica previa al lanzamiento, asumiendo la responsabilidad total de la aplicación. Refactoricé el código, establecí una arquitectura limpia y entregué la primera versión pública en App Store y Google Play."
+  ],
+  "challenge": "La aplicación llevaba meses en desarrollo, pero estaba lejos de estar lista para producción. El código carecía de una arquitectura clara, tenía módulos fuertemente acoplados y no existía una responsabilidad técnica definida. El equipo necesitaba a alguien que tomara el control, evaluara la situación y llevara el producto a producción.",
+  "solution": "Asumí la responsabilidad técnica desde el primer día. Audité todo el código, identifiqué los puntos críticos y reconstruí los módulos principales con una clara separación de responsabilidades. Definí estándares de arquitectura, documenté decisiones técnicas y coordiné el pipeline de publicación en App Store y Google Play, entregando una aplicación estable y lista para producción en menos de 8 semanas.",
+  "features": [
+    {
+      "title": "Refactorización Completa del Código",
+      "description": "Reconstrucción del 100% de los módulos principales, eliminando dependencias fuertemente acopladas y estableciendo una arquitectura escalable y mantenible."
+    },
+    {
+      "title": "Ownership de la Arquitectura",
+      "description": "Definición e implementación de estándares de arquitectura, incluyendo estructura de carpetas, gestión de estado y patrones de integración con APIs."
+    },
+    {
+      "title": "Entrega a Producción",
+      "description": "Configuración y gestión del pipeline de publicación en App Store y Google Play, haciendo posible el primer lanzamiento público de la aplicación."
+    },
+    {
+      "title": "Implementación y Rediseño de UI",
+      "description": "Implementación del nuevo diseño del producto en toda la aplicación, transformando el UI/UX en una experiencia consistente y lista para producción."
+    },
+    {
+      "title": "Desarrollo de Funcionalidades Escalable",
+      "description": "Desarrollo continuo de nuevas funcionalidades e integraciones (incluyendo APIs de IA), manteniendo la calidad arquitectónica y la capacidad de escalar el producto."
+    }
+  ],
+  "metrics": [
+    { "value": "<8w", "label": "De pre-lanzamiento a producción" },
+    { "value": "100%", "label": "Módulos principales reconstruidos" },
+    { "value": "2", "label": "Lanzamiento en App Store y Google Play" },
+    { "value": "Rediseño completo", "label": "Nueva UI implementada" }
+  ]
+},
   "nearsoft-onboarding": {
-    "smallDescription": "Plataforma de onboarding digital configurable desplegada en múltiples instituciones financieras — reemplazando flujos manuales con un proceso totalmente automatizado y gestionado por CMS.",
-    "fullDescription": "Desarrollada en Nearsoft, empresa fintech con sede en Madeira, esta plataforma digitaliza todo el proceso de onboarding de clientes para bancos e instituciones financieras. El sistema es multi-banco, preparado para white-label y gestionado por CMS — lo que significa que los equipos no técnicos pueden configurar flujos de onboarding, actualizar contenido y gestionar pasos de aprobación sin tocar una sola línea de código. Fui responsable de la arquitectura frontend y de la integración con Directus CMS de extremo a extremo.",
-    "challenge": "Las instituciones financieras gestionaban el onboarding mediante formularios en papel, entrada manual de datos y herramientas internas fragmentadas — creando cuellos de botella, riesgos de cumplimiento y una experiencia de cliente deficiente. La plataforma debía ser lo suficientemente robusta para industrias reguladas, lo suficientemente flexible para servir a múltiples bancos, y lo suficientemente rápida para que los clientes la completaran en móvil en minutos.",
-    "solution": "Arquitecté un frontend configurable usando React, Next.js y TypeScript con un backend Directus CMS (REST + GraphQL). Cada paso del onboarding está impulsado dinámicamente por la configuración del CMS, permitiendo que distintas instituciones tengan flujos totalmente personalizados sin cambios de código. Integré browser APIs para captura de documentos, persistencia de pasos y validación en tiempo real. Configuré pipelines de CI/CD y linting para reforzar la calidad del código y acelerar el onboarding del equipo.",
-    "features": [
-      {
-        "title": "Arquitectura CMS multi-banco",
-        "description": "Una sola instancia de Directus CMS gestiona flujos de onboarding independientes para múltiples instituciones financieras. Los equipos no técnicos controlan la lógica de pasos, contenido y reglas de validación — sin necesidad de deploys. Reducción de tickets de soporte en un 80%."
-      },
-      {
-        "title": "KYC y captura de documentos",
-        "description": "Integración de browser APIs para escaneo de documentos e identificación en el navegador, permitiendo cumplimiento KYC completamente remoto sin redirigir a los usuarios a herramientas externas."
-      },
-      {
-        "title": "Persistencia y recuperación de pasos",
-        "description": "Los usuarios pueden abandonar y retomar el flujo de onboarding en cualquier punto. Las browser APIs nativas gestionan la persistencia del estado, evitando pérdida de datos y reduciendo el abandono."
-      },
-      {
-        "title": "CI/CD y calidad de código",
-        "description": "Implementé ESLint, Prettier y GitHub Actions CI desde cero. Estandaricé el estilo de código en todo el equipo y automaticé las puertas de calidad, reduciendo bugs de integración y acelerando el onboarding de desarrolladores."
-      },
-      {
-        "title": "Integración de chatbot de IA interno",
-        "description": "Contribuí con la UI frontend y la integración de API para un prototipo de chatbot de IA interno impulsado por un LLM alojado localmente (Ollama), como parte de una iniciativa de innovación paralela dentro de la empresa."
-      },
-      {
-        "title": "Interfaces responsive y accesibles",
-        "description": "Implementación pixel-perfect de componentes del sistema de diseño en todos los dispositivos. Seguimiento de estándares de accesibilidad para garantizar el cumplimiento con los requisitos del sector financiero."
-      }
-    ]
-  },
+  "hoveredTitle": "Onboarding configurable para instituciones financieras",
+  "projectType": "Proyecto Laboral · Frontend Engineer",
+  "smallDescription": "Plataforma de onboarding digital configurable desplegada en múltiples instituciones financieras, sustituyendo procesos manuales por un sistema automatizado basado en CMS.",
+  "fullDescription": [
+    "Desarrollada en Nearsoft, una empresa fintech ubicada en Madeira, esta plataforma digitaliza todo el proceso de onboarding de clientes para bancos e instituciones financieras. El sistema es reutilizable entre múltiples entidades, preparado para white-label y gestionado mediante CMS, permitiendo a equipos no técnicos configurar flujos, actualizar contenido y gestionar aprobaciones sin necesidad de escribir código. Me encargué de la arquitectura frontend y de la integración con Directus CMS de extremo a extremo."
+  ],
+  "challenge": "Las instituciones financieras dependían de formularios en papel, entrada manual de datos y herramientas internas fragmentadas, lo que generaba cuellos de botella, riesgos de cumplimiento y una mala experiencia de usuario. La plataforma debía ser lo suficientemente robusta para entornos regulados, flexible para adaptarse a múltiples instituciones y lo suficientemente rápida para que los usuarios completaran el onboarding desde cualquier dispositivo.",
+  "solution": "Desarrollé una arquitectura frontend configurable utilizando React, Next.js y TypeScript, impulsada por un CMS Directus (REST + GraphQL). Los flujos de onboarding están completamente definidos mediante configuración dinámica, permitiendo a cada institución personalizar procesos sin cambios de código. Implementé APIs nativas del navegador para captura de documentos, persistencia de pasos y validación en tiempo real, reduciendo la fricción en flujos complejos.",
+  "features": [
+    {
+      "title": "Sistema de Onboarding basado en CMS",
+      "description": "Arquitectura del sistema de onboarding diseñada alrededor de configuración gestionada por CMS mediante Directus, permitiendo definir y adaptar dinámicamente flujos, validaciones y contenido por institución sin necesidad de cambios en el código."
+    },
+    {
+      "title": "KYC y Procesamiento de Documentos",
+      "description": "Implementación de flujos de captura de documentos y interfaces de verificación de identidad, contribuyendo a un proceso de onboarding KYC completamente digital."
+    },
+    {
+      "title": "Soporte para Múltiples Instituciones",
+      "description": "Implementación de flujos de onboarding adaptables a distintos requisitos institucionales, soportando variaciones en estructura, validaciones y escenarios de usuario entre despliegues."
+    },
+    {
+      "title": "Arquitectura Frontend Configurable",
+      "description": "Diseño e implementación de una arquitectura frontend escalable basada en configuración dinámica, traduciendo diseños de producto en interfaces responsive y fieles al diseño."
+    },
+    {
+      "title": "Persistencia de Estado y Recuperación",
+      "description": "Implementación de persistencia del estado del onboarding utilizando APIs nativas del navegador, permitiendo retomar flujos en cualquier punto sin pérdida de información."
+    }
+  ],
+  "metrics": [
+    { "value": "Reutilizable", "label": "Plataforma de onboarding para múltiples instituciones" },
+    { "value": "Basado en CMS", "label": "Flujos configurables por cliente" },
+    { "value": "Tiempo real", "label": "Validación y persistencia de pasos" },
+    { "value": "Sin código", "label": "Cambios de flujo sin despliegues" }
+  ]
+},
+
+
+
+
   "nearsoft-llm-chatbot": {
     "smallDescription": "Chatbot de IA on-premise construido con Ollama y Llama 3 — conectando APIs privadas y fuentes de datos CMS para automatizar la recuperación de información interna sin exponer ningún dato a la nube.",
     "fullDescription": "La mayoría de las empresas envían sus datos internos a APIs de IA externas — exponiendo información sensible a la nube. Este prototipo, construido durante mi etapa en Nearsoft, tomó el camino opuesto: un stack LLM completamente local usando Ollama y Llama 3, corriendo íntegramente en la infraestructura de la empresa. Diseñé y construí el sistema completo — desde la capa de API en Express.js que conecta con fuentes de datos privadas y CMS internos, hasta la interfaz de chat en React donde los equipos podían consultar el conocimiento de la empresa en tiempo real. No era solo una demo. Demostró que las herramientas de IA a nivel empresarial son posibles sin que un solo byte salga del edificio.",

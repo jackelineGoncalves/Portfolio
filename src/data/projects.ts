@@ -115,7 +115,7 @@ export const projects: Project[] = [
     name: "ElephAi App",
     onProgressTag: false,
     workProjectTag: true,
-    hoveredTitle: "Production Flutter app — from broken to live",
+    hoveredTitle: "Flutter Mobile App — Rebuilt and Launched to Production",
     projectType: "Work Project · Lead Developer",
     categories: ["Mobile", "Frontend"],
     hasCodeBtn: false,

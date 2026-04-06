@@ -2,7 +2,10 @@
   "badge": "Disponible para trabajar",
   "greeting": "¡Hola! Soy Jackeline",
   "role": "Desarrolladora de Software",
-  "description": "Construyo productos que la gente realmente usa — desde apps móviles en producción hasta plataformas escalables diseñadas desde cero. Código limpio, UI cuidada, impacto real.",
+  "description": [
+    "Construyo productos completos, no solo funcionalidades.",
+    "Trabajo en mobile y frontend, con bases sólidas en backend, asumiendo responsabilidad desde la arquitectura hasta producción. Me importa tanto cómo se construyen los sistemas como cómo se viven en la práctica."
+  ],
   "cta": "Ver CV",
   "profileImageAlt": "Jackeline Gonçalves",
   "socials": {

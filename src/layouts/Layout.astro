@@ -45,18 +45,20 @@ const {
     <!-- STARS SCRIPT (safe with router) -->
     <script>
       function setupStars() {
-        const canvas = document.getElementById("stars-canvas");
-        if (!(canvas instanceof HTMLCanvasElement)) return;
+        const canvas = document.querySelector<HTMLCanvasElement>("#stars-canvas");
+        if (!canvas) return;
 
-        if (canvas.dataset.ready === "true") return;
-        canvas.dataset.ready = "true";
+        const safeCanvas: HTMLCanvasElement = canvas;
 
-        const ctx = canvas.getContext("2d");
+        if (safeCanvas.dataset.ready === "true") return;
+        safeCanvas.dataset.ready = "true";
+
+        const ctx = safeCanvas.getContext("2d") as CanvasRenderingContext2D;
         if (!ctx) return;
 
         function resize() {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
+          safeCanvas.width = window.innerWidth;
+          safeCanvas.height = window.innerHeight;
         }
 
         resize();
@@ -74,7 +76,7 @@ const {
         let frame = 0;
 
         function draw() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.clearRect(0, 0, safeCanvas.width, safeCanvas.height);
           frame++;
 
           for (const s of stars) {
@@ -83,8 +85,8 @@ const {
 
             ctx.beginPath();
             ctx.arc(
-              s.x * canvas.width,
-              s.y * canvas.height,
+              s.x * safeCanvas.width,
+              s.y * safeCanvas.height,
               s.r,
               0,
               Math.PI * 2

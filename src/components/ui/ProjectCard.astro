@@ -55,7 +55,7 @@ const {
   slug,
 } = Astro.props;
 
-const t = useTranslations(lang, "projects");
+const { t } = useTranslations(lang, "projects");
 
 // Color map per category
 const categoryColors: Record<

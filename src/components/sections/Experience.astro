@@ -88,7 +88,7 @@ const items = data.items.map((item, i) => ({ ...item, side: sides[i], technologi
                       <p class="mt-1 text-md font-bold gradient-text">
                         {item.company}
                       </p>
-                      <p class="mt-1 text-sm text-text-secondary">
+                      <p class="mt-1 text-xs text-text-secondary">
                         {item.period}
                       </p>
                     </div>
@@ -96,7 +96,7 @@ const items = data.items.map((item, i) => ({ ...item, side: sides[i], technologi
 
                   <ul class="mt-6 grid gap-3">
                     {item.bullets.map((bullet) => (
-                      <li class="relative pl-6 text-[0.95rem] leading-[1.65] text-text-secondary">
+                      <li class="relative pl-6 text-sm leading-[1.65] text-text-secondary">
                         <span class="absolute left-0 top-0 text-md leading-none text-primary">
                           ›
                         </span>

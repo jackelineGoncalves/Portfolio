@@ -15,7 +15,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang, "about");
+const { t } = useTranslations(lang, "about");
 ---
 
 <section
@@ -94,7 +94,7 @@ const t = useTranslations(lang, "about");
         </IconBox>
         <h4 class="text-md font-semibold text-white">{t("basedIn.title")}</h4>
       </div>
-      <p class="pt-5 text-sm text-text-secondary">{t("basedIn.location")}</p>
+      <p class="pt-5 text-sm text-text-secondary m-auto w-full">- {t("basedIn.location")}</p>
     </div>
   </article>
 

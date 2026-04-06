@@ -13,7 +13,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang, "contact");
+const { t } = useTranslations(lang, "contact");
 ---
 
 <section

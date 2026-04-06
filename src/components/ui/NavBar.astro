@@ -183,6 +183,8 @@ const localeLabels: Record<Locale, string> = {
 </header>
 
 <script>
+  let sectionObserver: IntersectionObserver | null = null;
+
   function setupNavbar() {
     const header = document.getElementById("site-header");
     const menuToggle = document.getElementById("menu-toggle");
@@ -235,6 +237,40 @@ const localeLabels: Record<Locale, string> = {
           menuToggle.setAttribute("aria-label", "Open menu");
         }
       });
+    });
+
+    // Active section tracking — disconnect previous observer before recreating
+    if (sectionObserver) {
+      sectionObserver.disconnect();
+      sectionObserver = null;
+    }
+
+    const sectionIds = ["home", "about", "experience", "projects", "stack", "contact"];
+
+    function setActive(id: string) {
+      document.querySelectorAll(".nav-link, .mobile-nav-link").forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement)) return;
+        link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
+      });
+    }
+
+    sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: "-45% 0px -45% 0px",
+        threshold: 0,
+      }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) sectionObserver!.observe(el);
     });
 
     function initLangSelector(id: string) {
@@ -423,6 +459,24 @@ const localeLabels: Record<Locale, string> = {
 
   .nav-link:hover::after {
     width: 100%;
+  }
+
+  .nav-link.is-active {
+    background: linear-gradient(to right, var(--primary), var(--primary-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav-link.is-active::after {
+    width: 100%;
+  }
+
+  .mobile-nav-link.is-active {
+    background: linear-gradient(to right, var(--primary), var(--primary-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .lang-selector {

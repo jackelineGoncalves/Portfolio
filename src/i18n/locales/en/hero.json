@@ -2,7 +2,10 @@
   "badge": "Available for work",
   "greeting": "Hey! I'm Jackeline",
   "role": "Software Developer",
-  "description": "I build products people actually use — from mobile apps shipped to production to scalable platforms architected from scratch. Clean code, sharp UI, real impact.",
+  "description": [
+    "I build complete products, not just features.",
+    "I work across mobile and frontend, with solid backend foundations, taking ownership from architecture to production. I care about both how systems are built and how they are experienced."
+  ],
   "cta": "View CV",
   "profileImageAlt": "Jackeline Gonçalves",
   "socials": {

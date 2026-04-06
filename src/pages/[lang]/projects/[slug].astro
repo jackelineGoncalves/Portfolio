@@ -1,6 +1,5 @@
 ---
 import { projects } from "../../../data/projects";
-import type { ProjectCategory } from "../../../data/projects";
 import Layout from "../../../layouts/Layout.astro";
 import { LOCALES, type Locale } from "../../../i18n/config";
 import { useTranslations, getProjectContent } from "../../../i18n/utils";
@@ -22,7 +21,7 @@ const { project, lang } = Astro.props as {
   lang: Locale;
 };
 
-const t = useTranslations(lang, "projectDetail");
+const { t } = useTranslations(lang, "projectDetail");
 const content = getProjectContent(lang, project.slug);
 const backHref = `/${lang}/#projects`;
 
@@ -67,7 +66,7 @@ const thirdImage = previewImages[2] ?? previewImages[0];
             )
           }
 
-          <span class="tag tag--type">{project.projectType}</span>
+          <span class="tag tag--type">{content.projectType ?? project.projectType}</span>
         </div>
 
         <h1
@@ -216,11 +215,11 @@ const thirdImage = previewImages[2] ?? previewImages[0];
     </section>
 
     {
-      project.metrics && project.metrics.length > 0 && (
+      content.metrics.length > 0 && (
         <section class="container-main pb-16">
           <h2 class="section-heading">{t("impact")}</h2>
           <div class="metrics-grid">
-            {project.metrics.map((metric) => (
+            {content.metrics.map((metric) => (
               <div class="metric-card">
                 <span class="metric-value gradient-text">{metric.value}</span>
                 <span class="metric-label">{metric.label}</span>
@@ -929,7 +928,7 @@ const thirdImage = previewImages[2] ?? previewImages[0];
 <script>
   function setupGallery() {
     const lightbox = document.getElementById("gallery-lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement | null;
     const lightboxCounter = document.getElementById("lightbox-counter");
     const btnClose = document.getElementById("lightbox-close");
     const btnPrev = document.getElementById("lightbox-prev");
@@ -938,27 +937,31 @@ const thirdImage = previewImages[2] ?? previewImages[0];
 
     if (!lightbox || !lightboxImg || !lightboxCounter) return;
 
-    const items = Array.from(document.querySelectorAll("[data-gallery-index]"));
+    const safeBox = lightbox;
+    const safeImg = lightboxImg;
+    const safeCounter = lightboxCounter;
+
+    const items = Array.from(document.querySelectorAll<HTMLElement>("[data-gallery-index]"));
 
     if (!items.length) return;
 
-    const srcs = items.map((item) => item.dataset.gallerySrc || "");
+    const srcs = items.map((item) => item.dataset.gallerySrc ?? "");
 
     let current = 0;
 
-    function open(index) {
+    function open(index: number) {
       current = index;
-      lightboxImg.src = srcs[current];
-      lightboxImg.alt = `Screenshot ${current + 1}`;
-      lightboxCounter.textContent = `${current + 1} / ${srcs.length}`;
-      lightbox.classList.add("is-open");
-      lightbox.setAttribute("aria-hidden", "false");
+      safeImg.src = srcs[current] ?? "";
+      safeImg.alt = `Screenshot ${current + 1}`;
+      safeCounter.textContent = `${current + 1} / ${srcs.length}`;
+      safeBox.classList.add("is-open");
+      safeBox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
     }
 
     function close() {
-      lightbox.classList.remove("is-open");
-      lightbox.setAttribute("aria-hidden", "true");
+      safeBox.classList.remove("is-open");
+      safeBox.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     }
 
@@ -975,12 +978,12 @@ const thirdImage = previewImages[2] ?? previewImages[0];
     btnPrev?.addEventListener("click", prev);
     btnNext?.addEventListener("click", next);
 
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) close();
+    safeBox.addEventListener("click", (e) => {
+      if (e.target === safeBox) close();
     });
 
     document.addEventListener("keydown", (e) => {
-      if (!lightbox.classList.contains("is-open")) return;
+      if (!safeBox.classList.contains("is-open")) return;
       if (e.key === "Escape") close();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
