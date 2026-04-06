@@ -20,6 +20,7 @@ import { DEFAULT_LOCALE, type Locale, type Namespace } from "./config";
 // Static imports for projectsContent — guaranteed to be picked up by Vite
 import enProjectsContent from "./locales/en/projectsContent.json";
 import esProjectsContent from "./locales/es/projectsContent.json";
+import ptProjectsContent from "./locales/pt/projectsContent.json";
 
 type TranslationRecord = Record<string, unknown>;
 
@@ -102,6 +103,7 @@ type ProjectsContentMap = Record<string, RawProjectContent>;
 const projectsContentMap: Record<Locale, ProjectsContentMap> = {
   en: enProjectsContent as ProjectsContentMap,
   es: esProjectsContent as ProjectsContentMap,
+  pt: ptProjectsContent as ProjectsContentMap,
 };
 
 export function getProjectContent(locale: Locale, slug: string): ProjectContent {

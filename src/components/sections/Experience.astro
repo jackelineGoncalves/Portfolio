@@ -4,13 +4,16 @@ import IconBox from "..//ui/InfoBox.astro";
 import type { Locale } from "../../i18n/config";
 import enExperience from "../../i18n/locales/en/experience.json";
 import esExperience from "../../i18n/locales/es/experience.json";
+import ptExperience from "../../i18n/locales/pt/experience.json";
 
 interface Props {
   lang: Locale;
 }
 
+const localeData = { en: enExperience, es: esExperience, pt: ptExperience };
+
 const { lang } = Astro.props;
-const data = lang === "es" ? esExperience : enExperience;
+const data = localeData[lang] ?? enExperience;
 
 const sides = ["left", "right", "left"] as const;
 const technologies = [

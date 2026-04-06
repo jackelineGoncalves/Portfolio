@@ -1,0 +1,18 @@
+{
+  "back": "Voltar aos projetos",
+  "tags": {
+    "inProgress": "Em progresso",
+    "work": "Projeto profissional"
+  },
+  "categories": "Categorias",
+  "liveDemo": "Ver demo",
+  "sourceCode": "Código fonte",
+  "impact": "Impacto",
+  "techStack": "Stack Tecnológico",
+  "challenge": "O Desafio",
+  "solution": "A Solução",
+  "keyFeatures": "Funcionalidades Principais",
+  "gallery": "Galeria",
+  "galleryScreenshots": "Capturas de ecrã",
+  "galleryViewFull": "Ver galeria completa"
+}

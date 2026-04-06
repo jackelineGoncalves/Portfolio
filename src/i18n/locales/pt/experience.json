@@ -1,0 +1,40 @@
+{
+  "sectionTitle": "O meu percurso",
+  "sectionDescription": "Desde resgatar uma app em pré-lançamento até arquitetar o meu próprio SaaS e construir plataformas digitais de nível empresarial, assim tenho crescido como desenvolvedora.",
+  "present": "Presente",
+  "items": [
+    {
+      "title": "Lead Developer",
+      "company": "Unwind Minds (ElephAi)",
+      "period": "Remoto · Dez 2025 — Presente",
+      "bullets": [
+        "Resgatei e reconstruí do zero uma app Flutter que estava a falhar, passando de 0% de estabilidade a pronta para produção em menos de 8 semanas.",
+        "Responsável pela totalidade das decisões de arquitetura, roadmap técnico e entrega do produto como lead engineer do projeto.",
+        "Refatorei 100% dos módulos principais, eliminei dependências fortemente acopladas e estabeleci limites arquiteturais claros na base de código.",
+        "Configurei e geri a infraestrutura da App Store e Google Play, entregando o primeiro lançamento público da app."
+      ]
+    },
+    {
+      "title": "Fundadora & Full Stack Developer",
+      "company": "MOVA — SaaS Pessoal",
+      "period": "Remoto · Mar 2025 — Presente",
+      "bullets": [
+        "Concebi e desenvolvi uma plataforma SaaS multi-tenant do início ao fim, substituindo fluxos de trabalho em folhas de cálculo por um sistema estruturado de gestão de clientes.",
+        "Arquitetei um backend seguro com Supabase (PostgreSQL, RLS, Auth) com isolamento de dados por espaço de trabalho e sincronização em tempo real.",
+        "Desenhei o sistema completo de UI/UX no Figma — mais de 50 ecrãs de onboarding, gestão de clientes, planos de treino e fluxos de nutrição.",
+        "Atualmente a desenvolver e iterar o produto, refinando funcionalidades, estruturas de dados e fluxos de utilizador com base em casos de uso reais."
+      ]
+    },
+    {
+      "title": "Estagiária de Desenvolvimento Frontend",
+      "company": "Nearsoft",
+      "period": "Madeira, Portugal · Fev 2024 — Ago 2024",
+      "bullets": [
+        "Desenvolvi o frontend de uma plataforma de onboarding de clientes para instituições financeiras, simplificando os fluxos de criação de contas e aprovação.",
+        "Construí interfaces pixel-perfect, acessíveis e de alto desempenho, assegurando consistência entre dispositivos e tamanhos de ecrã.",
+        "Implementei um CMS escalável com Directus (REST/GraphQL) que permite a equipas não técnicas gerir fluxos de onboarding de forma autónoma.",
+        "Prototipei um chatbot de IA interno, integrando um LLM local com APIs internas e dados do CMS para acesso em tempo real a informação da empresa."
+      ]
+    }
+  ]
+}
