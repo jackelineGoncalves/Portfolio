@@ -1,0 +1,21 @@
+{
+  "sectionTitle": "Especialidades",
+  "items": [
+    {
+      "title": "Design UX/UI",
+      "description": "Desenho sistemas completos, não apenas ecrãs. Desde fluxos de utilizador e bibliotecas de componentes até à entrega final, ligando decisões de design a necessidades reais do produto."
+    },
+    {
+      "title": "Frontend & Web",
+      "description": "Interfaces pixel-perfect com bom desempenho. Construo apps web responsivas e acessíveis com React, Next.js e TypeScript, cobrindo desde o sistema de design até à produção."
+    },
+    {
+      "title": "Desenvolvimento Mobile",
+      "description": "Apps mobile multiplataforma para produtos reais. Da arquitetura e UI às decisões de produto, levo ideias do conceito à produção, com experiência a publicar na App Store e Google Play."
+    },
+    {
+      "title": "Backend & Bases de Dados",
+      "description": "Bases sólidas em backend e bases de dados. Desenho sistemas seguros e escaláveis com foco na manutenibilidade a longo prazo, casos extremos e requisitos reais do produto."
+    }
+  ]
+}

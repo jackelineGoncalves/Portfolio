@@ -1,0 +1,12 @@
+{
+  "sectionLabel": "PORTFÓLIO",
+  "title": "Projetos",
+  "titleHighlight": "em Destaque",
+  "description": "Uma seleção de projetos que me tornaram confiante a construir software.",
+  "card": {
+    "inProgress": "Em progresso",
+    "work": "Projeto profissional",
+    "viewDetails": "Ver detalhes",
+    "code": "Código"
+  }
+}

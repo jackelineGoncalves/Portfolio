@@ -22,8 +22,12 @@
     );
 
     if (!root || !container) return;
-    if (root.dataset.techSphereMounted === "true") return;
-    root.dataset.techSphereMounted = "true";
+
+    const safeRoot: HTMLElement = root;
+    const safeContainer: HTMLElement = container;
+
+    if (safeRoot.dataset.techSphereMounted === "true") return;
+    safeRoot.dataset.techSphereMounted = "true";
 
     const technologies: Technology[] = [
       { name: "React", svgUrl: "/icons/react.svg", glowColor: "#61DAFB" },
@@ -146,8 +150,8 @@
 
     function getContainerSize() {
       return {
-        width: container.clientWidth || window.innerWidth,
-        height: container.clientHeight || window.innerHeight,
+        width: safeContainer.clientWidth || window.innerWidth,
+        height: safeContainer.clientHeight || window.innerHeight,
       };
     }
 
@@ -408,7 +412,7 @@
       });
     }
 
-    function checkHover(event: MouseEvent) {
+    function checkHover(_event: MouseEvent) {
       raycaster.setFromCamera(mouse, camera);
 
       const frontSprites = techSprites.filter((s) => s.userData.isFront === true);
@@ -643,7 +647,7 @@
         material.dispose();
       });
 
-      scene?.traverse((obj) => {
+      scene?.traverse((obj: THREE.Object3D) => {
         const mesh = obj as THREE.Mesh;
         if (mesh.geometry) mesh.geometry.dispose();
 
@@ -656,8 +660,8 @@
       });
 
       renderer?.dispose();
-      container.innerHTML = "";
-      delete root.dataset.techSphereMounted;
+      safeContainer.innerHTML = "";
+      delete safeRoot.dataset.techSphereMounted;
     }
 
     async function init() {
@@ -670,7 +674,7 @@
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(width, height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      container.appendChild(renderer.domElement);
+      safeContainer.appendChild(renderer.domElement);
 
       sphereGroup = new THREE.Group();
       scene.add(sphereGroup);

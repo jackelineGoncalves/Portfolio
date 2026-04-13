@@ -3,7 +3,7 @@
  * Supported locales and default locale.
  */
 
-export const LOCALES = ["en", "es"] as const;
+export const LOCALES = ["en", "es", "pt"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "en";

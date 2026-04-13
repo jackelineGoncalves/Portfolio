@@ -9,13 +9,28 @@ interface Props {
   lang: Locale;
   showNav?: boolean;
   title?: string;
+  description?: string;
 }
 
 const {
   lang,
   showNav = true,
-  title = "Jackeline Gonçalves",
+  title: rawTitle = "Jackeline Gonçalves",
+  description: customDescription,
 } = Astro.props;
+
+const siteTitle = rawTitle === "Jackeline Gonçalves"
+  ? "Jackeline Gonçalves — Software Developer"
+  : `${rawTitle} | Jackeline Gonçalves`;
+
+const descriptions: Record<Locale, string> = {
+  en: "Software developer specialized in mobile and frontend, building end-to-end products from architecture to production.",
+  es: "Desarrolladora de software especializada en mobile y frontend, creando productos end-to-end desde la arquitectura hasta producción.",
+  pt: "Desenvolvedora de software especializada em mobile e frontend, criando produtos end-to-end desde a arquitetura até à produção.",
+};
+
+const description = customDescription ?? descriptions[lang];
+const canonicalUrl = Astro.url.href;
 ---
 
 <!doctype html>
@@ -23,11 +38,29 @@ const {
   <head>
     <ClientRouter />
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+
+    <!-- Primary -->
+    <title>{siteTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Jackeline Gonçalves" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={lang === "pt" ? "pt_PT" : lang === "es" ? "es_ES" : "en_US"} />
+    <meta property="og:site_name" content="Jackeline Gonçalves" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={description} />
   </head>
 
   <body>
@@ -45,18 +78,20 @@ const {
     <!-- STARS SCRIPT (safe with router) -->
     <script>
       function setupStars() {
-        const canvas = document.getElementById("stars-canvas");
-        if (!(canvas instanceof HTMLCanvasElement)) return;
+        const canvas = document.querySelector<HTMLCanvasElement>("#stars-canvas");
+        if (!canvas) return;
 
-        if (canvas.dataset.ready === "true") return;
-        canvas.dataset.ready = "true";
+        const safeCanvas: HTMLCanvasElement = canvas;
 
-        const ctx = canvas.getContext("2d");
+        if (safeCanvas.dataset.ready === "true") return;
+        safeCanvas.dataset.ready = "true";
+
+        const ctx = safeCanvas.getContext("2d") as CanvasRenderingContext2D;
         if (!ctx) return;
 
         function resize() {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
+          safeCanvas.width = window.innerWidth;
+          safeCanvas.height = window.innerHeight;
         }
 
         resize();
@@ -71,26 +106,109 @@ const {
           t: Math.random() * Math.PI * 2,
         }));
 
+        type ShootingStar = {
+          x: number; y: number;
+          vx: number; vy: number;
+          length: number; life: number; maxLife: number;
+        };
+
+        const shootingStars: ShootingStar[] = [];
+
+        function spawnShootingStar() {
+          const speed = Math.random() * 6 + 4;
+          const length = Math.random() * 120 + 60;
+
+          // Randomly go left-to-right or right-to-left
+          const goRight = Math.random() > 0.5;
+          const baseAngle = Math.PI / 4 + (Math.random() - 0.5) * 0.2; // ~45°
+          const angle = goRight ? baseAngle : Math.PI - baseAngle;      // mirror for right-to-left
+          const vx = Math.cos(angle) * speed;
+          const vy = Math.sin(angle) * speed;
+
+          let x: number, y: number;
+          if (goRight) {
+            // Spawn from top or left edge
+            const fromTop = Math.random() > 0.4;
+            x = fromTop ? Math.random() * safeCanvas.width : -length;
+            y = fromTop ? -length : Math.random() * safeCanvas.height * 0.5;
+          } else {
+            // Spawn from top or right edge
+            const fromTop = Math.random() > 0.4;
+            x = fromTop ? Math.random() * safeCanvas.width : safeCanvas.width + length;
+            y = fromTop ? -length : Math.random() * safeCanvas.height * 0.5;
+          }
+
+          // Live until fully off the opposite edge
+          const timeToExitX = goRight
+            ? (safeCanvas.width + length - x) / vx
+            : (x + length) / (-vx);
+          const timeToExitY = (safeCanvas.height + length - y) / vy;
+          const maxLife = Math.min(timeToExitX, timeToExitY);
+
+          shootingStars.push({ x, y, vx, vy, length, life: 0, maxLife });
+        }
+
         let frame = 0;
+        let spawnTimer = Math.random() * 200 + 100;
 
         function draw() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.clearRect(0, 0, safeCanvas.width, safeCanvas.height);
           frame++;
 
           for (const s of stars) {
             const twinkle = Math.sin(frame * s.s + s.t) * 0.3;
             const alpha = Math.max(0.05, s.o + twinkle);
-
             ctx.beginPath();
-            ctx.arc(
-              s.x * canvas.width,
-              s.y * canvas.height,
-              s.r,
-              0,
-              Math.PI * 2
-            );
+            ctx.arc(s.x * safeCanvas.width, s.y * safeCanvas.height, s.r, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(255,255,255,${alpha})`;
             ctx.fill();
+          }
+
+          // Spawn shooting stars on a random timer
+          spawnTimer--;
+          if (spawnTimer <= 0) {
+            spawnShootingStar();
+            spawnTimer = Math.random() * 280 + 120;
+          }
+
+          // Draw and update shooting stars
+          for (let i = shootingStars.length - 1; i >= 0; i--) {
+            const ss = shootingStars[i];
+            ss.x += ss.vx;
+            ss.y += ss.vy;
+            ss.life++;
+
+            const progress = ss.life / ss.maxLife;
+            // Fade in first 10%, full opacity middle, fade out last 15%
+            const alpha = progress < 0.1
+              ? (progress / 0.1) * 0.9
+              : progress > 0.85
+                ? ((1 - progress) / 0.15) * 0.9
+                : 0.9;
+
+            const steps = Math.ceil(ss.length / Math.hypot(ss.vx, ss.vy));
+            const tailX = ss.x - ss.vx * steps;
+            const tailY = ss.y - ss.vy * steps;
+
+            const grad = ctx.createLinearGradient(tailX, tailY, ss.x, ss.y);
+            grad.addColorStop(0, `rgba(255,255,255,0)`);
+            grad.addColorStop(0.6, `rgba(200,235,255,${alpha * 0.35})`);
+            grad.addColorStop(1, `rgba(255,255,255,${alpha})`);
+
+            ctx.beginPath();
+            ctx.moveTo(tailX, tailY);
+            ctx.lineTo(ss.x, ss.y);
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            if (
+              ss.x > safeCanvas.width + ss.length ||
+              ss.x < -ss.length ||
+              ss.y > safeCanvas.height + ss.length
+            ) {
+              shootingStars.splice(i, 1);
+            }
           }
 
           requestAnimationFrame(draw);

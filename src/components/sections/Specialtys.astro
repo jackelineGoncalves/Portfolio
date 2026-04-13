@@ -3,13 +3,16 @@ import SpecialtyCard from "../ui/SpecialtyCard.astro";
 import type { Locale } from "../../i18n/config";
 import enSpecialtys from "../../i18n/locales/en/specialtys.json";
 import esSpecialtys from "../../i18n/locales/es/specialtys.json";
+import ptSpecialtys from "../../i18n/locales/pt/specialtys.json";
 
 interface Props {
   lang: Locale;
 }
 
+const localeData = { en: enSpecialtys, es: esSpecialtys, pt: ptSpecialtys };
+
 const { lang } = Astro.props;
-const data = lang === "es" ? esSpecialtys : enSpecialtys;
+const data = localeData[lang] ?? enSpecialtys;
 
 const accents = ["purple", "cyan", "blue", "cyan"] as const;
 const icons = ["design", "frontend", "mobile", "backend"] as const;

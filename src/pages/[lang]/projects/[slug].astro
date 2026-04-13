@@ -1,6 +1,5 @@
 ---
 import { projects } from "../../../data/projects";
-import type { ProjectCategory } from "../../../data/projects";
 import Layout from "../../../layouts/Layout.astro";
 import { LOCALES, type Locale } from "../../../i18n/config";
 import { useTranslations, getProjectContent } from "../../../i18n/utils";
@@ -22,7 +21,7 @@ const { project, lang } = Astro.props as {
   lang: Locale;
 };
 
-const t = useTranslations(lang, "projectDetail");
+const { t } = useTranslations(lang, "projectDetail");
 const content = getProjectContent(lang, project.slug);
 const backHref = `/${lang}/#projects`;
 
@@ -67,7 +66,7 @@ const thirdImage = previewImages[2] ?? previewImages[0];
             )
           }
 
-          <span class="tag tag--type">{project.projectType}</span>
+          <span class="tag tag--type">{content.projectType ?? project.projectType}</span>
         </div>
 
         <h1
@@ -137,6 +136,38 @@ const thirdImage = previewImages[2] ?? previewImages[0];
               >
                 <Code />
                 {t("sourceCode")}
+              </a>
+            )
+          }
+
+          {
+            project.appStoreUrl && (
+              <a
+                href={project.appStoreUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-secondary-detail"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                {t("appStore")}
+              </a>
+            )
+          }
+
+          {
+            project.playStoreUrl && (
+              <a
+                href={project.playStoreUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-secondary-detail"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3.18 23.76c.3.17.64.22.98.14l12.09-6.98-2.55-2.55-10.52 9.39zM.54 1.03C.2 1.4 0 1.96 0 2.67v18.66c0 .71.2 1.27.54 1.64l.09.08 10.46-10.46v-.25L.63.95.54 1.03zM20.08 10.65l-2.89-1.67-2.87 2.87 2.87 2.87 2.91-1.68c.83-.48.83-1.26-.02-1.39zM3.18.24l12.09 6.98-2.55 2.55L2.2.38 3.18.24z"/>
+                </svg>
+                {t("playStore")}
               </a>
             )
           }
@@ -216,11 +247,11 @@ const thirdImage = previewImages[2] ?? previewImages[0];
     </section>
 
     {
-      project.metrics && project.metrics.length > 0 && (
+      content.metrics.length > 0 && (
         <section class="container-main pb-16">
           <h2 class="section-heading">{t("impact")}</h2>
           <div class="metrics-grid">
-            {project.metrics.map((metric) => (
+            {content.metrics.map((metric) => (
               <div class="metric-card">
                 <span class="metric-value gradient-text">{metric.value}</span>
                 <span class="metric-label">{metric.label}</span>
@@ -929,7 +960,7 @@ const thirdImage = previewImages[2] ?? previewImages[0];
 <script>
   function setupGallery() {
     const lightbox = document.getElementById("gallery-lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement | null;
     const lightboxCounter = document.getElementById("lightbox-counter");
     const btnClose = document.getElementById("lightbox-close");
     const btnPrev = document.getElementById("lightbox-prev");
@@ -938,27 +969,31 @@ const thirdImage = previewImages[2] ?? previewImages[0];
 
     if (!lightbox || !lightboxImg || !lightboxCounter) return;
 
-    const items = Array.from(document.querySelectorAll("[data-gallery-index]"));
+    const safeBox = lightbox;
+    const safeImg = lightboxImg;
+    const safeCounter = lightboxCounter;
+
+    const items = Array.from(document.querySelectorAll<HTMLElement>("[data-gallery-index]"));
 
     if (!items.length) return;
 
-    const srcs = items.map((item) => item.dataset.gallerySrc || "");
+    const srcs = items.map((item) => item.dataset.gallerySrc ?? "");
 
     let current = 0;
 
-    function open(index) {
+    function open(index: number) {
       current = index;
-      lightboxImg.src = srcs[current];
-      lightboxImg.alt = `Screenshot ${current + 1}`;
-      lightboxCounter.textContent = `${current + 1} / ${srcs.length}`;
-      lightbox.classList.add("is-open");
-      lightbox.setAttribute("aria-hidden", "false");
+      safeImg.src = srcs[current] ?? "";
+      safeImg.alt = `Screenshot ${current + 1}`;
+      safeCounter.textContent = `${current + 1} / ${srcs.length}`;
+      safeBox.classList.add("is-open");
+      safeBox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
     }
 
     function close() {
-      lightbox.classList.remove("is-open");
-      lightbox.setAttribute("aria-hidden", "true");
+      safeBox.classList.remove("is-open");
+      safeBox.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     }
 
@@ -975,12 +1010,12 @@ const thirdImage = previewImages[2] ?? previewImages[0];
     btnPrev?.addEventListener("click", prev);
     btnNext?.addEventListener("click", next);
 
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) close();
+    safeBox.addEventListener("click", (e) => {
+      if (e.target === safeBox) close();
     });
 
     document.addEventListener("keydown", (e) => {
-      if (!lightbox.classList.contains("is-open")) return;
+      if (!safeBox.classList.contains("is-open")) return;
       if (e.key === "Escape") close();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();

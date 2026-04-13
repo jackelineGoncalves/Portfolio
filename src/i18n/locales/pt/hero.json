@@ -1,0 +1,14 @@
+{
+  "badge": "Disponível para trabalhar",
+  "greeting": "Olá! Sou a Jackeline",
+  "role": "Desenvolvedora de Software",
+  "description": [
+    "Construo produtos completos, não apenas funcionalidades.",
+    "Trabalho em mobile e frontend, com bases sólidas em backend, assumindo responsabilidade desde a arquitetura até à produção. Dou importância tanto à forma como os sistemas são construídos como à forma como são experienciados na prática."
+  ],
+  "cta": "Ver CV",
+  "profileImageAlt": "Jackeline Gonçalves",
+  "socials": {
+    "ariaLabel": "Links sociais"
+  }
+}

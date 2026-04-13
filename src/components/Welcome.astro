@@ -18,12 +18,12 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const ta  = useTranslations(lang, "about");
-const te  = useTranslations(lang, "experience");
-const tp  = useTranslations(lang, "projects");
-const ts  = useTranslations(lang, "skills");
-const tc  = useTranslations(lang, "contact");
-const tsp = useTranslations(lang, "specialtys");
+const { t: ta  } = useTranslations(lang, "about");
+const { t: te  } = useTranslations(lang, "experience");
+const { t: tp  } = useTranslations(lang, "projects");
+const { t: ts  } = useTranslations(lang, "skills");
+const { t: tc  } = useTranslations(lang, "contact");
+const { t: tsp } = useTranslations(lang, "specialtys");
 ---
 
 <div id="container">

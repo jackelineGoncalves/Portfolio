@@ -1,0 +1,152 @@
+{
+  "mova": {
+    "hoveredTitle": "Plataforma SaaS para personal trainers",
+    "projectType": "Projeto Pessoal · Fundadora",
+    "smallDescription": "App para personal trainers que substitui ferramentas dispersas por um sistema único e estruturado para gerir clientes e o seu trabalho diário.",
+    "fullDescription": [
+      "MOVA é uma plataforma SaaS multi-tenant desenvolvida do início ao fim como projeto de fundadora a solo. Substitui fluxos de trabalho fragmentados assentes em folhas de cálculo, WhatsApp e PDFs manuais, consolidando a gestão de clientes, treino, nutrição e acompanhamento de progresso num único sistema mobile, construído em torno de casos de uso reais e com fluxos altamente configuráveis.",
+      "Desenhada em colaboração direta com personal trainers, traduzindo os seus fluxos de trabalho reais em decisões de produto escaláveis."
+    ],
+    "challenge": "Os personal trainers perdem entre 3 a 4 horas por dia a gerir clientes através de folhas de cálculo, apps de mensagens e PDFs desconectados. As ferramentas existentes são demasiado genéricas e não refletem a forma como trabalham realmente, faltando flexibilidade para lidar com detalhes como planos nutricionais personalizados, marcas locais de alimentos ou estruturas de treino adaptáveis, obrigando a recorrer a soluções manuais.",
+    "solution": "Desenvolvi o MOVA como uma plataforma SaaS multi-tenant mobile-first do zero, desenhada em torno de como os personal trainers trabalham na prática. A plataforma consolida a gestão de clientes, treino, nutrição, acompanhamento de progresso e gestão financeira num único sistema, com fluxos altamente configuráveis adaptados a necessidades reais como planos nutricionais personalizados e estruturas de treino flexíveis, dentro de uma solução estruturada e escalável.",
+    "features": [
+      {
+        "title": "Gestão de Clientes",
+        "description": "Perfis completos de clientes com histórico, objetivos, dados físicos e acompanhamento do progresso ao longo do tempo, oferecendo uma visão completa de cada cliente."
+      },
+      {
+        "title": "Construtor de Planos de Treino",
+        "description": "Criação de planos de treino estruturados com exercícios, séries, repetições e descansos, incluindo opções de substituição de exercícios e programação flexível adaptada a cada cliente."
+      },
+      {
+        "title": "Sistema Avançado de Nutrição",
+        "description": "Planos alimentares personalizados com suporte para marcas locais, estruturas de refeições flexíveis e cálculo automático de valores nutricionais adaptado a cada cliente."
+      },
+      {
+        "title": "Matching e Onboarding Cliente–Trainer",
+        "description": "Onboarding estruturado para trainers e clientes, com um sistema de pedidos onde os clientes escolhem trainers e estes podem aceitar ou recusar."
+      },
+      {
+        "title": "Gestão Financeira",
+        "description": "Acompanhamento de pagamentos, subscrições e finanças relacionadas com clientes, dando aos trainers visibilidade sobre o seu negócio."
+      },
+      {
+        "title": "Arquitetura Multi-tenant",
+        "description": "Cada trainer opera num espaço de trabalho isolado, com Row-Level Security a garantir uma separação segura dos dados entre contas."
+      }
+    ],
+    "metrics": [
+      { "value": "50+", "label": "Ecrãs de produto desenhados no Figma" },
+      { "value": "0→1", "label": "Construído do início ao fim como fundadora a solo" },
+      { "value": "70%", "label": "Redução estimada no tempo de criação de planos" },
+      { "value": "Multi-tenant", "label": "Dados isolados por espaço de trabalho" }
+    ]
+  },
+  "elephai": {
+    "hoveredTitle": "App Flutter em produção — de avariada a publicada",
+    "projectType": "Projeto Profissional · Lead Developer",
+    "smallDescription": "Resgatei e reconstruí uma app Flutter em pré-lançamento, transformando código instável num produto pronto para produção em menos de 8 semanas.",
+    "fullDescription": [
+      "ElephAi é uma app mobile com IA focada no bem-estar emocional proativo, que ajuda os utilizadores a detetar e gerir o mal-estar emocional antes que se agrave, através de suporte em tempo real e análise comportamental.",
+      "Juntei-me como Lead Developer durante uma fase crítica de pré-lançamento, assumindo a responsabilidade total da app. Refatorei a base de código, estabeleci uma arquitetura limpa e entreguei o primeiro lançamento público na App Store e Google Play."
+    ],
+    "challenge": "A app estava em desenvolvimento há meses mas estava longe de estar pronta para produção. A base de código não tinha limites arquiteturais, tinha módulos fortemente acoplados e não existia uma responsabilidade técnica definida. A equipa precisava de alguém que tomasse o controlo, avaliasse a situação e levasse o produto a produção.",
+    "solution": "Assumi a responsabilidade técnica desde o primeiro dia. Audiei toda a base de código, identifiquei os pontos críticos e reconstruí os módulos principais com uma separação clara de responsabilidades. Defini padrões de arquitetura, documentei decisões técnicas e coordenei o pipeline de publicação na App Store e Google Play, entregando uma app estável e pronta para produção em menos de 8 semanas.",
+    "features": [
+      {
+        "title": "Refatorização Completa da Base de Código",
+        "description": "Reconstrução de 100% dos módulos principais, eliminando dependências fortemente acopladas e estabelecendo uma arquitetura escalável e sustentável."
+      },
+      {
+        "title": "Ownership da Arquitetura",
+        "description": "Definição e documentação de todas as decisões técnicas, estrutura de pastas, padrões de gestão de estado e normas de integração de APIs do projeto."
+      },
+      {
+        "title": "Entrega para Produção",
+        "description": "Configuração e gestão do pipeline de publicação na App Store e Google Play, tornando possível o primeiro lançamento público da app."
+      },
+      {
+        "title": "Implementação e Redesign de UI",
+        "description": "Implementação do novo design do produto em toda a app, transformando o UI/UX numa experiência consistente e pronta para produção."
+      },
+      {
+        "title": "Desenvolvimento Contínuo de Funcionalidades",
+        "description": "Desenvolvimento contínuo de novas funcionalidades e integrações (incluindo APIs de IA), mantendo a qualidade arquitetural e a capacidade de escalar o produto."
+      }
+    ],
+    "metrics": [
+      { "value": "<8w", "label": "De pré-lançamento a produção" },
+      { "value": "100%", "label": "Módulos principais reconstruídos" },
+      { "value": "2", "label": "Lançamento na App Store e Google Play" },
+      { "value": "Redesign completo", "label": "Nova UI implementada" }
+    ]
+  },
+  "nearsoft-onboarding": {
+    "hoveredTitle": "Plataforma de onboarding configurável para instituições financeiras",
+    "projectType": "Projeto Profissional · Frontend Engineer",
+    "smallDescription": "Plataforma de onboarding digital configurável implementada em várias instituições financeiras, substituindo processos manuais por um sistema automatizado baseado em CMS.",
+    "fullDescription": ["Desenvolvida na Nearsoft, uma empresa fintech sediada na Madeira, esta plataforma digitaliza todo o processo de onboarding de clientes para bancos e instituições financeiras. O sistema é reutilizável entre múltiplas entidades, preparado para white-label e gerido por CMS, permitindo a equipas não técnicas configurar fluxos, atualizar conteúdo e gerir aprovações sem escrever código. Fui responsável pela arquitetura frontend e pela integração com o Directus CMS do início ao fim."],
+    "challenge": "As instituições financeiras dependiam de formulários em papel, entrada manual de dados e ferramentas internas fragmentadas, criando estrangulamentos, riscos de conformidade e má experiência de utilizador. A plataforma tinha de ser suficientemente robusta para ambientes regulados, flexível para suportar múltiplas instituições e suficientemente rápida para que os utilizadores completassem o onboarding a partir de qualquer dispositivo.",
+    "solution": "Desenvolvi uma arquitetura frontend configurável usando React, Next.js e TypeScript, suportada por um CMS Directus (REST + GraphQL). Os fluxos de onboarding são totalmente definidos por configuração dinâmica, permitindo que cada instituição personalize os processos sem alterações de código. Implementei APIs nativas do browser para captura de documentos, persistência de passos e validação em tempo real, reduzindo a fricção em fluxos complexos.",
+    "features": [
+      {
+        "title": "Sistema de Onboarding baseado em CMS",
+        "description": "Arquitetura do sistema de onboarding desenhada em torno de configuração gerida por CMS via Directus, permitindo definir e adaptar dinamicamente fluxos, validações e conteúdo por instituição sem necessidade de alterações de código."
+      },
+      {
+        "title": "KYC e Processamento de Documentos",
+        "description": "Implementação de fluxos de captura de documentos e interfaces de verificação de identidade, contribuindo para um processo de onboarding KYC totalmente digital."
+      },
+      {
+        "title": "Suporte a Múltiplas Instituições",
+        "description": "Implementação de fluxos de onboarding adaptáveis a diferentes requisitos institucionais, suportando variações de estrutura, validações e cenários de utilizador entre implementações."
+      },
+      {
+        "title": "Arquitetura Frontend Configurável",
+        "description": "Design e implementação de uma arquitetura frontend escalável baseada em configuração dinâmica, traduzindo designs de produto em interfaces responsivas e fiéis ao design."
+      },
+      {
+        "title": "Persistência de Estado e Recuperação",
+        "description": "Implementação de persistência do estado do onboarding usando APIs nativas do browser, permitindo retomar fluxos em qualquer ponto sem perda de informação."
+      }
+    ],
+    "metrics": [
+      { "value": "80%", "label": "Redução nos pedidos de suporte" },
+      { "value": "3+", "label": "Instituições financeiras servidas" },
+      { "value": "8mo", "label": "Duração do estágio" },
+      { "value": "0→1", "label": "CI/CD construído do zero" }
+    ]
+  },
+  "nearsoft-llm-chatbot": {
+    "smallDescription": "Chatbot de IA on-premise construído com Ollama e Llama 3 — ligando APIs privadas e fontes de dados CMS para automatizar a recuperação de informação interna sem expor dados à nuvem.",
+    "fullDescription": "A maioria das empresas envia os seus dados internos para APIs de IA externas — expondo informação sensível à nuvem. Este protótipo, construído durante o meu período na Nearsoft, tomou o caminho oposto: um stack LLM totalmente local usando Ollama e Llama 3, a correr inteiramente na infraestrutura da empresa. Desenhei e construí o sistema completo — desde a camada de API em Express.js que liga a fontes de dados privadas e CMS internos, até à interface de chat em React onde as equipas podiam consultar o conhecimento da empresa em tempo real. Não era apenas uma demo. Demonstrou que ferramentas de IA de nível empresarial são possíveis sem que um único byte saia do edifício.",
+    "challenge": "As equipas internas perdiam tempo valioso a pesquisar manualmente em ferramentas desconectadas — APIs privadas, plataformas CMS, documentação interna — para encontrar informação que devia ser acessível de imediato. As soluções de IA disponíveis eram demasiado caras, genéricas, ou exigiam enviar dados proprietários para fornecedores externos na nuvem, o que era inaceitável num contexto de indústria regulada.",
+    "solution": "Desenhei e construí um chatbot de IA full-stack a correr 100% on-premise usando Ollama para servir Llama 3 localmente. Construí um backend em Express.js que agrega dados de APIs privadas e plataformas CMS numa camada de contexto unificada injetada no LLM. Construí a interface de conversação em React, gerindo respostas em streaming, estado da conversa e UX de baixa latência. O resultado: um assistente de conhecimento interno funcional que demonstrou que LLMs locais são viáveis para fluxos de trabalho empresariais — sem dependência da nuvem, sem exposição de dados e sem custo por consulta.",
+    "features": [
+      {
+        "title": "Stack LLM totalmente on-premise",
+        "description": "Ollama serve Llama 3 localmente em hardware da empresa — sem API keys, sem custos de nuvem, sem dados a sair do edifício. Validou que inferência LLM de qualidade de produção é alcançável sem dependências externas."
+      },
+      {
+        "title": "Agregação de APIs privadas e CMS",
+        "description": "O backend em Express.js liga-se a APIs internas e plataformas CMS, agregando fontes de dados fragmentadas numa camada de contexto unificada. O chatbot responde a perguntas que antes exigiam pesquisa manual em múltiplas ferramentas."
+      },
+      {
+        "title": "Interface de chat com streaming em tempo real",
+        "description": "Frontend em React com suporte a respostas em streaming, gestão do histórico de conversa e padrões de UI otimista — garantindo uma experiência rápida e fluida mesmo ao consultar grandes conjuntos de dados internos."
+      },
+      {
+        "title": "Arquitetura de resposta de baixa latência",
+        "description": "A lógica de integração de API foi desenhada para fiabilidade e velocidade — minimizando o tempo de ida e volta entre o frontend, a camada Express e o LLM local. Validou-se a qualidade de resposta e a latência em condições de uso reais."
+      },
+      {
+        "title": "Prova de viabilidade de IA empresarial",
+        "description": "O protótipo demonstrou diretamente que LLMs locais podem substituir IA na nuvem em contextos de ferramentas internas — estabelecendo as bases técnicas e conceptuais para futuros fluxos de trabalho habilitados por IA na empresa."
+      },
+      {
+        "title": "Injeção de contexto multi-fonte",
+        "description": "Foi desenhado um pipeline de construção de contexto que extrai dados relevantes de múltiplas fontes internas e os injeta no prompt do LLM — permitindo respostas precisas e contextualizadas com base em dados reais da empresa."
+      }
+    ]
+  }
+}

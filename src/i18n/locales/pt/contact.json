@@ -1,0 +1,23 @@
+{
+  "sectionTitle": "Fala Comigo",
+  "sectionDescription": "Interessado em trabalhar juntos? Estou aberta a oportunidades a tempo inteiro, colaborações e projetos freelance.",
+  "form": {
+    "nameLabel": "Nome / Empresa",
+    "emailLabel": "Email",
+    "messageLabel": "Mensagem",
+    "messagePlaceholder": "Fala-me do teu projeto ou oportunidade...",
+    "submitBtn": "Enviar Mensagem",
+    "submitting": "A enviar...",
+    "successMsg": "Mensagem enviada com sucesso.",
+    "errorMsg": "Ocorreu um erro. Por favor tenta novamente."
+  },
+  "phone": {
+    "label": "Número de Telefone",
+    "modalTitle": "Opções de contacto por telefone",
+    "openWhatsApp": "Abrir WhatsApp",
+    "call": "Ligar",
+    "copyNumber": "Copiar número",
+    "copied": "Número copiado para a área de transferência.",
+    "copyError": "Não foi possível copiar o número."
+  }
+}

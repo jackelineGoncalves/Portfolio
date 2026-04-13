@@ -1,0 +1,34 @@
+{
+  "sectionLabel": "PERFIL",
+  "title": "Sobre Mim",
+  "whatIBuild": {
+    "title": "O que construo",
+    "description": "Produtos digitais do início ao fim — apps mobile, plataformas SaaS e interfaces web. Das decisões de arquitetura à UI pixel-perfect, assumo o ciclo completo."
+  },
+  "education": {
+    "title": "Formação",
+    "degree": "Técnico Superior Profissional em Tecnologias e Programação de Sistemas de Informação",
+    "university": "Universidade da Madeira"
+  },
+  "experience": {
+    "label": "Anos a lançar produtos reais"
+  },
+  "relocation": {
+    "text": "Disponível para trabalho remoto e relocalização a nível mundial"
+  },
+  "howIWork": {
+    "title": "Como trabalho",
+    "description": "Orientada ao Produto · Arquitetura Limpa · Pixel-Perfect"
+  },
+  "basedIn": {
+    "location": "Baseada em Portugal"
+  },
+  "currentRole": {
+    "title": "Função Atual",
+    "value": "Lead Developer @ Unwind Minds"
+  },
+  "languages": {
+    "title": "Línguas",
+    "list": "Espanhol (Nativo) · Inglês (B2) · Português (C1)"
+  }
+}
