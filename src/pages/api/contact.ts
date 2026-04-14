@@ -49,21 +49,39 @@ export const POST: APIRoute = async ({ request }) => {
     const safeEmail = escapeHtml(email);
     const safeMessage = escapeHtml(message).replaceAll("\n", "<br />");
 
-    const { error } = await resend.emails.send({
-      from: import.meta.env.CONTACT_FROM_EMAIL,
-      to: import.meta.env.CONTACT_TO_EMAIL,
-      subject: `New portfolio contact from ${name}`,
-      replyTo: email,
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
-          <h2>New contact message</h2>
-          <p><strong>Name / Company:</strong> ${safeName}</p>
-          <p><strong>Email:</strong> ${safeEmail}</p>
-          <p><strong>Message:</strong></p>
-          <p>${safeMessage}</p>
-        </div>
-      `,
-    });
+    
+const resendKey = import.meta.env.RESEND_API_KEY;
+ const fromEmail = import.meta.env.CONTACT_FROM_EMAIL;
+const fromName = import.meta.env.CONTACT_FROM_NAME;
+const toEmail = import.meta.env.CONTACT_TO_EMAIL;
+
+if (!resendKey || !fromEmail || !fromName || !toEmail) {
+  console.error("Missing environment variables");
+
+  return new Response(
+    JSON.stringify({ ok: false, error: "Server configuration error." }),
+    {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+}
+
+const { error } = await resend.emails.send({
+  from: `${fromName} <${fromEmail}>`,
+  to: toEmail,
+  subject: `New portfolio contact from ${name}`,
+  replyTo: email,
+  html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+      <h2>New contact message</h2>
+      <p><strong>Name / Company:</strong> ${safeName}</p>
+      <p><strong>Email:</strong> ${safeEmail}</p>
+      <p><strong>Message:</strong></p>
+      <p>${safeMessage}</p>
+    </div>
+  `,
+});
 
     if (error) {
       console.error("Resend error:", error);
