@@ -110,11 +110,11 @@
         "description": "Implementação de persistência do estado do onboarding usando APIs nativas do browser, permitindo retomar fluxos em qualquer ponto sem perda de informação."
       }
     ],
-    "metrics": [
-      { "value": "80%", "label": "Redução nos pedidos de suporte" },
-      { "value": "3+", "label": "Instituições financeiras servidas" },
-      { "value": "8mo", "label": "Duração do estágio" },
-      { "value": "0→1", "label": "CI/CD construído do zero" }
+   "metrics": [
+      { "value": "Reutilizável", "label": "Plataforma de onboarding para várias instituições" },
+      { "value": "CMS-driven", "label": "Fluxos de onboarding configuráveis por cliente" },
+      { "value": "Tempo real", "label": "Validação e persistência de etapas" },
+      { "value": "No-code", "label": "Alterações de fluxos sem deployments" }
     ]
   },
   "nearsoft-llm-chatbot": {
